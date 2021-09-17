@@ -18,7 +18,7 @@ public class RegisterActivity extends AppCompatActivity {
     private EditText email;
     private EditText password;
     private EditText confirmPassword;
-    String TAG = "login";
+    String TAG = "register";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
