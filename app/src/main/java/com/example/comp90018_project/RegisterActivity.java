@@ -48,10 +48,10 @@ public class RegisterActivity extends AppCompatActivity {
                             user.setEmail(emailStr);
                             user.setPassword(passwordStr);
 
-                            System.out.println(usernameStr);
-                            System.out.println(emailStr);
-                            System.out.println(passwordStr);
-                            System.out.println(confirmPasswordStr);
+                            System.out.println("username:" + usernameStr);
+                            System.out.println("email:" + emailStr);
+                            System.out.println("password:" + passwordStr);
+                            System.out.println("confirm password:" + confirmPasswordStr);
 
                             DatabaseService dataService = new DatabaseService();
                             boolean signal = dataService.register(user);

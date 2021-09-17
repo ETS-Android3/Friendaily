@@ -38,8 +38,8 @@ public class LoginActivity extends AppCompatActivity {
                     public void onClick(View v) {
                         String accountStr = account.getText().toString();
                         String passwordStr = password.getText().toString();
-                        System.out.println(accountStr);
-                        System.out.println(passwordStr);
+                        System.out.println("account:" + accountStr);
+                        System.out.println("password:" + passwordStr);
 
                         DatabaseService dataService = new DatabaseService();
                         boolean signal = dataService.login(accountStr, passwordStr);
