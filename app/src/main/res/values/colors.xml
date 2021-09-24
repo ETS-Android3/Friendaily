@@ -7,4 +7,8 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+    // Fragment
+    <color name="bg_white">#FFFFFF</color>
+    <color name="text_yellow">#F44336</color>
 </resources>
