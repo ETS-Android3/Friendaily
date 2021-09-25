@@ -2,7 +2,7 @@ package com.example.comp90018_project;
 
 public class User {
 
-    private int id;
+    private String uid;
     private String email;
     private String username;
     private String password;
@@ -11,19 +11,19 @@ public class User {
 
     }
 
-    public User(int id, String email, String username, String password) {
-        this.id = id;
+    public User(String uid, String email, String username, String password) {
+        this.uid = uid;
         this.email = email;
         this.username = username;
         this.password = password;
     }
 
-    public int getId() {
-        return id;
+    public String getUid() {
+        return uid;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setUid(String uid) {
+        this.uid = uid;
     }
 
     public String getEmail() {

@@ -1,8 +1,10 @@
 package com.example.comp90018_project;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -12,20 +14,38 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+
 public class LoginActivity extends AppCompatActivity {
 
     private Button registerButton;
     private Button loginButton;
-    private EditText account;
+    private EditText email;
     private EditText password;
+    private FirebaseAuth mAuth;
     String TAG = "login";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //Initialize Firebase Auth
+        mAuth = FirebaseAuth.getInstance();
         setContentView(R.layout.log_in);
-
         loginEvent();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        //Check if user is signed in when we start login activity
+//        FirebaseUser currentUser = mAuth.getCurrentUser();
+//        if (currentUser != null){
+//            reload();
+//        }
     }
 
     private void loginEvent() {
@@ -36,25 +56,11 @@ public class LoginActivity extends AppCompatActivity {
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        String accountStr = account.getText().toString();
+                        String emailStr = email.getText().toString();
                         String passwordStr = password.getText().toString();
-                        System.out.println("account:" + accountStr);
+                        System.out.println("account:" + emailStr);
                         System.out.println("password:" + passwordStr);
-
-                        DatabaseService dataService = new DatabaseService();
-                        boolean signal = dataService.login(accountStr, passwordStr);
-
-                        if (signal) {
-                            Log.i(TAG, "Login succeeded!");
-                            Toast.makeText(LoginActivity.this, "Login succeeded!", Toast.LENGTH_LONG).show();
-                            Intent intent = new Intent();
-                            intent.setClass(LoginActivity.this, HomeActivity.class);
-                            startActivity(intent);
-                        }
-                        else {
-                            Log.i(TAG, "Login failed! The Username/Email and Password cannot be empty!");
-                            Toast.makeText(LoginActivity.this, "Login failed!", Toast.LENGTH_LONG).show();
-                        }
+                        signIn(emailStr,passwordStr);
                     }
                 }
         );
@@ -71,8 +77,33 @@ public class LoginActivity extends AppCompatActivity {
         );
     }
 
+    private void signIn(String email, String password){
+        //Using account and passowrd get before to login
+
+        mAuth.signInWithEmailAndPassword(email,password).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+            @Override
+            public void onComplete(@NonNull Task<AuthResult> task) {
+                if(task.isSuccessful()){
+                    //if signin successfully, go to the login page
+                    Log.i(TAG, "Login succeeded!");
+                    Toast.makeText(LoginActivity.this, "Login succeeded!", Toast.LENGTH_LONG).show();
+                    reload();
+                }else{
+                    Log.i(TAG, "Login failed!");
+                    Toast.makeText(LoginActivity.this, "Login failed!", Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+    }
+
+    //if user has log in, return to the homepage
+    private void reload(){
+        Intent intent = new Intent();
+        intent.setClass(LoginActivity.this, HomeActivity.class);
+        startActivity(intent);
+    }
     private void findAllView() {
-        account = findViewById(R.id.editLoginAccount);
+        email = findViewById(R.id.editLoginAccount);
         password = findViewById(R.id.editLoginPassword);
         loginButton = findViewById(R.id.loginButton);
         registerButton = findViewById(R.id.createAccountButton);
