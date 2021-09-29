@@ -68,7 +68,7 @@ public class LoginActivity extends AppCompatActivity {
                     @Override
                     public void onClick(View v) {
                         String accountStr = account.getText().toString();
-                        String passwordStr = password.getText().toString();
+                        String passwordStr = Md5Util.md5(password.getText().toString());
                         if(!isEmpty(accountStr,passwordStr)){
                             System.out.println("account:" + accountStr);
                             System.out.println("password:" + passwordStr);

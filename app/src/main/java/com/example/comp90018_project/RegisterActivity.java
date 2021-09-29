@@ -74,7 +74,7 @@ public class RegisterActivity extends AppCompatActivity {
                             User user = new User();
                             user.setUsername(usernameStr);
                             user.setEmail(emailStr);
-                            user.setPassword(passwordStr);
+                            user.setPassword(Md5Util.md5(passwordStr));
                             checkUsername(user);
                         }
                     }
