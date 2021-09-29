@@ -172,11 +172,13 @@ public class RegisterActivity extends AppCompatActivity {
         newuser.put("username",user.getUsername());
         newuser.put("email", user.getEmail());
         newuser.put("password",user.getPassword());
-        mDB.collection("users").document().set(newuser).addOnSuccessListener(new OnSuccessListener<Void>(){
+        mDB.collection("users").document(user.getUid()).set(newuser).addOnSuccessListener(new OnSuccessListener<Void>(){
             @Override
             public void onSuccess(Void unused) {
                 Log.i(TAG, "Store user successful!");
-                RegisterActivity.this.finish();
+                Intent intent = new Intent();
+                intent.setClass(RegisterActivity.this, LoginActivity.class);
+                startActivity(intent);
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
