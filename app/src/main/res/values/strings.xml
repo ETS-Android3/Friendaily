@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">COMP90018_final_project</string>
+    <string name="app_name">My_Social_Test</string>
     <string name="password">Password</string>
     <string name="log_in">log in</string>
     <string name="log_out">log out</string>
@@ -11,4 +11,11 @@
     <string name="account">Username/Email</string>
     <string name="username">Username</string>
     <string name="welcome">Welcome!</string>
+    <string name="empty_bio">Go setting to write bio</string>
+    <string name="bio_hint">Start bio by introducing your self</string>
+    <string name="post_hint">What are you thinking</string>
+    <string name="post_btn">Post</string>
+    <string name="title_activity_main">MainActivity</string>
+    <string name="tab_menu_alert">Main</string>
+    <string name="update">Update</string>
 </resources>
