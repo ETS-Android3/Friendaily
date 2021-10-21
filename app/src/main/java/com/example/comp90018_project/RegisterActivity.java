@@ -21,6 +21,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -71,10 +72,10 @@ public class RegisterActivity extends AppCompatActivity {
                         //Check the format of input first, then check whether this username and email address can be used
                         boolean isCorrect = checkFormat(usernameStr,emailStr,passwordStr,confirmPasswordStr);
                         if (isCorrect) {
-                            User user = new User();
-                            user.setUsername(usernameStr);
-                            user.setEmail(emailStr);
-                            user.setPassword(Md5Util.md5(passwordStr));
+                            User user = new User(emailStr, usernameStr, passwordStr);
+//                            user.setUsername(usernameStr);
+//                            user.setEmail(emailStr);
+//                            user.setPassword(Md5Util.md5(passwordStr));
                             checkUsername(user);
                         }
                     }
@@ -136,7 +137,12 @@ public class RegisterActivity extends AppCompatActivity {
                     }
                 }else{
                     Log.i(TAG, "Register failed! Something wrong with checking username");
-                    Toast.makeText(RegisterActivity.this, "Register failed! Something wrong with checking username", Toast.LENGTH_LONG).show();
+                    // Toast.makeText(RegisterActivity.this, "Register failed! Something wrong with checking username", Toast.LENGTH_LONG).show();
+                    FirebaseFirestoreException e = (FirebaseFirestoreException)task.getException();
+                    Toast.makeText(RegisterActivity.this, "Failed Registration: "+e.getMessage(), Toast.LENGTH_SHORT).show();
+                    // message.hide();
+                    return;
+
                 }
             }
         });
@@ -159,6 +165,7 @@ public class RegisterActivity extends AppCompatActivity {
                         } else {
                             // If register fails, display a message to the user.
                             Log.i(TAG, "Register failed!");
+                            Log.w(TAG, "createUserWithEmail:failure", task.getException());
                             Toast.makeText(RegisterActivity.this, "Register failed! Please check your network or this email has existed", Toast.LENGTH_LONG).show();
                         }
                     }
@@ -172,6 +179,8 @@ public class RegisterActivity extends AppCompatActivity {
         newuser.put("username",user.getUsername());
         newuser.put("email", user.getEmail());
         newuser.put("password",user.getPassword());
+        newuser.put("bio", user.getBio());
+        newuser.put("avatar_url", user.getAvatarUrl());
         mDB.collection("users").document(user.getUid()).set(newuser).addOnSuccessListener(new OnSuccessListener<Void>(){
             @Override
             public void onSuccess(Void unused) {

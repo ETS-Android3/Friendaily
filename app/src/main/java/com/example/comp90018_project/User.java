@@ -6,6 +6,8 @@ public class User {
     private String email;
     private String username;
     private String password;
+    private String bio;
+    private String avatarUrl;
 
     public User() {
 
@@ -16,6 +18,25 @@ public class User {
         this.email = email;
         this.username = username;
         this.password = password;
+        this.bio = "";
+        this.avatarUrl = "";
+    }
+
+    public User(String email, String username, String password) {
+        this.uid = "";
+        this.email = email;
+        this.username = username;
+        this.password = password;
+        this.bio = "";
+        this.avatarUrl = "";
+    }
+    public User(String uid, String email, String username, String password, String bio, String avatarUrl) {
+        this.uid = uid;
+        this.email = email;
+        this.username = username;
+        this.password = password;
+        this.bio = bio;
+        this.avatarUrl = avatarUrl;
     }
 
     public String getUid() {
@@ -50,4 +71,19 @@ public class User {
         this.password = password;
     }
 
+    public void setBio(String bio) {
+        this.bio = bio;
+    }
+
+    public String getBio() {
+        return bio;
+    }
+
+    public void setAvatarUrl(String url) {
+        this.avatarUrl = url;
+    }
+
+    public String getAvatarUrl() {
+        return avatarUrl;
+    }
 }

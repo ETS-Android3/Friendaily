@@ -36,6 +36,7 @@ public class LoginActivity extends AppCompatActivity {
     private EditText password;
     private FirebaseAuth mAuth;
     private FirebaseFirestore mDB;
+    public static String USERID;
     private String emailReg ="^\\w+([-+.]\\w+)*@\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*$";
     String TAG = "login";
 
@@ -49,15 +50,15 @@ public class LoginActivity extends AppCompatActivity {
         loginEvent();
     }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-//        Check if user is signed in when we start login activity
-        FirebaseUser currentUser = mAuth.getCurrentUser();
-        if (currentUser != null){
-            reload();
-        }
-    }
+//    @Override
+//    protected void onStart() {
+//        super.onStart();
+////        Check if user is signed in when we start login activity
+//        FirebaseUser currentUser = mAuth.getCurrentUser();
+//        if (currentUser != null){
+//            reload();
+//        }
+//    }
 
     private void loginEvent() {
 
@@ -68,7 +69,8 @@ public class LoginActivity extends AppCompatActivity {
                     @Override
                     public void onClick(View v) {
                         String accountStr = account.getText().toString();
-                        String passwordStr = Md5Util.md5(password.getText().toString());
+                        //String passwordStr = Md5Util.md5(password.getText().toString());
+                        String passwordStr = password.getText().toString();
                         if(!isEmpty(accountStr,passwordStr)){
                             System.out.println("account:" + accountStr);
                             System.out.println("password:" + passwordStr);
@@ -91,6 +93,8 @@ public class LoginActivity extends AppCompatActivity {
                                             } else {
                                                 //Get the corresponding email address
                                                 String emailStr = (String) task.getResult().getDocuments().get(0).getData().get("email");
+                                                USERID = (String) task.getResult().getDocuments().get(0).getData().get("uid");
+                                                Log.i(TAG, "USERID IS !!!!!!!!!!!!!!!!!!" + USERID);
                                                 signIn(emailStr,passwordStr);
                                             }
                                         }
@@ -132,6 +136,7 @@ public class LoginActivity extends AppCompatActivity {
                     reload();
                 }else{
                     Log.i(TAG, "Login failed!");
+                    Log.w(TAG, "login:failure!!!!!!!!!!!!!!", task.getException());
                     Toast.makeText(LoginActivity.this, "Login failed!", Toast.LENGTH_LONG).show();
                 }
             }
