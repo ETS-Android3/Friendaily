@@ -10,7 +10,7 @@
         android:background="@color/bg_topbar"
         android:orientation="vertical">
 
-        <com.example.my_social_test.Util.LoadImageView
+        <com.example.comp90018_project.Util.LoadImageView
             android:id="@+id/iv_menu_user"
             android:layout_width="72dp"
             android:layout_height="72dp"

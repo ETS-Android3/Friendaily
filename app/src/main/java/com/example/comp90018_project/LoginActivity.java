@@ -146,7 +146,7 @@ public class LoginActivity extends AppCompatActivity {
     //if user has log in, return to the homepage
     private void reload(){
         Intent intent = new Intent();
-        intent.setClass(LoginActivity.this, HomeActivity.class);
+        intent.setClass(LoginActivity.this, MainActivity.class);
         startActivity(intent);
     }
 
