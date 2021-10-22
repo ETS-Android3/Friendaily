@@ -29,6 +29,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationView;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -87,12 +88,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             user_name.setText(myInfo.getUsername());
             String currentBio = myInfo.getBio();
-            if (currentBio.equals("")) {
+            if (currentBio == null) {
                 user_bio.setText(R.string.empty_bio);
                 Log.d(TAG, "bio is null [[[[[[[[[[[[[[[[[[[[[[[[[[");
             } else {
                 user_bio.setText(currentBio);
-                Log.d(TAG, "bio is empty [[[[[[[[[[[[[[[[[[[[[[[[[[");
+                Log.d(TAG, "bio is not  empty [[[[[[[[[[[[[[[[[[[[[[[[[[");
             }
         }
     };
@@ -100,20 +101,32 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-
         mDB = FirebaseFirestore.getInstance();
         mAuth = FirebaseAuth.getInstance();
+        //Check whether this user has login; if not, return to login page
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        if (currentUser == null){
+            reload();
+        }
+        else{
+            USERID = currentUser.getUid();
+            setContentView(R.layout.activity_main);
+            if (getSupportActionBar() != null) {
+                getSupportActionBar().hide();
+            }
 
-        if (getSupportActionBar() != null) {
-            getSupportActionBar().hide();
+            fragmentManager = getSupportFragmentManager();
+            bindViews();
+            // txt_channel.performClick()
+
+            initView();
         }
 
-        fragmentManager = getSupportFragmentManager();
-        bindViews();
-        // txt_channel.performClick()
+    }
 
-        initView();
+    @Override
+    protected void onStart() {
+        super.onStart();
     }
 
     private void bindViews() {
@@ -208,6 +221,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 //                        startActivity(intent4);
                         break;
                     case R.id.menu_item5:
+                        //Setting avatar and bio
                         Intent intent5 = new Intent(MainActivity.this, HomeActivity.class);
                         startActivity(intent5);
                         break;
@@ -280,6 +294,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
         }
         fragmentTransaction.commitAllowingStateLoss();
+    }
+    //if user don't log in, return to login page
+    private void reload(){
+        Intent intent = new Intent();
+        intent.setClass(MainActivity.this, LoginActivity.class);
+        finish();
+        startActivity(intent);
     }
 
 }

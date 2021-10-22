@@ -9,7 +9,16 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Comp90018_project">
-        <activity android:name=".PostMomentActivity"></activity>
+        <activity
+            android:name=".MyLikeActivity"
+            android:exported="true" />
+        <activity
+            android:name=".CommentActivity"
+            android:exported="true" />
+        <activity
+            android:name=".FindNewFriendActivity"
+            android:exported="true" />
+        <activity android:name=".PostMomentActivity" />
         <activity
             android:name=".MainActivity"
             android:label="@string/title_activity_main"

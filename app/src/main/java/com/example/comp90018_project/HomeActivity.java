@@ -4,6 +4,7 @@ import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.ContentResolver;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -36,6 +37,7 @@ import androidx.core.content.FileProvider;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -53,7 +55,6 @@ import java.io.OutputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import static com.example.comp90018_project.LoginActivity.USERID;
 
 public class HomeActivity extends AppCompatActivity {
 
@@ -64,13 +65,15 @@ public class HomeActivity extends AppCompatActivity {
     private EditText content;
     private ImageView image;
     private Uri image_uri;
-    private Uri image_downloaded_uri;
+    private Uri image_downloaded_uri = null;
     private String image_filename;
     private Button btn_update;
     String currentPhotoPath;
     StorageReference storageReference;
     private FirebaseFirestore mDB;
-
+    String USERID = null;
+    private ImageHolder imageHolder;
+    Context context;
     String TAG = "home";
 
     public static final int CAMERA_PERM_CODE = 101;
@@ -80,53 +83,62 @@ public class HomeActivity extends AppCompatActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.home_page);
         mAuth = FirebaseAuth.getInstance();
-        //findAllView();
+        //Check whether this user has login; if not, return to login page
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        if (currentUser == null){
+            reload();
+        }
+        else{
+            context = this;
+            USERID = currentUser.getUid();
+            setContentView(R.layout.home_page);
+            //findAllView();
 
-        storageReference = FirebaseStorage.getInstance().getReference();
-        mDB = FirebaseFirestore.getInstance();
+            storageReference = FirebaseStorage.getInstance().getReference();
+            mDB = FirebaseFirestore.getInstance();
 
-        Log.i(TAG, "On Create");
-        Log.i(TAG, "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-        Log.i(TAG, "!!!!!!!!!!!!!" + USERID + "!!!!!!!!!!!!!!!");
-        Log.i(TAG,"!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+            Log.i(TAG, "On Create");
 
-        image = (ImageView) findViewById(R.id.edited_avatar2);
-        content = (EditText) findViewById(R.id.edited_bio2);
-        btn_update = (Button) findViewById(R.id.setting_update_btn);
-        image.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                selectImage();
-            }
-        });
-        btn_update.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                String bio = content.getText().toString();
-                Log.d(TAG, "bio is  =============================" + bio);
-                if (image_uri != null) {
-                    uploadImageToFirebase(image_filename, image_uri);
-                    Log.d(TAG, "image downloaded uri is empty =============================");
-                    if (image_downloaded_uri == null) {
-                        Log.d(TAG, "image downloaded uri is empty =============================");
-                    } else {
-                        Log.d(TAG, "image downloaded uri is not empty =============================");
-                    }
-                } else {
-                    Log.d(TAG, "image uri is empty =============================");
+            image = (ImageView) findViewById(R.id.edited_avatar2);
+            content = (EditText) findViewById(R.id.edited_bio2);
+            btn_update = (Button) findViewById(R.id.setting_update_btn);
+            image.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    imageHolder = new ImageHolder(image);
+                    imageHolder.selectImage(context);
                 }
-            }
-        });
+            });
+            btn_update.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if(imageHolder != null && imageHolder.getUri() != null){
+                        //If this user take a new picture
+                        //If this user has taken a new image
+                        uploadImageToFirebase(imageHolder.getName(), imageHolder.getUri());
+                        Log.d(TAG, "image downloaded uri is empty =============================");
+                        if (image_downloaded_uri == null) {
+                            Log.d(TAG, "image downloaded uri is empty =============================");
+                        } else {
+                            Log.d(TAG, "image downloaded uri is not empty =============================");
+                        }
+                     }else uploadToFireStore();
+                }
+            });
+        }
+
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+    }
 
-
-    /**
+/*
+    *//**
      * Select image from album, set the imageview, get the link
-     */
+     *//*
     private void selectImage() {
         final CharSequence[] options = { "Take photo", "Select from gallery", "Cancel"};
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -233,9 +245,9 @@ public class HomeActivity extends AppCompatActivity {
 //        File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
         File storageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
         File image = File.createTempFile(
-                imageFileName,  /* prefix */
-                ".jpg",         /* suffix */
-                storageDir      /* directory */
+                imageFileName,  *//* prefix *//*
+                ".jpg",         *//* suffix *//*
+                storageDir      *//* directory *//*
         );
 
         // Save a file: path for use with ACTION_VIEW intents
@@ -264,8 +276,14 @@ public class HomeActivity extends AppCompatActivity {
                 takePhotoResultLauncher.launch(takePictureIntent);
             }
         }
-    }
+    }*/
 
+    /**
+     * This functionality is used to upload a avatar to database
+     * If it success, global parameter image_downloaded_uri will be the location of this avatar; if not, empty
+     * @param name filename
+     * @param contentUri the location of avatar in the phone
+     */
     private void uploadImageToFirebase(String name, Uri contentUri) {
         Log.d(TAG, "+++++++++++++ image name is +++++++++++++++++++ " + name);
         Log.d(TAG, "+++++++++++++ image uri is +++++++++++++++++++ " + contentUri.toString());
@@ -277,10 +295,8 @@ public class HomeActivity extends AppCompatActivity {
                     @Override
                     public void onSuccess(Uri uri) {
                         Toast.makeText(HomeActivity.this, "Image Is Uploaded. Please wait for updating...", Toast.LENGTH_SHORT).show();
-                        uploadToFireStore(uri.toString(), content.getText().toString());
                         image_downloaded_uri = uri;
-
-
+                        uploadToFireStore();
                         Log.d("tag", "onSuccess: Uploaded Image URl is " + uri.toString());
 
                         if (image_downloaded_uri == null) {
@@ -294,7 +310,7 @@ public class HomeActivity extends AppCompatActivity {
                     }
                 });
 
-                Toast.makeText(HomeActivity.this, "Image Is Uploaded.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(HomeActivity.this, "Image failed to Upload.", Toast.LENGTH_SHORT).show();
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
@@ -309,16 +325,21 @@ public class HomeActivity extends AppCompatActivity {
 //            // upadate image downloaded uri to firestore
     }
 
-    private void uploadToFireStore(String downloaded_uri, String updated_bio) {
-        final DocumentReference sfDocRef = mDB.collection("users").document(USERID);
+    private void uploadToFireStore() {
+        DocumentReference sfDocRef = mDB.collection("users").document(USERID);
         Log.d(TAG, "UserID==============" + USERID);
 
         mDB.runTransaction(new Transaction.Function<Void>() {
             @Override
             public Void apply(Transaction transaction) throws FirebaseFirestoreException {
                 DocumentSnapshot snapshot = transaction.get(sfDocRef);
-                transaction.update(sfDocRef, "avatar_url", downloaded_uri);
-                transaction.update(sfDocRef, "bio", updated_bio);
+                if(image_downloaded_uri != null){
+                    transaction.update(sfDocRef, "avatar_url", image_downloaded_uri.toString());
+                }
+                if(content != null){
+                    transaction.update(sfDocRef, "bio", content.getText().toString());
+                }
+
                 // success
                 return null;
             }
@@ -336,6 +357,16 @@ public class HomeActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    /**
+     * if user don't log in, return to login page
+     */
+    private void reload(){
+        Intent intent = new Intent();
+        intent.setClass(HomeActivity.this, LoginActivity.class);
+        finish();
+        startActivity(intent);
     }
 
 }

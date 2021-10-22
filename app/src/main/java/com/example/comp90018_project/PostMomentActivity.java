@@ -14,6 +14,7 @@ import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.ContentResolver;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -31,6 +32,8 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -44,21 +47,20 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-import static com.example.comp90018_project.LoginActivity.USERID;
 
 public class PostMomentActivity extends AppCompatActivity {
 
     private EditText content;
     private ImageView image;
-    private Uri image_uri;
     private Uri image_downloaded_uri;
-    private String image_filename;
     private Button btn_submit;
-    String currentPhotoPath;
     StorageReference storageReference;
     private FirebaseFirestore mDB;
-
+    private ImageHolder imageHolder;
+    private FirebaseAuth mAuth;
+    private String USERID;
     String TAG = "POST_Moment";
+    Context context;
     public static final int CAMERA_PERM_CODE = 101;
 
     @Override
@@ -72,36 +74,48 @@ public class PostMomentActivity extends AppCompatActivity {
 
         storageReference = FirebaseStorage.getInstance().getReference();
         mDB = FirebaseFirestore.getInstance();
-
-
-        image.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                selectImage();
-            }
-        });
-
-        btn_submit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (image_uri != null) {
-                    uploadImageToFirebase(image_filename, image_uri);
-                    Log.d(TAG, "image downloaded uri is empty =============================");
-                    if (image_downloaded_uri == null) {
-                        Log.d(TAG, "image downloaded uri is empty =============================");
-                    } else {
-                        Log.d(TAG, "image downloaded uri is not empty =============================");
-                    }
-                } else {
-                    Log.d(TAG, "image uri is empty =============================");
+        mAuth = FirebaseAuth.getInstance();
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        if (currentUser == null){
+            reload();
+        }
+        else{
+            context = this;
+            USERID = currentUser.getUid();
+            image.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    imageHolder = new ImageHolder(image);
+                    imageHolder.selectImage(context);
                 }
-            }
-        });
+            });
+
+            btn_submit.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (imageHolder != null && imageHolder.getUri() != null){
+                        //The user has taken a new picture
+                        uploadImageToFirebase(imageHolder.getName(), imageHolder.getUri());
+                        Log.d(TAG, "image downloaded uri is empty =============================");
+                        if (image_downloaded_uri == null) {
+                            Log.d(TAG, "image downloaded uri is empty =============================");
+                        } else {
+                            Log.d(TAG, "image downloaded uri is not empty =============================");
+                        }
+                    }else addToFireStore();
+
+
+
+                }
+            });
+        }
+
+
     }
 
     /**
      * Select image from album, set the imageview, get the link
-     */
+     *//*
     private void selectImage() {
         final CharSequence[] options = { "Take photo", "Select from gallery", "Cancel"};
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -208,9 +222,9 @@ public class PostMomentActivity extends AppCompatActivity {
 //        File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
         File storageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
         File image = File.createTempFile(
-                imageFileName,  /* prefix */
-                ".jpg",         /* suffix */
-                storageDir      /* directory */
+                imageFileName,  *//* prefix *//*
+                ".jpg",         *//* suffix *//*
+                storageDir      *//* directory *//*
         );
 
         // Save a file: path for use with ACTION_VIEW intents
@@ -240,7 +254,7 @@ public class PostMomentActivity extends AppCompatActivity {
             }
         }
     }
-
+*/
     private void uploadImageToFirebase(String name, Uri contentUri) {
         Log.d(TAG, "+++++++++++++ image name is +++++++++++++++++++ " + name);
         Log.d(TAG, "+++++++++++++ image uri is +++++++++++++++++++ " + contentUri.toString());
@@ -253,9 +267,8 @@ public class PostMomentActivity extends AppCompatActivity {
                     @Override
                     public void onSuccess(Uri uri) {
                         Toast.makeText(PostMomentActivity.this, "Image Is Uploaded. Please wait for updating...", Toast.LENGTH_LONG).show();
-                        addToFireStore(uri.toString());
                         image_downloaded_uri = uri;
-
+                        addToFireStore();
 
                         Log.d("tag", "onSuccess: Uploaded Image URl is " + uri.toString());
 
@@ -285,35 +298,44 @@ public class PostMomentActivity extends AppCompatActivity {
 //            // upadate image downloaded uri to firestore
     }
 
-    private void addToFireStore(String downloaded_url) {
-        Map<String,String> newMoment = new HashMap<>();
+    private void addToFireStore() {
+        if (content != null || image_downloaded_uri != null){
+            // begin to add data only when user add a picture or write text
+            String text = null;
+            String url = null;
+            if(content != null) text = content.getText().toString();
+            if(image_downloaded_uri != null) url = image_downloaded_uri.toString();
+            Long timestamp = System.currentTimeMillis();
+            Date date = new Date(timestamp);
+            Moment newMom = new Moment(USERID,timestamp, text, url);
 
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        Date date = new Date(System.currentTimeMillis());
-        String DateTime = simpleDateFormat.format(date);
-        String mid = "Mom_" + DateTime;
-        newMoment.put("uid",USERID);
-        newMoment.put("mid", mid);
-        newMoment.put("time",DateTime);
-        newMoment.put("content", content.getText().toString());
-        newMoment.put("image_download_url",downloaded_url);
-        newMoment.put("comment_List", new ArrayList<String>().toString());
-        newMoment.put("like_list", new ArrayList<String>().toString());
-        // Task<DocumentReference> addedDocRef = mDB.collection("cities").add(newMoment);
-        mDB.collection("moments").document(mid).set(newMoment).addOnSuccessListener(new OnSuccessListener<Void>(){
-            @Override
-            public void onSuccess(Void unused) {
-                Log.i(TAG, "Store user successful!");
-                Intent intent = new Intent();
-                intent.setClass(PostMomentActivity.this, MainActivity.class);
-                startActivity(intent);
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Log.i(TAG, "Register failed!");
-                Toast.makeText(PostMomentActivity.this, "Register failed! There is something wrong with database, please try again later", Toast.LENGTH_LONG).show();
-            }
-        });
+            // Task<DocumentReference> addedDocRef = mDB.collection("cities").add(newMoment);
+            mDB.collection("moments").document().set(newMom.toMap()).addOnSuccessListener(new OnSuccessListener<Void>(){
+                @Override
+                public void onSuccess(Void unused) {
+                    Log.i(TAG, "Post successful!");
+                    Intent intent = new Intent();
+                    intent.setClass(PostMomentActivity.this, MainActivity.class);
+                    finish();
+                    startActivity(intent);
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Log.i(TAG, "Post failed!");
+                    Toast.makeText(PostMomentActivity.this, "Post failed! There is something wrong with database, please try again later", Toast.LENGTH_LONG).show();
+                }
+            });
+        }else Toast.makeText(PostMomentActivity.this, "Cannot post a empty moment", Toast.LENGTH_LONG).show();
+    }
+
+    /**
+     * if user don't log in, return to login page
+     */
+    private void reload(){
+        Intent intent = new Intent();
+        intent.setClass(PostMomentActivity.this, LoginActivity.class);
+        finish();
+        startActivity(intent);
     }
 }

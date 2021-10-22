@@ -50,15 +50,15 @@ public class LoginActivity extends AppCompatActivity {
         loginEvent();
     }
 
-//    @Override
-//    protected void onStart() {
-//        super.onStart();
-////        Check if user is signed in when we start login activity
-//        FirebaseUser currentUser = mAuth.getCurrentUser();
-//        if (currentUser != null){
-//            reload();
-//        }
-//    }
+  @Override
+ protected void onStart() {
+      super.onStart();
+    //Check if user is signed in when we start login activity
+      FirebaseUser currentUser = mAuth.getCurrentUser();
+      if (currentUser != null){
+         reload();
+      }
+  }
 
     private void loginEvent() {
 

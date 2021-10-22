@@ -174,13 +174,7 @@ public class RegisterActivity extends AppCompatActivity {
     // If there is a problem about missing google play service, please use Nougat version emulator
     // Store user information in firebase cloud
     private void addNewUser(User user){
-        Map<String,String> newuser = new HashMap<>();
-        newuser.put("uid",user.getUid());
-        newuser.put("username",user.getUsername());
-        newuser.put("email", user.getEmail());
-        newuser.put("password",user.getPassword());
-        newuser.put("bio", user.getBio());
-        newuser.put("avatar_url", user.getAvatarUrl());
+        Map<String,String> newuser = user.toMap();
         mDB.collection("users").document(user.getUid()).set(newuser).addOnSuccessListener(new OnSuccessListener<Void>(){
             @Override
             public void onSuccess(Void unused) {
