@@ -13,6 +13,18 @@
         <entry key="..\:/GitHub/COMP90018Project/app/src/main/res/layout/moment_post.xml" value="0.16041666666666668" />
         <entry key="..\:/GitHub/COMP90018Project/app/src/main/res/layout/register.xml" value="0.22" />
         <entry key="..\:/GitHub/COMP90018Project/app/src/main/res/layout/set_avatar_and_bio.xml" value="0.16041666666666668" />
+        <entry key="app/src/main/res/drawable/first.xml" value="0.34270833333333334" />
+        <entry key="app/src/main/res/drawable/shape.xml" value="0.34270833333333334" />
+        <entry key="app/src/main/res/layout/activity_comment.xml" value="0.27309782608695654" />
+        <entry key="app/src/main/res/layout/activity_empty.xml" value="0.22056159420289856" />
+        <entry key="app/src/main/res/layout/activity_loginregister.xml" value="0.2807971014492754" />
+        <entry key="app/src/main/res/layout/activity_main.xml" value="0.22056159420289856" />
+        <entry key="app/src/main/res/layout/head.xml" value="0.27309782608695654" />
+        <entry key="app/src/main/res/layout/home_page.xml" value="0.27309782608695654" />
+        <entry key="app/src/main/res/layout/log_in.xml" value="0.27309782608695654" />
+        <entry key="app/src/main/res/layout/moment_post.xml" value="0.27309782608695654" />
+        <entry key="app/src/main/res/layout/register.xml" value="0.27309782608695654" />
+        <entry key="app/src/main/res/layout/set_avatar_and_bio.xml" value="0.27309782608695654" />
       </map>
     </option>
   </component>

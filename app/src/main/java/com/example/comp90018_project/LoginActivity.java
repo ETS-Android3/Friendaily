@@ -10,8 +10,11 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -37,7 +40,7 @@ public class LoginActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private FirebaseFirestore mDB;
     public static String USERID;
-    private String emailReg ="^\\w+([-+.]\\w+)*@\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*$";
+    private String emailReg = "^\\w+([-+.]\\w+)*@\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*$";
     String TAG = "login";
 
     @Override
@@ -50,15 +53,15 @@ public class LoginActivity extends AppCompatActivity {
         loginEvent();
     }
 
-  @Override
- protected void onStart() {
-      super.onStart();
-    //Check if user is signed in when we start login activity
-      FirebaseUser currentUser = mAuth.getCurrentUser();
-      if (currentUser != null){
-         reload();
-      }
-  }
+    @Override
+    protected void onStart() {
+        super.onStart();
+        //Check if user is signed in when we start login activity
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        if (currentUser != null) {
+            reload();
+        }
+    }
 
     private void loginEvent() {
 
@@ -71,17 +74,17 @@ public class LoginActivity extends AppCompatActivity {
                         String accountStr = account.getText().toString();
                         //String passwordStr = Md5Util.md5(password.getText().toString());
                         String passwordStr = password.getText().toString();
-                        if(!isEmpty(accountStr,passwordStr)){
+                        if (!isEmpty(accountStr, passwordStr)) {
                             System.out.println("account:" + accountStr);
                             System.out.println("password:" + passwordStr);
                             //If user give email, then sign in use given input
-                            if(Pattern.matches(emailReg,accountStr)){
+                            if (Pattern.matches(emailReg, accountStr)) {
                                 String emailStr = accountStr;
-                                signIn(emailStr,passwordStr);
-                            }else{
+                                signIn(emailStr, passwordStr);
+                            } else {
                                 //Else we should find out the email address
                                 CollectionReference userRef = mDB.collection("users");
-                                Query query = userRef.whereEqualTo("username",accountStr);
+                                Query query = userRef.whereEqualTo("username", accountStr);
                                 query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                                     @Override
                                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
@@ -95,18 +98,20 @@ public class LoginActivity extends AppCompatActivity {
                                                 String emailStr = (String) task.getResult().getDocuments().get(0).getData().get("email");
                                                 USERID = (String) task.getResult().getDocuments().get(0).getData().get("uid");
                                                 Log.i(TAG, "USERID IS !!!!!!!!!!!!!!!!!!" + USERID);
-                                                signIn(emailStr,passwordStr);
+                                                signIn(emailStr, passwordStr);
                                             }
                                         }
                                     }
                                 });
                             }
-                        }else{
+                        } else {
                             Log.i(TAG, "Login failed!");
                             Toast.makeText(LoginActivity.this, "Login failed! The account or password cannot be empty!", Toast.LENGTH_LONG).show();
                         }
 
-                    };
+                    }
+
+                    ;
                 }
         );
 
@@ -123,20 +128,20 @@ public class LoginActivity extends AppCompatActivity {
         );
     }
 
-    private void signIn(String email, String password){
+    private void signIn(String email, String password) {
         //Using account and passowrd get before to login
 
-        mAuth.signInWithEmailAndPassword(email,password).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+        mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
-                if(task.isSuccessful()){
+                if (task.isSuccessful()) {
                     //if signin successfully, go to the login page
                     Log.i(TAG, "Login succeeded!");
                     Toast.makeText(LoginActivity.this, "Login succeeded!", Toast.LENGTH_LONG).show();
                     reload();
-                }else{
+                } else {
                     Log.i(TAG, "Login failed!");
-                    Log.w(TAG, "login:failure!!!!!!!!!!!!!!", task.getException());
+                    Log.w(TAG, "login:failure!", task.getException());
                     Toast.makeText(LoginActivity.this, "Login failed!", Toast.LENGTH_LONG).show();
                 }
             }
@@ -144,17 +149,17 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     //if user has log in, return to the homepage
-    private void reload(){
+    private void reload() {
         Intent intent = new Intent();
         intent.setClass(LoginActivity.this, MainActivity.class);
         startActivity(intent);
     }
 
     //Check input before sign in
-    private Boolean isEmpty(String email, String password){
-        if(email.length()==0||password.length()==0){
+    private Boolean isEmpty(String email, String password) {
+        if (email.length() == 0 || password.length() == 0) {
             return true;
-        }else return false;
+        } else return false;
     }
 
     private void findAllView() {
@@ -162,5 +167,24 @@ public class LoginActivity extends AppCompatActivity {
         password = findViewById(R.id.editLoginPassword);
         loginButton = findViewById(R.id.loginButton);
         registerButton = findViewById(R.id.createAccountButton);
+    }
+
+    public class MainActivity extends Activity {
+        private ImageView image;
+
+        @Override
+        protected void onCreate(Bundle savedInstanceState) {
+            super.onCreate(savedInstanceState);
+            setContentView(R.layout.activity_main);
+            image = (ImageView) findViewById(R.id.image01);
+
+            ViewGroup.MarginLayoutParams margin9 = new ViewGroup.MarginLayoutParams(
+                    image.getLayoutParams());
+            margin9.setMargins(400, 10, 0, 0);
+            LinearLayout.LayoutParams layoutParams9 = new LinearLayout.LayoutParams(margin9);
+            layoutParams9.height = 600;
+            layoutParams9.width = 800;
+            image.setLayoutParams(layoutParams9);
+        }
     }
 }
