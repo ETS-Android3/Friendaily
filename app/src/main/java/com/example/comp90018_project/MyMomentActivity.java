@@ -6,7 +6,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -20,18 +19,18 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.List;
 
-public class MyLikeActivity extends AppCompatActivity {
+public class MyMomentActivity extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
     private FirebaseFirestore mDB;
-    private static final String TAG = "MyLike";
-    private List<DocumentSnapshot> likeList;
+    private static final String TAG = "MyMoment";
+    private List<DocumentSnapshot> momentList;
     private String USERID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_my_like);
+        setContentView(R.layout.activity_my_moment);
         mAuth =  FirebaseAuth.getInstance();
         setContentView(R.layout.activity_find_new_friend);
         FirebaseUser currentUser = mAuth.getCurrentUser();
@@ -46,17 +45,17 @@ public class MyLikeActivity extends AppCompatActivity {
     /**
      * Get the like list for this user from database
      */
-    public void getLikeList(){
-        CollectionReference likesRef = mDB.collection("likes");
-        Query query = likesRef.whereEqualTo("uid",USERID).orderBy("timestamp", Query.Direction.DESCENDING);
+    public void getMomentList(){
+        CollectionReference momentsRef = mDB.collection("moments");
+        Query query = momentsRef.whereEqualTo("uid",USERID).orderBy("timestamp", Query.Direction.DESCENDING);
         query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if (task.isSuccessful()) {
                     if (task.getResult().getDocuments().size() != 0) {
-                        //This user like something
-                        likeList = task.getResult().getDocuments();
-                        Log.i(TAG, "Find like list" );
+                        //This user has moments
+                        momentList = task.getResult().getDocuments();
+                        Log.i(TAG, "Find moment list" );
 
                     } else {
 
@@ -67,10 +66,11 @@ public class MyLikeActivity extends AppCompatActivity {
 
     }
 
-    //if user does not log in, return to the Login
+
+    //if user does not log in, return to the login page
     private void reload(){
         Intent intent = new Intent();
-        intent.setClass(MyLikeActivity.this, LoginActivity.class);
+        intent.setClass(MyMomentActivity.this, LoginActivity.class);
         finish();
         startActivity(intent);
     }

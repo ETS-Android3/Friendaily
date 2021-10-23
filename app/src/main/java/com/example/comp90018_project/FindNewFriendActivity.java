@@ -65,10 +65,10 @@ public class FindNewFriendActivity extends AppCompatActivity {
         }else Toast.makeText(FindNewFriendActivity.this, "You don't search for a user", Toast.LENGTH_LONG).show();
 
     }
-    //if user has log in, return to the homepage
+    //if user does not log in, return to the Login
     private void reload(){
         Intent intent = new Intent();
-        intent.setClass(FindNewFriendActivity.this, MainActivity.class);
+        intent.setClass(FindNewFriendActivity.this, LoginActivity.class);
         finish();
         startActivity(intent);
     }
