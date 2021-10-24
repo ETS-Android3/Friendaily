@@ -30,17 +30,23 @@ import com.google.android.material.navigation.NavigationView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import static com.example.comp90018_project.LoginActivity.USERID;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     private static final String TAG = "main";
     private FirebaseFirestore mDB;
     private FirebaseAuth mAuth;
+    private FirebaseUser currentUser;
 
     // UI Object
     private TextView txt_topbar;
@@ -104,7 +110,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mDB = FirebaseFirestore.getInstance();
         mAuth = FirebaseAuth.getInstance();
         //Check whether this user has login; if not, return to login page
-        FirebaseUser currentUser = mAuth.getCurrentUser();
+        currentUser = mAuth.getCurrentUser();
         if (currentUser == null){
             reload();
         }
@@ -227,6 +233,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         break;
                     case R.id.menu_item6:
                         // Log Out
+                        Map<String, Object> isOffline = new HashMap<String,Object>();
+                        isOffline.put("status",false);
+                        isOffline.put("last_status_changed",System.currentTimeMillis());
+                        DatabaseReference statusRef = FirebaseDatabase.getInstance().getReference("status/"+currentUser.getUid());
+                        statusRef.updateChildren(isOffline);
                         mAuth.signOut();
                         Intent intent = new Intent();
                         intent.setClass(MainActivity.this, LoginActivity.class);

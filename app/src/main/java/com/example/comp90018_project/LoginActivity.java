@@ -23,12 +23,18 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.regex.Pattern;
 
 public class LoginActivity extends AppCompatActivity {
@@ -136,6 +142,7 @@ public class LoginActivity extends AppCompatActivity {
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()) {
                     //if signin successfully, go to the login page
+                    setPresence();
                     Log.i(TAG, "Login succeeded!");
                     Toast.makeText(LoginActivity.this, "Login succeeded!", Toast.LENGTH_LONG).show();
                     reload();
@@ -146,6 +153,75 @@ public class LoginActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    /**
+     * Build event listener for presence system
+     */
+    private void setPresence(){
+        // Check the connection state of this user in realtime database
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        String uid = currentUser.getUid();
+        DatabaseReference connectRef = FirebaseDatabase.getInstance().getReference(".info/connected");
+        DatabaseReference statusRef = FirebaseDatabase.getInstance().getReference("status/"+uid);
+
+        //Add a event listener on user's status in real time database
+        //Once status in real time database changed, sync it with firestore database
+        connectRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                boolean connected = snapshot.getValue(Boolean.class);
+                if (connected) {
+//                    statusRef.addValueEventListener(new ValueEventListener() {
+//                        @Override
+//                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+//                            final Boolean[] isOffline = {false};
+//                            statusRef.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+//                                @Override
+//                                public void onComplete(@NonNull Task<DataSnapshot> task) {
+//                                    if (task.isSuccessful()) {
+//                                        if (task.getResult() != null) {
+//                                            Map<String, Object> status = (Map<String, Object>) task.getResult().getValue();
+//                                            DocumentReference userRef = mDB.collection("users").document(uid);
+//                                            userRef.update(status);
+//                                            if (!(Boolean)status.get("status")) isOffline[0] = true;
+//                                            Log.i(TAG, "This user change status in firestore");
+//                                        }
+//                                    }
+//                                }
+//                            });
+//                            if (isOffline[0]) statusRef.removeEventListener(this);
+//                        }
+//
+//                        @Override
+//                        public void onCancelled(@NonNull DatabaseError error) {
+//                            Log.i(TAG,"Since this user has log off, this event listener has been removed");
+//
+//                        }
+//                    });
+
+                    //Change user's status in real time database
+                    Log.i(TAG, " this user is online in realtime database");
+                    Map<String, Object> isOnline = new HashMap<String,Object>();
+                    isOnline.put("status",true);
+                    isOnline.put("last_status_changed",System.currentTimeMillis());
+                    statusRef.updateChildren(isOnline);
+                    Map<String, Object> isOffline = new HashMap<String,Object>();
+                    isOffline.put("status",false);
+                    isOffline.put("last_status_changed",System.currentTimeMillis());
+                    statusRef.onDisconnect().updateChildren(isOffline);
+
+                }else {
+                    Log.i(TAG, "Sorry this user is offline in realtime database");
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Log.i(TAG, "Errors occur in realtime database");
+            }
+        });
+
     }
 
     //if user has log in, return to the homepage
@@ -169,7 +245,11 @@ public class LoginActivity extends AppCompatActivity {
         registerButton = findViewById(R.id.createAccountButton);
     }
 
-    public class MainActivity extends Activity {
+    /**
+     * 原来名字是 MainActivity, 然后登录时候会报错，改了之后能正常登录
+     * 不清楚这个有什么用所以先改个名字放着
+     */
+    public class MainActivity1 extends Activity {
         private ImageView image;
 
         @Override
