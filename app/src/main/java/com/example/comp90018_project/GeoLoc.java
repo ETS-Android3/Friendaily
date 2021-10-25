@@ -1,5 +1,6 @@
 package com.example.comp90018_project;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -7,7 +8,7 @@ public class GeoLoc {
     private String uid;
     private double lat;
     private double lng;
-    private Long last_changed;
+    private long last_changed;
 
     public GeoLoc(String uid,double lat, double lng, Long last_changed){
         this.uid = uid;
@@ -19,8 +20,11 @@ public class GeoLoc {
 
     public  GeoLoc(Map<String,Object> geo){
         this.uid = (String) geo.get("uid");
-        this.lat = (double) geo.get("lat");
-        this.lng = (double) geo.get("lng");
+        //0 represent altitude
+        //1 represent longtitude
+        ArrayList<Object> location = (ArrayList<Object>) geo.get("l");
+        this.lat = (double) location.get(0);
+        this.lng = (double) location.get(1);
         this.last_changed = (Long) geo.get("last_changed");
     }
 
