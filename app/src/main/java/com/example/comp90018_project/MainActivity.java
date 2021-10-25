@@ -223,8 +223,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 //                        startActivity(intent3);
                         break;
                     case R.id.menu_item4:
-//                        Intent intent4 = new Intent(MainActivity.this, CommentActivity.class);
-//                        startActivity(intent4);
+/*                        Intent intent4 = new Intent(MainActivity.this, CommentActivity.class);
+                        startActivity(intent4);*/
                         break;
                     case R.id.menu_item5:
                         //Setting avatar and bio

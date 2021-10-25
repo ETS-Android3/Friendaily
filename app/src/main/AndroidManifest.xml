@@ -10,6 +10,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Comp90018_project">
         <activity
+            android:name=".GeoQueryActivity"
+            android:exported="false" />
+        <activity
             android:name=".MyMomentActivity"
             android:exported="true" />
         <activity
