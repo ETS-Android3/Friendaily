@@ -79,6 +79,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     // deal with user case
     private LoadImageView user_avatar;
     private TextView user_name;
+    private TextView user_email;
     private TextView user_bio;
     private User myInfo;
     private User user;
@@ -94,6 +95,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             myInfo = (User) message.obj;
             //todo: get the avatar url from firestore, if empty, set default avatar
             user_name.setText(myInfo.getUsername());
+            user_email.setText(myInfo.getEmail());
             String avatar_url = (String)myInfo.getAvatarUrl();
             if (avatar_url == null) {
                 user_avatar.setImageResource(R.drawable.default_user_avatar);
@@ -186,6 +188,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         //todo: get from firestore and set value for user_image, user_name and user_sign, using handler
         user_avatar = headerView.findViewById(R.id.iv_menu_user);
         user_name = headerView.findViewById(R.id.tv_menu_user);
+        user_email = headerView.findViewById(R.id.tv_menu_useremail);
         user_bio = headerView.findViewById(R.id.tv_menu_usersign);
 
         new Thread(new Runnable() {

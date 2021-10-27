@@ -6,7 +6,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="220dp"
+        android:layout_height="218dp"
         android:background="@color/bg_topbar"
         android:orientation="vertical">
 
@@ -16,17 +16,27 @@
             android:layout_height="72dp"
             android:layout_gravity="center"
             android:layout_marginTop="42dp"
-            android:layout_marginBottom="10dp"/>
+            android:layout_marginBottom="10dp" />
 
         <TextView
             android:id="@+id/tv_menu_user"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="5dp"
             android:text="Tomori Nao"
             android:textColor="@color/text_white"
             android:textSize="20dp" />
+
+        <TextView
+            android:id="@+id/tv_menu_useremail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="5dp"
+            android:text="aaa@a.com"
+            android:textColor="@color/text_white"
+            android:textSize="15dp" />
 
         <TextView
             android:id="@+id/tv_menu_usersign"
@@ -34,9 +44,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="5dp"
-            android:layout_marginBottom="20dp"
             android:text="aaa"
-
             android:textColor="@color/text_white"
             android:textSize="15dp" />
     </LinearLayout>
