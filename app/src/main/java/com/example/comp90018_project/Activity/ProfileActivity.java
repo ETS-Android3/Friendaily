@@ -128,6 +128,9 @@ public class ProfileActivity extends AppCompatActivity {
                     Log.i(TAG, "Already friends!!");
                     //                    Toast.makeText(ProfileActivity.this, "Already friends!!", Toast.LENGTH_LONG).show();
                 }
+                else if (friends.getUid().equals(message)) {
+                    Log.i(TAG, "Cannot friend yourself!");
+                }
                 else if (!checkUser(pendingFriends)) {
                     pendingFriends.add((HashMap<String, Object>) friends.toMap());
                     transaction.update(userRef, "pendingFriends", pendingFriends);
