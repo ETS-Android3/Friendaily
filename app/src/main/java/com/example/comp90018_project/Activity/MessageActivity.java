@@ -97,36 +97,6 @@ public class MessageActivity extends AppCompatActivity {
         });
     }
 
-    private void uploadToFireStore(User friends, boolean agree) {
-        DocumentReference userRef = mDB.collection("users").document(userId);
-
-        mDB.runTransaction(new Transaction.Function<Void>() {
-            @Override
-            public Void apply(Transaction transaction) throws FirebaseFirestoreException {
-                ArrayList<User> pendingFriends = (ArrayList<User>) transaction.get(userRef).get("pendingFriends");
-                ArrayList<User> addedFriends = (ArrayList<User>) transaction.get(userRef).get("addedFriends");
-                pendingFriends.remove(friends);
-                if (agree) {
-                    addedFriends.add(friends);
-                }
-                transaction.update(userRef, "pendingFriends", pendingFriends);
-                transaction.update(userRef, "addedFriends", addedFriends);
-                // success
-                return null;
-            }
-        }).addOnSuccessListener(new OnSuccessListener<Void>() {
-            @Override
-            public void onSuccess(Void aVoid) {
-                Log.d(TAG, "Transaction success!");
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Log.w(TAG, "Transaction failure.", e);
-            }
-        });
-    }
-
     //if user does not log in, return to the Login
     private void reload(){
         Intent intent = new Intent();

@@ -102,6 +102,8 @@ public class MessageAdapter extends BaseAdapter {
 
     private void uploadToFireStore(String userId, HashMap<String, Object> pendingFriend, boolean agree, boolean another) {
         DocumentReference userRef = mDB.collection("users").document(userId);
+        pendingFriend.remove("pendingFriends");
+        pendingFriend.remove("friends");
         mDB.runTransaction(new Transaction.Function<Void>() {
             @Override
             public Void apply(Transaction transaction) throws FirebaseFirestoreException {

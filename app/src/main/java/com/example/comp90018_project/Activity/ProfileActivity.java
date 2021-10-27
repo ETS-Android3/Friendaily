@@ -47,6 +47,7 @@ public class ProfileActivity extends AppCompatActivity {
     private TextView email;
     private TextView uid;
     private Button button;
+    private Button deleteButton;
     private User searchedUser;
     private User user;
     private String userId;
@@ -66,11 +67,11 @@ public class ProfileActivity extends AppCompatActivity {
         FirebaseUser currentUser = mAuth.getCurrentUser();
         assert currentUser != null;
         userId = currentUser.getUid();
-        findUser();
         if (message == null) {
             message = intent.getStringExtra(FindNewFriendActivity.EXTRA_MESSAGE);
             messageType = "Add";
         }
+        findUser();
         setContentView(R.layout.profile);
         setProfileView();
     }
@@ -81,9 +82,14 @@ public class ProfileActivity extends AppCompatActivity {
         email = (TextView)findViewById(R.id.profileEmail);
         uid = (TextView)findViewById(R.id.profileUid);
         button = (Button)findViewById(R.id.profileButton);
+        deleteButton = (Button)findViewById(R.id.deleteFriendButton);
 
         uid.setText(message);
         button.setText(messageType);
+
+        if (messageType.equals("Add")) {
+            deleteButton.setVisibility(View.GONE);
+        }
 
         CollectionReference userRef = mDB.collection("users");
         Query query = userRef.whereEqualTo("uid", message);
@@ -102,6 +108,7 @@ public class ProfileActivity extends AppCompatActivity {
                 }
             }
         });
+
         button.setOnClickListener(
                 new View.OnClickListener() {
                     @Override
@@ -112,6 +119,66 @@ public class ProfileActivity extends AppCompatActivity {
                     }
                 }
         );
+
+        deleteButton.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        deleteFriend();
+                        Intent intent = new Intent(ProfileActivity.this, MainActivity.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                        startActivity(intent);
+                    }
+                }
+        );
+    }
+
+    private void deleteFriend() {
+        DocumentReference userRef = mDB.collection("users").document(userId);
+        findsearchedUser();
+        mDB.runTransaction(new Transaction.Function<Void>() {
+            @Override
+            public Void apply(Transaction transaction) throws FirebaseFirestoreException {
+                ArrayList<HashMap<String, Object>> addedFriends = (ArrayList<HashMap<String, Object>>) transaction.get(userRef).get("friends");
+                assert addedFriends != null;
+                HashMap<String, Object> searchedUserMap = (HashMap<String, Object>) searchedUser.toMap();
+                searchedUserMap.remove("pendingFriends");
+                searchedUserMap.remove("friends");
+                addedFriends.remove(searchedUserMap);
+                transaction.update(userRef, "friends", addedFriends);
+                Log.i(TAG, "Delete friend " + searchedUser.getUsername() + " !!");
+                return null;
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(ProfileActivity.this, "Transaction failure.", Toast.LENGTH_LONG).show();
+                Log.w(TAG, "Transaction failure.", e);
+            }
+        });
+
+        DocumentReference otherUserRef = mDB.collection("users").document(message);
+        findsearchedUser();
+        mDB.runTransaction(new Transaction.Function<Void>() {
+            @Override
+            public Void apply(Transaction transaction) throws FirebaseFirestoreException {
+                ArrayList<HashMap<String, Object>> addedFriends = (ArrayList<HashMap<String, Object>>) transaction.get(otherUserRef).get("friends");
+                assert addedFriends != null;
+                HashMap<String, Object> userMap = (HashMap<String, Object>) user.toMap();
+                userMap.remove("pendingFriends");
+                userMap.remove("friends");
+                addedFriends.remove(userMap);
+                transaction.update(otherUserRef, "friends", addedFriends);
+                Log.i(TAG, "Delete friend " + user.getUsername() + " !!");
+                return null;
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(ProfileActivity.this, "Transaction failure.", Toast.LENGTH_LONG).show();
+                Log.w(TAG, "Transaction failure.", e);
+            }
+        });
     }
 
     private void uploadToFireStore(User friends) {
@@ -132,11 +199,14 @@ public class ProfileActivity extends AppCompatActivity {
                     Log.i(TAG, "Cannot friend yourself!");
                 }
                 else if (!checkUser(pendingFriends)) {
-                    pendingFriends.add((HashMap<String, Object>) friends.toMap());
+                    HashMap<String, Object> friendMap = (HashMap<String, Object>) friends.toMap();
+                    friendMap.remove("pendingFriends");
+                    friendMap.remove("friends");
+                    Log.i(TAG, "hash: " + String.valueOf(friendMap));
+                    pendingFriends.add(friendMap);
                     transaction.update(userRef, "pendingFriends", pendingFriends);
                     Log.i(TAG, "Friend request succeeded!");
 //                    Toast.makeText(ProfileActivity.this, "Friend request succeeded!", Toast.LENGTH_LONG).show();
-
                 }
                 else {
 //                    Toast.makeText(ProfileActivity.this, "Already sent friend request!!", Toast.LENGTH_LONG).show();
@@ -162,6 +232,17 @@ public class ProfileActivity extends AppCompatActivity {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 user = new User(task.getResult().getDocuments().get(0).getData());
+            }
+        });
+    }
+
+    private void findsearchedUser() {
+        CollectionReference userRef = mDB.collection("users");
+        Query query = userRef.whereEqualTo("uid", message);
+        query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                searchedUser = new User(task.getResult().getDocuments().get(0).getData());
             }
         });
     }
