@@ -1,4 +1,4 @@
-package com.example.comp90018_project;
+package com.example.comp90018_project.Activity;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -8,9 +8,9 @@ import android.view.View;
 import android.widget.Button;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.comp90018_project.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;

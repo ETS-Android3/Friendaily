@@ -1,13 +1,14 @@
-package com.example.comp90018_project;
+package com.example.comp90018_project.Activity;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 
+import com.example.comp90018_project.Util.GeoDistance;
+import com.example.comp90018_project.model.GeoLoc;
 import com.firebase.geofire.GeoFire;
 import com.firebase.geofire.GeoFireUtils;
 import com.firebase.geofire.GeoLocation;
@@ -21,8 +22,6 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.MutableData;
-import com.google.firebase.database.Transaction;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -43,7 +42,7 @@ public class GeoQueryActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_geo_query);
+//        setContentView(R.layout.activity_geo_query);
         // TODO: 2021/10/25 layout
     }
 
@@ -109,10 +108,7 @@ public class GeoQueryActivity extends AppCompatActivity {
                     userLoc.put("uid",uid);
                     GeoLoc userNearby = new GeoLoc(userLoc);
                     usersNearby.add(userNearby);
-
-
                 }
-
 
             }
 

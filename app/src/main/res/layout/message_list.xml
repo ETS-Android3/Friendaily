@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="406dp"
+        android:layout_height="83dp"
+        android:layout_marginStart="1dp"
+        android:layout_marginTop="1dp"
+        android:orientation="horizontal"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <com.example.comp90018_project.Util.LoadImageView
+            android:id="@+id/pendingFriendAvatar"
+            android:layout_width="16dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:scaleType="fitStart"
+            tools:srcCompat="@tools:sample/avatars" />
+
+        <TextView
+            android:id="@+id/pendingFriendUsername"
+            android:layout_width="82dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center|start"
+            android:text="TextView" />
+
+        <Button
+            android:id="@+id/agreeButton"
+            android:layout_width="7dp"
+            android:layout_height="36dp"
+            android:layout_weight="1"
+            android:text="Agree"
+            android:textSize="12sp" />
+
+        <Button
+            android:id="@+id/disagreeButton"
+            android:layout_width="7dp"
+            android:layout_height="36dp"
+            android:layout_weight="1"
+            android:text="Disagree"
+            android:textSize="12sp" />
+
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

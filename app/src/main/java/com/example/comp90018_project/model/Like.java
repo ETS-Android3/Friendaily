@@ -1,4 +1,4 @@
-package com.example.comp90018_project;
+package com.example.comp90018_project.model;
 
 import java.util.HashMap;
 import java.util.Map;

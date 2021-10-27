@@ -1,5 +1,6 @@
-package com.example.comp90018_project;
+package com.example.comp90018_project.model;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -11,6 +12,8 @@ public class User {
     private String password;
     private String bio;
     private String avatarUrl;
+    private ArrayList<Map<String,Object>> pendingFriends;
+    private ArrayList<Map<String,Object>> addedFriends;
 
     public User(String email, String username, String password) {
         this.uid = null;
@@ -19,7 +22,10 @@ public class User {
         this.password = password;
         this.bio = null;
         this.avatarUrl = null;
+        this.pendingFriends = new ArrayList<Map<String,Object>>();
+        this.addedFriends = new ArrayList<Map<String,Object>>();
     }
+
     public User(String uid, String email, String username, String password, String bio, String avatarUrl) {
         this.uid = uid;
         this.email = email;
@@ -34,22 +40,30 @@ public class User {
         this.email = user.get("email").toString();
         this.username = user.get("username").toString();
         this.password = user.get("password").toString();
-        this.bio = user.get("bio").toString();
-        this.avatarUrl = user.get("avatar_url").toString();
+        if (user.get("bio") != null) {
+            this.bio = user.get("bio").toString();
+        }
+        if (user.get("avatar_url") != null) {
+            this.avatarUrl = user.get("avatar_url").toString();
+        }
+        this.pendingFriends = (ArrayList<Map<String,Object>>) user.get("pendingFriends");
+        this.addedFriends = (ArrayList<Map<String,Object>>) user.get("friends");
     }
 
     /**
      * Return a map for update database
      * @return Map<Sring,String></Sring,String>
      */
-    public Map<String,String> toMap(){
-        Map<String,String> user = new HashMap<>();
+    public Map<String,Object> toMap(){
+        Map<String,Object> user = new HashMap<>();
         user.put("uid",uid);
         user.put("username",username);
         user.put("email", email);
         user.put("password",password);
         user.put("bio", bio);
         user.put("avatar_url", avatarUrl);
+        user.put("pendingFriends", pendingFriends);
+        user.put("friends", addedFriends);
         return user;
     }
 
@@ -99,5 +113,29 @@ public class User {
 
     public String getAvatarUrl() {
         return avatarUrl;
+    }
+
+    public void AddPendingFriends(Map<String,Object> pendingFriends) {
+        this.pendingFriends.add(pendingFriends);
+    }
+
+    public void removePendingFriends(User pendingFriends) {
+        this.pendingFriends.remove(pendingFriends);
+    }
+
+    public ArrayList<Map<String,Object>> getpendingFriends() {
+        return pendingFriends;
+    }
+
+    public void addFriends(Map<String,Object> addedFriends) {
+        this.addedFriends.add(addedFriends);
+    }
+
+    public void removeFriends(Map<String,Object> addedFriends) {
+        this.addedFriends.remove(addedFriends);
+    }
+
+    public ArrayList<Map<String,Object>> getaddedFriends() {
+        return addedFriends;
     }
 }

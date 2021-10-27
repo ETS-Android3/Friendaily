@@ -1,4 +1,4 @@
-package com.example.comp90018_project;
+package com.example.comp90018_project.Util;
 
 public class GeoDistance implements Comparable<GeoDistance>{
     private String uid;

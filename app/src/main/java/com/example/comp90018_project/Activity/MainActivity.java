@@ -1,7 +1,9 @@
-package com.example.comp90018_project;
+package com.example.comp90018_project.Activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.comp90018_project.R;
+import com.example.comp90018_project.model.User;
 import com.example.comp90018_project.Util.LoadImageView;
 
 import androidx.annotation.NonNull;
@@ -9,6 +11,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -19,6 +22,7 @@ import android.view.MenuItem;
 import android.view.View;
 
 import android.widget.FrameLayout;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 
 import android.widget.TextView;
@@ -36,7 +40,7 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
-import static com.example.comp90018_project.LoginActivity.USERID;
+import static com.example.comp90018_project.Activity.LoginActivity.USERID;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -54,6 +58,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private TextView txt_message;
     private TextView txt_setting;
     private FrameLayout ly_content;
+    private ImageButton find_new_friend_btn;
 
     // todo:Fragment Object
     private FragmentManager fragmentManager;
@@ -83,6 +88,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         public void handleMessage(Message message) {
             myInfo = (User) message.obj;
             //todo: get the avatar url from firestore, if empty, set default avatar
+            user_name.setText(myInfo.getUsername());
             String avatar_url = (String)myInfo.getAvatarUrl();
             if (avatar_url == null) {
                 user_avatar.setImageResource(R.drawable.default_user_avatar);
@@ -92,7 +98,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 user_avatar.loadImageFromURL(avatar_url);
             }
 
-            user_name.setText(myInfo.getUsername());
             String currentBio = myInfo.getBio();
             if (currentBio == null) {
                 user_bio.setText(R.string.empty_bio);
@@ -116,6 +121,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
         else{
             USERID = currentUser.getUid();
+            Log.i(TAG, "test");
             setContentView(R.layout.activity_main);
             if (getSupportActionBar() != null) {
                 getSupportActionBar().hide();
@@ -123,6 +129,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             fragmentManager = getSupportFragmentManager();
             bindViews();
+            findNewFriendView();
             // txt_channel.performClick()
 
             initView();
@@ -133,6 +140,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onStart() {
         super.onStart();
+    }
+
+    private void findNewFriendView() {
+        find_new_friend_btn = (ImageButton)findViewById(R.id.addFriendButton);
+        find_new_friend_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, FindNewFriendActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
     private void bindViews() {
@@ -186,6 +204,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             }
                             myInfo = new User(USERID, email, username, password, bio, avatarUrl);
                             handler.sendMessage(handler.obtainMessage(1, myInfo));
+                            if (myInfo != null && myInfo.getpendingFriends() != null && myInfo.getpendingFriends().size() > 0) {
+                                MenuItem message = findViewById(R.id.menu_item7);
+                                message.setIcon(R.drawable.new_message);
+                                Log.i(TAG, "New friend request!");
+                            }
                         }
                     }
                 });
@@ -207,6 +230,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         // navigation
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @SuppressLint("NonConstantResourceId")
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()) {
@@ -219,19 +243,28 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 //                        startActivity(intent2);
                         break;
                     case R.id.menu_item3:
-//                        Intent intent3 = new Intent(MainActivity.this, MyMomentActivity.class);
+//                        Intent intent3 = new Intent(MainActivity.this, CommentActivity.class);
 //                        startActivity(intent3);
                         break;
                     case R.id.menu_item4:
-                        Intent intent4 = new Intent(MainActivity.this, GeoQueryActivity.class);
+                        Intent intent4 = new Intent(MainActivity.this, ShowFriendActivity.class);
                         startActivity(intent4);
                         break;
                     case R.id.menu_item5:
-                        //Setting avatar and bio
-                        Intent intent5 = new Intent(MainActivity.this, HomeActivity.class);
-                        startActivity(intent5);
+//                        Intent intent5 = new Intent(MainActivity.this, MyMomentActivity.class);
+//                        startActivity(intent5);
                         break;
                     case R.id.menu_item6:
+                        //Setting avatar and bio
+                        Intent intent6 = new Intent(MainActivity.this, HomeActivity.class);
+                        startActivity(intent6);
+                        break;
+                    case R.id.menu_item7:
+                        //Messages
+                        Intent intent7 = new Intent(MainActivity.this, MessageActivity.class);
+                        startActivity(intent7);
+                        break;
+                    case R.id.menu_item8:
                         // Log Out
                         Map<String, Object> isOffline = new HashMap<String,Object>();
                         isOffline.put("status",false);
@@ -246,10 +279,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 return true;
             }
         });
-
-
-
-
     }
 
     private void setNotSelected() {

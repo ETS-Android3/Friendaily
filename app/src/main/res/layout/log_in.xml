@@ -4,17 +4,19 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".LoginActivity"
+    tools:context=".Activity.LoginActivity"
     android:background="@drawable/starter2">
 
     <ImageView
         android:id="@+id/image01"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="118dp"
         android:scaleType="fitXY"
         android:src="@drawable/login_1"
-        tools:layout_editor_absoluteX="0dp"
-        tools:layout_editor_absoluteY="118dp" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <LinearLayout
         android:id="@+id/passpord"
