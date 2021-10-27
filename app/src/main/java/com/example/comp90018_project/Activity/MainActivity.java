@@ -30,15 +30,19 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.internal.NavigationMenuItemView;
 import com.google.android.material.navigation.NavigationView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import static com.example.comp90018_project.Activity.LoginActivity.USERID;
 
@@ -77,6 +81,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private TextView user_name;
     private TextView user_bio;
     private User myInfo;
+    private User user;
 
 
     Handler handler = new Handler(Looper.getMainLooper()) {
@@ -204,11 +209,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             }
                             myInfo = new User(USERID, email, username, password, bio, avatarUrl);
                             handler.sendMessage(handler.obtainMessage(1, myInfo));
-                            if (myInfo != null && myInfo.getpendingFriends() != null && myInfo.getpendingFriends().size() > 0) {
-                                MenuItem message = findViewById(R.id.menu_item7);
-                                message.setIcon(R.drawable.new_message);
-                                Log.i(TAG, "New friend request!");
-                            }
                         }
                     }
                 });
@@ -218,12 +218,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         // toggle the menu button
         menu_btn.setOnClickListener(new View.OnClickListener() {
+            @SuppressLint("RestrictedApi")
             @Override
             public void onClick(View view) {
                 if (drawerLayout.isDrawerOpen(navigationView)) {
                     drawerLayout.closeDrawer(navigationView);
                 } else {
+                    findUser();
                     drawerLayout.openDrawer(navigationView);
+                    NavigationMenuItemView message = findViewById(R.id.menu_item7);
+                    if (user != null && user.getpendingFriends() != null && user.getpendingFriends().size() > 0) {
+                        message.setIcon(getDrawable(R.drawable.new_message));
+                        Log.i(TAG, "New friend request!");
+                    }
+                    else {
+                        message.setIcon(getDrawable(R.drawable.message));
+                        Log.i(TAG, "No new friend request!");
+                    }
                 }
             }
         });
@@ -341,6 +352,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         intent.setClass(MainActivity.this, LoginActivity.class);
         finish();
         startActivity(intent);
+    }
+
+    private void findUser() {
+        CollectionReference userRef = mDB.collection("users");
+        Query query = userRef.whereEqualTo("uid", USERID);
+        query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                user = new User(task.getResult().getDocuments().get(0).getData());
+            }
+        });
     }
 
 }
