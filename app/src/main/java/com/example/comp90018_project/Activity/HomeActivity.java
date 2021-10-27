@@ -322,6 +322,7 @@ public class HomeActivity extends AppCompatActivity {
             public void onSuccess(Void aVoid) {
                 Log.d(TAG, "Transaction success!");
                 Intent intent = new Intent(HomeActivity.this, MainActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
             }
         }).addOnFailureListener(new OnFailureListener() {
