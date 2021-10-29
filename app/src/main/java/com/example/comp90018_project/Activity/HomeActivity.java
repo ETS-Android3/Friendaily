@@ -1,5 +1,6 @@
 package com.example.comp90018_project.Activity;
 
+
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -28,6 +29,29 @@ import com.google.firebase.firestore.Transaction;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+
+import android.Manifest;
+import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.ContentResolver;
+import android.content.DialogInterface;
+import android.content.pm.PackageManager;
+import android.os.Environment;
+import android.provider.MediaStore;
+import android.webkit.MimeTypeMap;
+
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+import androidx.core.content.FileProvider;
+
+import java.io.File;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 
 public class HomeActivity extends AppCompatActivity {
@@ -80,8 +104,9 @@ public class HomeActivity extends AppCompatActivity {
             image.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    imageHolder = new ImageHolder(image);
-                    imageHolder.selectImage(context);
+//                    imageHolder = new ImageHolder(image);
+//                    imageHolder.selectImage(context);
+                    selectImage();
                 }
             });
             btn_update.setOnClickListener(new View.OnClickListener() {
@@ -109,10 +134,9 @@ public class HomeActivity extends AppCompatActivity {
         super.onStart();
     }
 
-/*
-    *//**
+    /*
      * Select image from album, set the imageview, get the link
-     *//*
+     */
     private void selectImage() {
         final CharSequence[] options = { "Take photo", "Select from gallery", "Cancel"};
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -137,7 +161,7 @@ public class HomeActivity extends AppCompatActivity {
 
     private void askCameraPermissions() {
         if(ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED){
-            ActivityCompat.requestPermissions(this,new String[] {Manifest.permission.CAMERA}, CAMERA_PERM_CODE);
+            ActivityCompat.requestPermissions(this, new String[] {Manifest.permission.CAMERA}, CAMERA_PERM_CODE);
         }else {
             dispatchTakePictureIntent();
         }
@@ -219,9 +243,9 @@ public class HomeActivity extends AppCompatActivity {
 //        File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
         File storageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
         File image = File.createTempFile(
-                imageFileName,  *//* prefix *//*
-                ".jpg",         *//* suffix *//*
-                storageDir      *//* directory *//*
+                imageFileName,
+                ".jpg",
+                storageDir
         );
 
         // Save a file: path for use with ACTION_VIEW intents
@@ -250,7 +274,7 @@ public class HomeActivity extends AppCompatActivity {
                 takePhotoResultLauncher.launch(takePictureIntent);
             }
         }
-    }*/
+    }
 
     /**
      * This functionality is used to upload a avatar to database
