@@ -50,6 +50,7 @@ public class LoginRegisterActivity extends AppCompatActivity {
                 finish();
             }
         });
+        Log.i(TAG, "onCreate: Go to the Login/Regiester page");
     }
 
     @Override

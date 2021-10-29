@@ -265,8 +265,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         startActivity(intent4);
                         break;
                     case R.id.menu_item5:
-//                        Intent intent5 = new Intent(MainActivity.this, MyMomentActivity.class);
-//                        startActivity(intent5);
+                        Intent intent5 = new Intent(MainActivity.this, GeoQueryActivity.class);
+                        startActivity(intent5);
                         break;
                     case R.id.menu_item6:
                         //Setting avatar and bio
@@ -285,6 +285,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         isOffline.put("last_status_changed",System.currentTimeMillis());
                         DatabaseReference statusRef = FirebaseDatabase.getInstance().getReference("status/"+currentUser.getUid());
                         statusRef.updateChildren(isOffline);
+                        DatabaseReference localRef = FirebaseDatabase.getInstance().getReference("usersAvailable");
+                        localRef.child(mAuth.getCurrentUser().getUid()).removeValue();
                         mAuth.signOut();
                         Intent intent = new Intent();
                         intent.setClass(MainActivity.this, LoginActivity.class);

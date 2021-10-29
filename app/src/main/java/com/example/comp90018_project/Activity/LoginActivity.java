@@ -32,6 +32,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.util.EventListener;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Pattern;
@@ -171,34 +172,6 @@ public class LoginActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 boolean connected = snapshot.getValue(Boolean.class);
                 if (connected) {
-//                    statusRef.addValueEventListener(new ValueEventListener() {
-//                        @Override
-//                        public void onDataChange(@NonNull DataSnapshot snapshot) {
-//                            final Boolean[] isOffline = {false};
-//                            statusRef.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
-//                                @Override
-//                                public void onComplete(@NonNull Task<DataSnapshot> task) {
-//                                    if (task.isSuccessful()) {
-//                                        if (task.getResult() != null) {
-//                                            Map<String, Object> status = (Map<String, Object>) task.getResult().getValue();
-//                                            DocumentReference userRef = mDB.collection("users").document(uid);
-//                                            userRef.update(status);
-//                                            if (!(Boolean)status.get("status")) isOffline[0] = true;
-//                                            Log.i(TAG, "This user change status in firestore");
-//                                        }
-//                                    }
-//                                }
-//                            });
-//                            if (isOffline[0]) statusRef.removeEventListener(this);
-//                        }
-//
-//                        @Override
-//                        public void onCancelled(@NonNull DatabaseError error) {
-//                            Log.i(TAG,"Since this user has log off, this event listener has been removed");
-//
-//                        }
-//                    });
-
                     //Change user's status in real time database
                     Log.i(TAG, " this user is online in realtime database");
                     Map<String, Object> isOnline = new HashMap<String,Object>();
@@ -209,6 +182,8 @@ public class LoginActivity extends AppCompatActivity {
                     isOffline.put("status",false);
                     isOffline.put("last_status_changed",System.currentTimeMillis());
                     statusRef.onDisconnect().updateChildren(isOffline);
+                    DatabaseReference localRef = FirebaseDatabase.getInstance().getReference("usersAvailable");
+                    localRef.child(mAuth.getCurrentUser().getUid()).onDisconnect().removeValue();
 
                 }else {
                     Log.i(TAG, "Sorry this user is offline in realtime database");

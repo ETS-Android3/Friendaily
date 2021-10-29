@@ -2,13 +2,17 @@ package com.example.comp90018_project.Activity;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.util.Log;
 
 import com.example.comp90018_project.Util.GeoDistance;
-import com.example.comp90018_project.model.GeoLoc;
+import com.example.comp90018_project.model.GPSTracker;
 import com.firebase.geofire.GeoFire;
 import com.firebase.geofire.GeoFireUtils;
 import com.firebase.geofire.GeoLocation;
@@ -37,12 +41,16 @@ public class GeoQueryActivity extends AppCompatActivity {
     final DatabaseReference localRef = FirebaseDatabase.getInstance().getReference("usersAvailable");
     final GeoFire geoFire = new GeoFire(localRef);
     final FirebaseAuth mAu = FirebaseAuth.getInstance();
-    private List<GeoLoc> usersNearby;
+    private List< Map <String,Object> > usersNearby;
+    private static final int LOCATION_PERM_CODE = 2;
+    final String PERMISSION = Manifest.permission.ACCESS_FINE_LOCATION;
+    GPSTracker gps;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 //        setContentView(R.layout.activity_geo_query);
+        usersNearby = new ArrayList<Map<String,Object>>();
         // TODO: 2021/10/25 layout
     }
 
@@ -55,88 +63,93 @@ public class GeoQueryActivity extends AppCompatActivity {
             finish();
             startActivity(intent);
         }
-        usersNearby = new ArrayList<GeoLoc>();
+        //Permission will be asked when we create gps tracker
+        if(ContextCompat.checkSelfPermission(this,PERMISSION) != PackageManager.PERMISSION_GRANTED
+                && ActivityCompat.checkSelfPermission(this,PERMISSION) != PackageManager.PERMISSION_GRANTED){
+            ActivityCompat.requestPermissions(this, new String[] {PERMISSION}, LOCATION_PERM_CODE);
+
+        }
+
+        if(gps == null){
+            gps = new GPSTracker(this,geoFire, mAu.getCurrentUser().getUid());
+        }
+
+
 //        GeoLoc geo = new GeoLoc(currentUser.getUid(),51.5074,0.1278,System.currentTimeMillis());
 //        writeToFirebase(geo);
 //        showUsersAvailable(geo);
     }
 
-    // TODO: 2021/10/26 Add geo location detector
+    protected  void onDestroy() {
+        super.onDestroy();
+        if(gps!=null){
+            gps.stopUsingGPS();
+        }
 
-    /**
-     * This function is used to store geological location of user
-     * @param geo includes uid, location and the time changed
-     */
-    public void writeToFirebase(GeoLoc geo) {
-        geoFire.setLocation(geo.getUid(), new GeoLocation(geo.getLat(), geo.getLng()), new GeoFire.CompletionListener() {
-            @Override
-            public void onComplete(String key, DatabaseError error) {
-                //Update users' location to the database
-                Log.i(TAG, "Has stored geo location in the realtime database ");
-                Map<String, Object> last_changed = new HashMap<>();
-                last_changed.put("last_changed", geo.getLast_changed());
-                localRef.child(geo.getUid()).updateChildren(last_changed).addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        Log.i(TAG, "Has updated the time ");
-                        //After all the information, including location and the update time, stored in the database
-                        //Begin to search for nearby user
-                        findUserNearby(geo, radius);
-                    }
-                });
-            }
-        });
     }
+
 
     /**
      * Find every user whose location is stored in userAvailable in real time database
      * @param geo the geoLoc instance of center
      * @param radius the range of distance
      */
-    public void findUserNearby(GeoLoc geo, double radius){
-        GeoQuery geoQuery = geoFire.queryAtLocation(new GeoLocation(geo.getLat(), geo.getLng()),radius);
-        geoQuery.removeAllListeners();
-        geoQuery.addGeoQueryDataEventListener(new GeoQueryDataEventListener() {
-            @Override
-            public void onDataEntered(DataSnapshot user, GeoLocation location) {
-                //Find users nearby
-                //This event listener will return users who has existed in database and new user nearby
-                String uid = user.getKey();
-                if(!uid.equals(mAu.getCurrentUser().getUid())){
-                    Log.i(TAG, "found a user  "+ uid);
-                    Map <String,Object> userLoc = (Map<String, Object>) user.getValue();
-                    userLoc.put("uid",uid);
-                    GeoLoc userNearby = new GeoLoc(userLoc);
-                    usersNearby.add(userNearby);
+    public void findUserNearby(GPSTracker geo, double radius) {
+        if (gps.isConnected()) {
+            GeoQuery geoQuery = geoFire.queryAtLocation(new GeoLocation(geo.getLat(), geo.getLng()), radius);
+            geoQuery.removeAllListeners();
+            geoQuery.addGeoQueryDataEventListener(new GeoQueryDataEventListener() {
+                @Override
+                public void onDataEntered(DataSnapshot user, GeoLocation location) {
+                    //Find users nearby
+                    //This event listener will return users who has existed in database and new user nearby
+                    String uid = user.getKey();
+                    if (!uid.equals(mAu.getCurrentUser().getUid()) && user.getValue() != null) {
+                        Log.i(TAG, "found a user  " + uid);
+                        Map<String, Object> loc = new HashMap<>();
+                        loc.put("lat", location.latitude);
+                        loc.put("lng", location.longitude);
+                        loc.put("uid", uid);
+                        usersNearby.add(loc);
+                    }
                 }
 
-            }
+                /**
+                 * Remove the user that exit from database
+                 *
+                 * @param user the user remove from database
+                 */
+                @Override
+                public void onDataExited(DataSnapshot user) {
+                    String uid = user.getKey();
+                    for (Map<String, Object> userNearby : usersNearby) {
+                        if (userNearby.get("uid") == uid) {
+                            usersNearby.remove(userNearby);
+                        }
+                    }
+                }
 
-            @Override
-            public void onDataExited(DataSnapshot dataSnapshot) {
+                @Override
+                public void onDataMoved(DataSnapshot dataSnapshot, GeoLocation location) {
 
-            }
+                }
 
-            @Override
-            public void onDataMoved(DataSnapshot dataSnapshot, GeoLocation location) {
+                @Override
+                public void onDataChanged(DataSnapshot dataSnapshot, GeoLocation location) {
 
-            }
+                }
 
-            @Override
-            public void onDataChanged(DataSnapshot dataSnapshot, GeoLocation location) {
+                @Override
+                public void onGeoQueryReady() {
 
-            }
+                }
 
-            @Override
-            public void onGeoQueryReady() {
+                @Override
+                public void onGeoQueryError(DatabaseError error) {
 
-            }
-
-            @Override
-            public void onGeoQueryError(DatabaseError error) {
-
-            }
-        });
+                }
+            });
+        }
     }
 
     /**
@@ -145,15 +158,15 @@ public class GeoQueryActivity extends AppCompatActivity {
      * @param geo the location of the current user
      * @return the list of nearby users
      */
-    public ArrayList<GeoDistance> showUsersAvailable (GeoLoc geo){
+    public ArrayList<GeoDistance> showUsersAvailable (GPSTracker geo){
         ArrayList<GeoDistance> geoDistances = new ArrayList<GeoDistance>();
         GeoLocation center = new GeoLocation(geo.getLat(),geo.getLng());
         if(usersNearby.size() != 0){
-            for(GeoLoc user:usersNearby){
-                GeoLocation userLoction = new GeoLocation(user.getLat(),user.getLng());
+            for( Map <String,Object>  user:usersNearby){
+                GeoLocation userLoction = new GeoLocation((double) user.get("lat"),(double) user.get("lng"));
                 double distance = GeoFireUtils.getDistanceBetween(userLoction,center);
                 if (distance <= radius){
-                    GeoDistance geodistance = new GeoDistance(user.getUid(), distance);
+                    GeoDistance geodistance = new GeoDistance((String) user.get("uid"), distance);
                     geoDistances.add(geodistance);
                 }
             }
@@ -163,6 +176,15 @@ public class GeoQueryActivity extends AppCompatActivity {
             Log.i(TAG, "Cannot find user nearby");
             return null;
         }
+
+    }
+
+    /**
+     *If this user don't wannt to share their location or log off
+     * Their location will be removed from database
+     */
+    public void makeUnavailable(){
+        localRef.child(mAu.getCurrentUser().getUid()).removeValue();
 
     }
 

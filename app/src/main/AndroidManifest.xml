@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.example.comp90018_project">
 
     <uses-permission android:name="android.permission.INTERNET" />
@@ -9,6 +10,8 @@
         tools:ignore="ProtectedPermissions" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"
         tools:ignore="ScopedStorage" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
     <application
         android:allowBackup="true"
@@ -29,24 +32,30 @@
         <activity
             android:name=".Activity.FindNewFriendActivity"
             android:exported="true" />
+        <activity
+            android:name=".Activity.GeoQueryActivity"
+            android:exported="true" />
         <activity android:name=".Activity.PostMomentActivity" />
         <activity
             android:name=".Activity.MainActivity"
             android:label="@string/title_activity_main"
             android:theme="@style/Theme.Comp90018_project.NoActionBar" />
         <activity android:name=".Activity.LoginRegisterActivity">
+        </activity>
+        <activity android:name=".Activity.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Activity.LoginActivity" />
         <activity android:name=".Activity.RegisterActivity" />
         <activity android:name=".Activity.HomeActivity" />
         <activity android:name=".Activity.ShowFriendActivity" />
         <activity android:name=".Activity.ProfileActivity"/>
         <activity android:name=".Activity.MessageActivity"/>
+
+        <service android:name=".model.GPSTracker" />
     </application>
 
 </manifest>
