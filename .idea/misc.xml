@@ -23,18 +23,21 @@
         <entry key="app/src/main/res/drawable/tab_menu_text.xml" value="0.34270833333333334" />
         <entry key="app/src/main/res/layout/activity_comment.xml" value="0.27309782608695654" />
         <entry key="app/src/main/res/layout/activity_empty.xml" value="0.22056159420289856" />
+        <entry key="app/src/main/res/layout/activity_friends.xml" value="0.23143115942028986" />
         <entry key="app/src/main/res/layout/activity_loginregister.xml" value="0.2807971014492754" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.22056159420289856" />
         <entry key="app/src/main/res/layout/activity_my_like.xml" value="0.32472826086956524" />
-        <entry key="app/src/main/res/layout/activity_my_moment.xml" value="0.32472826086956524" />
+        <entry key="app/src/main/res/layout/activity_my_moment.xml" value="0.125" />
+        <entry key="app/src/main/res/layout/friend_list.xml" value="0.21965579710144928" />
         <entry key="app/src/main/res/layout/head.xml" value="0.27309782608695654" />
         <entry key="app/src/main/res/layout/home_page.xml" value="0.27309782608695654" />
         <entry key="app/src/main/res/layout/log_in.xml" value="0.27309782608695654" />
+        <entry key="app/src/main/res/layout/message_list.xml" value="0.21965579710144928" />
         <entry key="app/src/main/res/layout/moment_post.xml" value="0.27309782608695654" />
         <entry key="app/src/main/res/layout/register.xml" value="0.27309782608695654" />
         <entry key="app/src/main/res/layout/register2.xml" value="0.25" />
         <entry key="app/src/main/res/layout/set_avatar_and_bio.xml" value="0.27309782608695654" />
-        <entry key="app/src/main/res/layout/signin.xml" value="0.1931216931216931" />
+        <entry key="app/src/main/res/layout/signin.xml" value="0.2530207425665997" />
         <entry key="app/src/main/res/menu/menu.xml" value="0.4036458333333333" />
       </map>
     </option>
