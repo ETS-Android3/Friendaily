@@ -106,6 +106,7 @@ public class ProfileActivity extends AppCompatActivity {
                 } else {
                     avatar.loadImageFromURL(avatar_url);
                 }
+                updateFriend();
             }
         });
 
@@ -176,7 +177,7 @@ public class ProfileActivity extends AppCompatActivity {
             @Override
             public void onFailure(@NonNull Exception e) {
                 Toast.makeText(ProfileActivity.this, "Transaction failure.", Toast.LENGTH_LONG).show();
-                Log.w(TAG, "Transaction failure.", e);
+                Log.w(TAG, "Delete friend failure.", e);
             }
         });
     }
@@ -220,7 +221,39 @@ public class ProfileActivity extends AppCompatActivity {
             @Override
             public void onFailure(@NonNull Exception e) {
                 Toast.makeText(ProfileActivity.this, "Transaction failure.", Toast.LENGTH_LONG).show();
-                Log.w(TAG, "Transaction failure.", e);
+                Log.w(TAG, "Send friend request failure.", e);
+            }
+        });
+    }
+
+    private void updateFriend() {
+        DocumentReference userRef = mDB.collection("users").document(userId);
+        findsearchedUser();
+        mDB.runTransaction(new Transaction.Function<Void>() {
+            @Override
+            public Void apply(Transaction transaction) throws FirebaseFirestoreException {
+                ArrayList<HashMap<String, Object>> addedFriends = (ArrayList<HashMap<String, Object>>) transaction.get(userRef).get("friends");
+                assert addedFriends != null;
+                HashMap<String, Object> searchedUserMap = (HashMap<String, Object>) searchedUser.toMap();
+                searchedUserMap.remove("pendingFriends");
+                searchedUserMap.remove("friends");
+                for (int i = 0; i < addedFriends.size(); i++) {
+                    HashMap<String, Object> friend = addedFriends.get(i);
+                    if (friend.get("uid").equals(searchedUserMap.get("uid"))) {
+                        addedFriends.remove(friend);
+                        addedFriends.add(searchedUserMap);
+                        break;
+                    }
+                }
+                transaction.update(userRef, "friends", addedFriends);
+                Log.i(TAG, "Update friend " + searchedUser.getUsername() + " !");
+                return null;
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(ProfileActivity.this, "Transaction failure.", Toast.LENGTH_LONG).show();
+                Log.w(TAG, "Update friend failure.", e);
             }
         });
     }
