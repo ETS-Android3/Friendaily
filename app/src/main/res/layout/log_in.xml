@@ -4,17 +4,44 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+<<<<<<< Updated upstream
     tools:context=".Activity.LoginActivity"
     android:background="@drawable/starter2">
+=======
+    android:background="@drawable/starter2"
+    tools:context=".LoginActivity">
+>>>>>>> Stashed changes
 
     <ImageView
+        android:contentDescription="signinpage"
         android:id="@+id/image01"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+<<<<<<< Updated upstream
         android:layout_marginTop="118dp"
         android:scaleType="fitXY"
         android:src="@drawable/login_1"
         app:layout_constraintEnd_toEndOf="parent"
+=======
+        android:layout_marginTop="92dp"
+        android:layout_marginBottom="145dp"
+        android:scaleType="fitXY"
+        android:src="@drawable/login_1"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_goneMarginBottom="300dp" />
+
+    <TextView
+        android:id="@+id/logintitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="164dp"
+        android:layout_marginTop="164dp"
+        android:gravity="center"
+        android:text="Sign  In"
+        android:textSize="25sp"
+>>>>>>> Stashed changes
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -22,12 +49,12 @@
         android:id="@+id/passpord"
         android:layout_width="236dp"
         android:layout_height="45dp"
-        android:layout_marginTop="288dp"
+        android:layout_marginTop="350dp"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" >
+        app:layout_constraintTop_toTopOf="parent">
 
         <EditText
             android:id="@+id/editLoginPassword"
@@ -39,33 +66,26 @@
             tools:ignore="LabelFor" />
     </LinearLayout>
 
+
     <TextView
         android:id="@+id/loginPasswordText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="96dp"
-        android:layout_marginTop="260dp"
-        android:text="@string/password"
+        android:layout_marginStart="88dp"
+        android:layout_marginTop="316dp"
+        android:text="Password"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/loginButton"
-        android:layout_width="203dp"
+        android:layout_width="250dp"
         android:layout_height="0dp"
-        android:layout_marginStart="104dp"
-        android:layout_marginBottom="200dp"
-        android:text="@string/log_in"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <Button
-        android:id="@+id/createAccountButton"
-        android:layout_width="254dp"
-        android:layout_height="39dp"
-        android:layout_marginStart="76dp"
-        android:layout_marginBottom="152dp"
-        android:text="@string/create_new_account"
+        android:layout_marginStart="80dp"
+        android:layout_marginBottom="248dp"
+        android:background="@drawable/shape"
+        android:text="Log  In"
+        android:textColor="#cdb7b5"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
@@ -74,7 +94,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="88dp"
-        android:layout_marginTop="168dp"
+        android:layout_marginTop="220dp"
         android:text="@string/account"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -83,13 +103,13 @@
         android:id="@+id/account"
         android:layout_width="236dp"
         android:layout_height="45dp"
-        android:layout_marginTop="188dp"
+        android:layout_marginTop="250dp"
         android:animateLayoutChanges="true"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" >
+        app:layout_constraintTop_toTopOf="parent">
 
         <EditText
             android:id="@+id/editLoginAccount"
@@ -101,5 +121,16 @@
             android:text=""
             tools:ignore="LabelFor" />
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/jumpregister"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="104dp"
+        android:layout_marginTop="624dp"
+        android:text="Not a registered user? Just sign up !"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

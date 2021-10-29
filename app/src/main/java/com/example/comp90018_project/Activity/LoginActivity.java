@@ -13,6 +13,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.comp90018_project.R;
@@ -32,13 +33,14 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.awt.font.TextAttribute;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Pattern;
 
 public class LoginActivity extends AppCompatActivity {
 
-    private Button registerButton;
+    private TextView registerButton;
     private Button loginButton;
     private EditText account;
     private EditText password;
@@ -241,7 +243,7 @@ public class LoginActivity extends AppCompatActivity {
         account = findViewById(R.id.editLoginAccount);
         password = findViewById(R.id.editLoginPassword);
         loginButton = findViewById(R.id.loginButton);
-        registerButton = findViewById(R.id.createAccountButton);
+        registerButton = findViewById(R.id.jumpregister);
     }
 
     /**
