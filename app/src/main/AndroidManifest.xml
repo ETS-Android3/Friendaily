@@ -41,13 +41,14 @@
             android:label="@string/title_activity_main"
             android:theme="@style/Theme.Comp90018_project.NoActionBar" />
         <activity android:name=".Activity.LoginRegisterActivity">
-        </activity>
-        <activity android:name=".Activity.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity android:name=".Activity.LoginActivity">
+
         </activity>
         <activity android:name=".Activity.RegisterActivity" />
         <activity android:name=".Activity.HomeActivity" />
