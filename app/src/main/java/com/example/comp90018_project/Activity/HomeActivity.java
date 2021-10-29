@@ -112,10 +112,10 @@ public class HomeActivity extends AppCompatActivity {
             btn_update.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if(imageHolder != null && imageHolder.getUri() != null){
+                    if(image_uri != null && image_filename != null){
                         //If this user take a new picture
                         //If this user has taken a new image
-                        uploadImageToFirebase(imageHolder.getName(), imageHolder.getUri());
+                        uploadImageToFirebase(image_filename, image_uri);
                         Log.d(TAG, "image downloaded uri is empty =============================");
                         if (image_downloaded_uri == null) {
                             Log.d(TAG, "image downloaded uri is empty =============================");
