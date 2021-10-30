@@ -30,10 +30,10 @@
             android:id="@+id/btn_register"
             android:layout_width="270dp"
             android:layout_height="1dp"
-            android:gravity="center"
             android:layout_weight="2"
-            android:background="@drawable/shape"
-            android:text="Sign Up"
+            android:background="@drawable/btn_shape"
+            android:gravity="center"
+            android:text="@string/Sign_Up"
             android:textColor="@color/black"
             android:textSize="20sp" />
 
@@ -47,8 +47,8 @@
             android:layout_width="270dp"
             android:layout_height="1dp"
             android:layout_weight="2"
-            android:background="@drawable/shape"
-            android:text="Sign In"
+            android:background="@drawable/btn_shape"
+            android:text="@string/Sign_In"
             android:textColor="@color/black"
             android:textSize="20sp" />
         <TextView

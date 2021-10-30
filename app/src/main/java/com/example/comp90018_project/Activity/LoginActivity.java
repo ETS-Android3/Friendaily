@@ -32,7 +32,6 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 
-import java.util.EventListener;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Pattern;
@@ -55,7 +54,7 @@ public class LoginActivity extends AppCompatActivity {
         //Initialize Firebase Auth
         mAuth = FirebaseAuth.getInstance();
         mDB = FirebaseFirestore.getInstance();
-        setContentView(R.layout.log_in);
+        setContentView(R.layout.signin);
         loginEvent();
     }
 
@@ -213,10 +212,10 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void findAllView() {
-        account = findViewById(R.id.editLoginAccount);
+        account = findViewById(R.id.editRegisterUsername);
         password = findViewById(R.id.editLoginPassword);
-        loginButton = findViewById(R.id.loginButton);
-        registerButton = findViewById(R.id.createAccountButton);
+        loginButton = findViewById(R.id.signUpButton);
+        registerButton = findViewById(R.id.backLoginButton);
     }
 
     /**
