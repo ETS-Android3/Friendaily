@@ -125,7 +125,7 @@
         android:layout_height="40dp"
         android:layout_marginStart="260dp"
         android:layout_marginBottom="80dp"
-        android:background=""
+        android:background="#BAEC68EA"
         android:text="@string/just_sign"
         android:textColor="@color/black"
         app:layout_constraintBottom_toBottomOf="parent"

@@ -198,7 +198,7 @@
         android:layout_marginBottom="78dp"
         android:text="@string/just_log"
         android:textColor="@color/black"
-        android:background=""
+        android:background="#BAEC68EA"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
