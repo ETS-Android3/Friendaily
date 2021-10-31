@@ -195,8 +195,8 @@ public class RegisterActivity extends AppCompatActivity {
         signUpButton = findViewById(R.id.signUpButton);
         backLogin = findViewById(R.id.backLoginButton);
         username = findViewById(R.id.editRegisterUsername);
-        email = findViewById(R.id.editRegisterConfirmPassword);
-        password = findViewById(R.id.editLoginPassword);
-        confirmPassword = findViewById(R.id.editConfirmPassword);
+        email = findViewById(R.id.editRegisterEmail);
+        password = findViewById(R.id.editRegisterPassword);
+        confirmPassword = findViewById(R.id.editRegisterConfirmPassword);
     }
 }

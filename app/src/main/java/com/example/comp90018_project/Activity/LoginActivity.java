@@ -97,7 +97,7 @@ public class LoginActivity extends AppCompatActivity {
                                             if (task.getResult().size() == 0) {
                                                 //If this username isn't stored in database
                                                 Log.i(TAG, "Sign in failed! This account don't exist");
-                                                Toast.makeText(LoginActivity.this, "Register failed! This username has been used!", Toast.LENGTH_LONG).show();
+                                                Toast.makeText(LoginActivity.this, "Sign in failed! This account don't exist", Toast.LENGTH_LONG).show();
                                             } else {
                                                 //Get the corresponding email address
                                                 String emailStr = (String) task.getResult().getDocuments().get(0).getData().get("email");
@@ -214,8 +214,8 @@ public class LoginActivity extends AppCompatActivity {
     private void findAllView() {
         account = findViewById(R.id.editRegisterUsername);
         password = findViewById(R.id.editLoginPassword);
-        loginButton = findViewById(R.id.signUpButton);
-        registerButton = findViewById(R.id.backLoginButton);
+        loginButton = findViewById(R.id.signInButton);
+        registerButton = findViewById(R.id.jumpRegister);
     }
 
     /**
