@@ -21,6 +21,7 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 
+import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -81,6 +82,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private TextView user_name;
     private TextView user_email;
     private TextView user_bio;
+    private Button edit_user;
     private User myInfo;
     private User user;
 
@@ -190,6 +192,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         user_name = headerView.findViewById(R.id.tv_menu_user);
         user_email = headerView.findViewById(R.id.tv_menu_useremail);
         user_bio = headerView.findViewById(R.id.tv_menu_usersign);
+        edit_user = headerView.findViewById(R.id.profileButton);
 
         new Thread(new Runnable() {
             @Override
@@ -242,6 +245,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         });
 
+        edit_user.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, HomeActivity.class);
+                startActivity(intent);
+            }
+        });
+
         // navigation
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @SuppressLint("NonConstantResourceId")
@@ -265,7 +276,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         startActivity(intent4);
                         break;
                     case R.id.menu_item5:
-                        Intent intent5 = new Intent(MainActivity.this, GeoQueryActivity.class);
+                        Intent intent5 = new Intent(MainActivity.this, PostMomentActivity.class);
                         startActivity(intent5);
                         break;
                     case R.id.menu_item6:

@@ -61,7 +61,7 @@
         app:layout_constraintTop_toBottomOf="@+id/usernameText">
 
         <EditText
-            android:id="@+id/editRegisterUsername"
+            android:id="@+id/editLoginUsername"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -124,7 +124,7 @@
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="60dp"
+        android:layout_marginStart="90dp"
         android:layout_marginTop="30dp"
         android:text="@string/not_a_user"
         app:layout_constraintStart_toStartOf="parent"
