@@ -58,14 +58,18 @@ public class GPSTracker extends Service implements LocationListener {
         getLocation();
     }
 
-
+    /**
+     * It can set up GPS for track the change of location
+     * And update location to the database once changed
+     */
+    @SuppressLint("MissingPermission")
     public void getLocation() {
-        if(ContextCompat.checkSelfPermission(context,PERMISSION) != PackageManager.PERMISSION_GRANTED
-                && ActivityCompat.checkSelfPermission(context,PERMISSION) != PackageManager.PERMISSION_GRANTED){
-            Toast.makeText(context, "GPS Permission is Required.", Toast.LENGTH_SHORT).show();
-            Log.i(TAG, "GPS Permission is Required.");
-            return;
-        }
+//        if(ContextCompat.checkSelfPermission(context,PERMISSION) != PackageManager.PERMISSION_GRANTED
+//                && ActivityCompat.checkSelfPermission(context,PERMISSION) != PackageManager.PERMISSION_GRANTED){
+//            Toast.makeText(context, "GPS Permission is Required.", Toast.LENGTH_SHORT).show();
+//            Log.i(TAG, "GPS Permission is Required.");
+//            return;
+//        }
         locationManager = (LocationManager) context.getSystemService(LOCATION_SERVICE);
         boolean isGPSEnable = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
         boolean isNetworkEnable = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
@@ -127,6 +131,9 @@ public class GPSTracker extends Service implements LocationListener {
 
     }
 
+    /**
+     * This function can stop using gps
+     */
     public void stopUsingGPS(){
         if(locationManager!=null){
             locationManager.removeUpdates(this);
