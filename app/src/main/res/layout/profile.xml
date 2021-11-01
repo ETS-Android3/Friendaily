@@ -3,7 +3,21 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@drawable/starter2">
+
+    <ImageView
+        android:layout_width="404dp"
+        android:layout_height="522dp"
+        android:layout_marginStart="2dp"
+        android:layout_marginTop="114dp"
+        android:layout_marginEnd="2dp"
+        android:layout_marginBottom="102dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@android:drawable/screen_background_light" />
 
     <TextView
         android:id="@+id/profileUsername"
@@ -43,7 +57,8 @@
         android:layout_height="43dp"
         android:layout_marginStart="76dp"
         android:layout_marginEnd="76dp"
-        android:layout_marginBottom="196dp"
+        android:layout_marginBottom="228dp"
+        android:background="@drawable/btn_shape"
         android:text="Chat"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -56,7 +71,7 @@
         android:layout_height="43dp"
         android:layout_marginStart="76dp"
         android:layout_marginEnd="76dp"
-        android:layout_marginBottom="140dp"
+        android:layout_marginBottom="172dp"
         android:text="Delete"
         android:textColor="#FF0000"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -80,6 +95,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             tools:srcCompat="@tools:sample/avatars" />
+
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

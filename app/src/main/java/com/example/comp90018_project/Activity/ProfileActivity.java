@@ -98,8 +98,8 @@ public class ProfileActivity extends AppCompatActivity {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 searchedUser = new User(task.getResult().getDocuments().get(0).getData());
-                username.setText("username: " + searchedUser.getUsername());
-                email.setText("email: " + searchedUser.getEmail());
+                username.setText(searchedUser.getUsername());
+                email.setText(searchedUser.getEmail());
                 String avatar_url = searchedUser.getAvatarUrl();
                 if (avatar_url == null) {
                     avatar.setImageResource(R.drawable.a);
