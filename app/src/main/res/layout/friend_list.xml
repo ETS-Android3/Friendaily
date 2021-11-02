@@ -5,13 +5,14 @@
     android:layout_height="wrap_content"
     android:minHeight="80dp"
     android:orientation="horizontal"
-    android:background="#3c3c3c">
+    android:background="@drawable/btnshape2">
 
     <com.example.comp90018_project.Util.LoadImageView
         android:id="@+id/friendAvatar"
         android:layout_width="80dp"
         android:layout_height="80dp"
-        android:layout_marginStart="10dp" />
+        android:layout_marginStart="35dp"
+        android:scaleType="fitStart"/>
 
     <TextView
 
@@ -20,6 +21,6 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
         android:layout_marginLeft="25dp"
-        android:textColor="@color/white"/>
+        android:textColor="@color/black"/>
 
 </LinearLayout>

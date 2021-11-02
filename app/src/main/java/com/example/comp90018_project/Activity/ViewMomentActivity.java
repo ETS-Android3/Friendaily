@@ -79,14 +79,14 @@ public class ViewMomentActivity extends AppCompatActivity {
                         Log.d(TAG, "moments list get");
                         ListView MomentListview = (ListView) findViewById(R.id.momentsList);
                         List<Map<String, Object>> momentfound_list = new ArrayList<Map<String, Object>>();
-                        for (int i=0; i < moments_list.size(); i++) {
+                        for (int i=moments_list.size() - 1; i >= 0; i--) {
                             Map<String, Object> map = new HashMap<String, Object>();
                             Map<String, Object> moment_map = moments_list.get(i);
                             String avatar_url = (String) moment_map.get("user_avatar_url");
                             if (avatar_url == null) {
-                                map.put("avatar", R.drawable.a);
+                                map.put("moment_image", null);
                             } else {
-                                map.put("avatar", moment_map.get("user_avatar_url"));
+                                map.put("moment_image", moment_map.get("user_avatar_url"));
                             }
                             map.put("name", moment_map.get("username"));
                             map.put("content", moment_map.get("content"));

@@ -58,10 +58,10 @@ public class MomentAdapter extends BaseAdapter {
         ImageView comment = view.findViewById(R.id.img_comment);
 
         Map map = this.momentList.get(position);
-        if (String.valueOf(map.get("avatar").getClass()).contains("String")) {
-            avatar.loadImageFromURL((String) map.get("avatar"));
+        if (String.valueOf(map.get("moment_image").getClass()).contains("String")) {
+            avatar.loadImageFromURL((String) map.get("moment_image"));
         } else {
-            avatar.setImageResource((Integer) map.get("avatar"));
+            avatar.setVisibility(View.GONE);
         }
         timestamp.setText((String) map.get("timestamp"));
         name.setText((String) map.get("name"));

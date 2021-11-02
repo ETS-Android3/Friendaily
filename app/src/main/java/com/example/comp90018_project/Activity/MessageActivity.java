@@ -56,6 +56,7 @@ public class MessageActivity extends AppCompatActivity {
         setContentView(R.layout.activity_message);
         FirebaseUser currentUser = mAuth.getCurrentUser();
         if (currentUser == null){
+            Log.i(TAG, "reload...");
             reload();
         }else {
             // TODO: 2021/10/23 Add construction of layout

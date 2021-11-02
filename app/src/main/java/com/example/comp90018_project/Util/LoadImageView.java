@@ -28,6 +28,7 @@ public class LoadImageView extends AppCompatImageView {
                 case GET_SUCCESS:
                     Bitmap bitmap = (Bitmap) message.obj;
                     // onz what will this get called ?
+                    bitmap = topSquareScale(bitmap);
                     setImageBitmap(bitmap);
                     break;
                 case NETWORK_ERROR:
@@ -39,6 +40,39 @@ public class LoadImageView extends AppCompatImageView {
             }
         }
     };
+
+    private Bitmap topSquareScale(Bitmap bitmap) {
+        if (bitmap == null) {
+            return null;
+        }
+
+        Bitmap finalBitmap = bitmap;
+        int widthOrg = bitmap.getWidth();
+        int heightOrg = bitmap.getHeight();
+        int length;
+
+        if (widthOrg != heightOrg) {
+            if (widthOrg > heightOrg) {
+                length = heightOrg;
+            }
+            else {
+                length = widthOrg;
+            }
+
+            int xTopLeft = (widthOrg - length) / 2;
+            int yTopLeft = (heightOrg - length) / 2;
+
+            try{
+                finalBitmap = Bitmap.createBitmap(bitmap, xTopLeft, yTopLeft, length, length);
+            }
+            catch(Exception e){
+                return null;
+            }
+            return finalBitmap;
+        }
+        return null;
+    }
+
 
     // provide one constructor, should be enough ?
     public LoadImageView(Context context) {

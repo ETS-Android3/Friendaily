@@ -6,11 +6,11 @@
     android:layout_height="match_parent">
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="83dp"
+        android:layout_width="367dp"
+        android:layout_height="87dp"
         android:layout_marginStart="6dp"
         android:layout_marginEnd="6dp"
-        android:background="#3c3c3c"
+        android:background="@drawable/btnshape2"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -18,8 +18,10 @@
 
         <com.example.comp90018_project.Util.LoadImageView
             android:id="@+id/pendingFriendAvatar"
-            android:layout_width="11dp"
+            android:layout_width="15dp"
             android:layout_height="match_parent"
+            android:layout_marginStart="35dp"
+            android:layout_marginTop="4dp"
             android:layout_weight="1"
             android:scaleType="fitStart"
             tools:srcCompat="@tools:sample/avatars" />
@@ -29,9 +31,10 @@
             android:layout_width="8dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
+            android:layout_marginLeft="15dp"
             android:gravity="center|start"
             android:text="TextView"
-            android:textColor="@color/white" />
+            android:textColor="@color/black" />
 
         <Button
             android:id="@+id/agreeButton"
