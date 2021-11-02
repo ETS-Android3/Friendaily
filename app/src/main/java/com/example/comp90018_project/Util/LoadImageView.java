@@ -6,6 +6,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -21,12 +22,15 @@ public class LoadImageView extends AppCompatImageView {
     public static final int GET_SUCCESS = 1;
     public static final int NETWORK_ERROR = 2;
     public static final int SERVER_ERROR = 3;
+
+    private Bitmap bitmap;
+
     private Handler handler = new Handler(Looper.getMainLooper()) {
         @Override
         public void handleMessage(Message message) {
             switch (message.what) {
                 case GET_SUCCESS:
-                    Bitmap bitmap = (Bitmap) message.obj;
+                    bitmap = (Bitmap) message.obj;
                     // onz what will this get called ?
                     bitmap = topSquareScale(bitmap);
                     setImageBitmap(bitmap);
@@ -73,6 +77,9 @@ public class LoadImageView extends AppCompatImageView {
         return null;
     }
 
+    public Bitmap getBitmap() {
+        return bitmap;
+    }
 
     // provide one constructor, should be enough ?
     public LoadImageView(Context context) {

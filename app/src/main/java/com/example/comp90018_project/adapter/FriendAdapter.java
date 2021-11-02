@@ -2,6 +2,7 @@ package com.example.comp90018_project.adapter;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.comp90018_project.R;
+import com.example.comp90018_project.Util.BitmapTransfer;
 import com.example.comp90018_project.Util.LoadImageView;
 
 import java.util.List;
@@ -53,8 +55,13 @@ public class FriendAdapter extends BaseAdapter {
         TextView name = (TextView)view.findViewById(R.id.friendName);
 
         Map map = this.friendList.get(position);
+        Bitmap bitmap;
         if (String.valueOf(map.get("avatar").getClass()).contains("String")) {
             avatar.loadImageFromURL((String) map.get("avatar"));
+            bitmap = avatar.getBitmap();
+            if (bitmap != null) {
+                Log.i(TAG, "avatar: " + BitmapTransfer.convertBitmapToString(bitmap));
+            }
         }
         else {
             avatar.setImageResource((Integer) map.get("avatar"));

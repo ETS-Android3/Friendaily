@@ -33,7 +33,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 
-import com.example.comp90018_project.Util.ImageHolder;
+import com.example.comp90018_project.Util.BitmapTransfer;
 import com.example.comp90018_project.model.Moment;
 import com.example.comp90018_project.R;
 import com.example.comp90018_project.model.User;
@@ -71,7 +71,6 @@ public class PostMomentActivity extends AppCompatActivity {
     private Button btn_submit;
     StorageReference storageReference;
     private FirebaseFirestore mDB;
-    private ImageHolder imageHolder;
     private FirebaseAuth mAuth;
     private String USERID;
     String currentPhotoPath;

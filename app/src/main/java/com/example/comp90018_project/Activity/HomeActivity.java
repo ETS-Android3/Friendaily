@@ -32,7 +32,6 @@ import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
 
 import com.example.comp90018_project.R;
-import com.example.comp90018_project.Util.ImageHolder;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -68,7 +67,6 @@ public class HomeActivity extends AppCompatActivity {
     StorageReference storageReference;
     private FirebaseFirestore mDB;
     String USERID = null;
-    private ImageHolder imageHolder;
     Context context;
     String TAG = "home";
 
