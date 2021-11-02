@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.example.comp90018_project.Util.GeoDistance;
 import com.example.comp90018_project.model.GPSTracker;
@@ -68,17 +69,33 @@ public class GeoQueryActivity extends AppCompatActivity {
                 && ActivityCompat.checkSelfPermission(this,PERMISSION) != PackageManager.PERMISSION_GRANTED){
             ActivityCompat.requestPermissions(this, new String[] {PERMISSION}, LOCATION_PERM_CODE);
 
+        }else{
+            if(gps == null){
+                gps = new GPSTracker(this,geoFire, mAu.getCurrentUser().getUid());
+            }
         }
 
-        if(gps == null){
-            gps = new GPSTracker(this,geoFire, mAu.getCurrentUser().getUid());
-        }
 
+
+    }
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if(requestCode == LOCATION_PERM_CODE){
+            if(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
+                if(gps == null){
+                    gps = new GPSTracker(this,geoFire, mAu.getCurrentUser().getUid());
+                }
+            }else {
+                Toast.makeText(this, "Location permission is required.", Toast.LENGTH_SHORT).show();
+            }
+        }
 
 //        GeoLoc geo = new GeoLoc(currentUser.getUid(),51.5074,0.1278,System.currentTimeMillis());
 //        writeToFirebase(geo);
 //        showUsersAvailable(geo);
     }
+
 
     protected  void onDestroy() {
         super.onDestroy();

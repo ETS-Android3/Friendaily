@@ -212,7 +212,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void findAllView() {
-        account = findViewById(R.id.editRegisterUsername);
+        account = findViewById(R.id.editLoginUsername);
         password = findViewById(R.id.editLoginPassword);
         loginButton = findViewById(R.id.signInButton);
         registerButton = findViewById(R.id.jumpRegister);

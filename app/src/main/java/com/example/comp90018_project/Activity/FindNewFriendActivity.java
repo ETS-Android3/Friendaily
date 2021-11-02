@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -33,6 +34,7 @@ import java.util.Map;
 public class FindNewFriendActivity extends AppCompatActivity {
     private EditText content;
     private ImageButton search;
+    private ImageView backMain;
     // if there is no user to be found, userfound will be null
     private User userfound;
     private FirebaseAuth mAuth;
@@ -57,12 +59,21 @@ public class FindNewFriendActivity extends AppCompatActivity {
 
     private void searchEvent() {
         search = findViewById(R.id.searchButton);
+        backMain = findViewById(R.id.backMain);
         search.setOnClickListener(
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         finduser();
                         Log.i(TAG, String.valueOf(userfound));
+                    }
+                }
+        );
+        backMain.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        finish();
                     }
                 }
         );

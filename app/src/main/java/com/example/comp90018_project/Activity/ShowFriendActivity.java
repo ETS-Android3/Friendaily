@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.ListView;
 
 import androidx.annotation.NonNull;
@@ -33,6 +34,7 @@ public class ShowFriendActivity extends AppCompatActivity {
     private FirebaseFirestore mDB;
     private FirebaseUser currentUser;
     private ArrayList<Map<String,Object>> friendList = null;
+    private ImageView backMain;
     private static final String TAG = "showFriend";
     public static final String EXTRA_MESSAGE = "com.example.comp90018_project.SHOW_MESSAGE";
 
@@ -48,8 +50,21 @@ public class ShowFriendActivity extends AppCompatActivity {
         if (currentUser == null){
             reload();
         }else {
+            backMain();
             friendView();
         }
+    }
+
+    private void backMain() {
+        backMain = findViewById(R.id.friendBackMain);
+        backMain.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        finish();
+                    }
+                }
+        );
     }
 
     private void friendView() {
@@ -67,7 +82,7 @@ public class ShowFriendActivity extends AppCompatActivity {
                     friendList = (ArrayList<Map<String,Object>>) user.getaddedFriends();
                     if (friendList != null) {
                         Log.d(TAG, "friend list" + friendList);
-                        ListView FriendListview = (ListView) findViewById(R.id.frientsList);
+                        ListView FriendListview = (ListView) findViewById(R.id.friendsList);
                         List<Map<String, Object>> userfound_list = new ArrayList<Map<String, Object>>();
                         for (int i = 0; i < friendList.size(); i++) {
                             Map<String, Object> map = new HashMap<String, Object>();

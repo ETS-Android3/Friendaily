@@ -10,7 +10,9 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.example.comp90018_project.adapter.FriendAdapter;
 import com.example.comp90018_project.R;
@@ -36,7 +38,7 @@ import java.util.List;
 import java.util.Map;
 
 public class MessageActivity extends AppCompatActivity {
-    private EditText content;
+    private ImageView backMain;
     // if there is no user to be found, userfound will be null
     private User user;
     private FirebaseAuth mAuth;
@@ -58,8 +60,21 @@ public class MessageActivity extends AppCompatActivity {
         }else {
             // TODO: 2021/10/23 Add construction of layout
             userId = currentUser.getUid();
+            backMain();
             finduser();
         }
+    }
+
+    private void backMain() {
+        backMain = findViewById(R.id.notificationBackMain);
+        backMain.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        finish();
+                    }
+                }
+        );
     }
 
     private void finduser(){
