@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.comp90018_project.R;
@@ -58,16 +59,20 @@ public class MomentAdapter extends BaseAdapter {
         ImageView comment = view.findViewById(R.id.img_comment);
 
         Map map = this.momentList.get(position);
-        if (String.valueOf(map.get("moment_image").getClass()).contains("String")) {
-            avatar.loadImageFromURL((String) map.get("moment_image"));
+        if (String.valueOf(map.get("avatar").getClass()).contains("String")) {
+            avatar.loadImageFromURL((String) map.get("avatar"));
         } else {
-            avatar.setVisibility(View.GONE);
+            avatar.setImageResource((Integer) map.get("avatar"));
         }
         timestamp.setText((String) map.get("timestamp"));
         name.setText((String) map.get("name"));
         content.setText((String) map.get("content"));
-        image.loadImageFromURL((String) map.get("image"));
-
+        if (map.get("image") == null) {
+            image.setVisibility(View.GONE);
+        }
+        else {
+            image.loadImageFromURL((String) map.get("image"));
+        }
         // set onclick listener for collections, likes, commments
         return view;
     }

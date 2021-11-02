@@ -43,18 +43,9 @@
       <change beforePath="$PROJECT_DIR$/.gradle/6.7.1/javaCompile/javaCompile.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/6.7.1/javaCompile/javaCompile.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/6.7.1/javaCompile/taskHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/6.7.1/javaCompile/taskHistory.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/comp90018_project/Activity/CornTool.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/comp90018_project/Activity/CornTool.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/comp90018_project/Activity/MessageActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/comp90018_project/Activity/MessageActivity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/comp90018_project/Activity/ViewMomentActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/comp90018_project/Activity/ViewMomentActivity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/comp90018_project/Activity/chat.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/comp90018_project/Activity/chat.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/comp90018_project/Util/LoadImageView.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/comp90018_project/Util/LoadImageView.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/comp90018_project/adapter/MessageAdapter.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/comp90018_project/adapter/MessageAdapter.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/comp90018_project/adapter/MomentAdapter.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/comp90018_project/adapter/MomentAdapter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activ_main.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activ_main.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/friend_list.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/friend_list.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/message_list.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/message_list.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/moment_view_item.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/moment_view_item.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -135,6 +126,7 @@
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="android-custom-view/Users/Steven/.gradle/caches/modules-2/files-2.1/androidx.appcompat/appcompat/1.3.1/45a346a05e7ff27a01c59452379c5939cbb53c03/appcompat-1.3.1-sources.jar!/androidx/appcompat/widget/AppCompatImageView.java_SELECTED" value="AppCompatImageView" />
     <property name="android-custom-view/Users/Steven/Desktop/level3/master/comp90018/COMP90018Project/app/src/main/java/com/example/comp90018_project/Util/LoadImageView.java_SELECTED" value="LoadImageView" />
+    <property name="android-custom-view/Users/Steven/Library/Android/sdk/sources/android-30/android/view/View.java_SELECTED" value="View" />
     <property name="android-custom-view/Users/Steven/Library/Android/sdk/sources/android-30/android/widget/ImageView.java_SELECTED" value="ImageView" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/app/src/main/res/layout" />
     <property name="memory.settings.postsync.last.time.stamp" value="1635562432566" />
@@ -333,28 +325,28 @@
       <screen x="0" y="23" width="1440" height="830" />
     </state>
     <state x="100" y="123" width="1240" height="630" key="AVDManager/0.23.1440.830@0.23.1440.830" timestamp="1635850208171" />
-    <state width="1398" height="164" key="GridCell.Tab.0.bottom" timestamp="1635869873118">
+    <state width="1398" height="164" key="GridCell.Tab.0.bottom" timestamp="1635872676949">
       <screen x="0" y="23" width="1440" height="830" />
     </state>
-    <state width="1398" height="164" key="GridCell.Tab.0.bottom/0.23.1440.830@0.23.1440.830" timestamp="1635869873118" />
+    <state width="1398" height="164" key="GridCell.Tab.0.bottom/0.23.1440.830@0.23.1440.830" timestamp="1635872676949" />
     <state width="1398" height="94" key="GridCell.Tab.0.bottom/0.23.1440.831@0.23.1440.831" timestamp="1635651415688" />
     <state width="1398" height="196" key="GridCell.Tab.0.bottom/0.23.1440.832@0.23.1440.832" timestamp="1635653029106" />
-    <state width="1398" height="164" key="GridCell.Tab.0.center" timestamp="1635869873116">
+    <state width="1398" height="164" key="GridCell.Tab.0.center" timestamp="1635872676948">
       <screen x="0" y="23" width="1440" height="830" />
     </state>
-    <state width="1398" height="164" key="GridCell.Tab.0.center/0.23.1440.830@0.23.1440.830" timestamp="1635869873116" />
+    <state width="1398" height="164" key="GridCell.Tab.0.center/0.23.1440.830@0.23.1440.830" timestamp="1635872676948" />
     <state width="1398" height="94" key="GridCell.Tab.0.center/0.23.1440.831@0.23.1440.831" timestamp="1635651415687" />
     <state width="1398" height="196" key="GridCell.Tab.0.center/0.23.1440.832@0.23.1440.832" timestamp="1635653029104" />
-    <state width="1398" height="164" key="GridCell.Tab.0.left" timestamp="1635869873115">
+    <state width="1398" height="164" key="GridCell.Tab.0.left" timestamp="1635872676948">
       <screen x="0" y="23" width="1440" height="830" />
     </state>
-    <state width="1398" height="164" key="GridCell.Tab.0.left/0.23.1440.830@0.23.1440.830" timestamp="1635869873115" />
+    <state width="1398" height="164" key="GridCell.Tab.0.left/0.23.1440.830@0.23.1440.830" timestamp="1635872676948" />
     <state width="1398" height="94" key="GridCell.Tab.0.left/0.23.1440.831@0.23.1440.831" timestamp="1635651415686" />
     <state width="1398" height="196" key="GridCell.Tab.0.left/0.23.1440.832@0.23.1440.832" timestamp="1635653029103" />
-    <state width="1398" height="164" key="GridCell.Tab.0.right" timestamp="1635869873117">
+    <state width="1398" height="164" key="GridCell.Tab.0.right" timestamp="1635872676948">
       <screen x="0" y="23" width="1440" height="830" />
     </state>
-    <state width="1398" height="164" key="GridCell.Tab.0.right/0.23.1440.830@0.23.1440.830" timestamp="1635869873117" />
+    <state width="1398" height="164" key="GridCell.Tab.0.right/0.23.1440.830@0.23.1440.830" timestamp="1635872676948" />
     <state width="1398" height="94" key="GridCell.Tab.0.right/0.23.1440.831@0.23.1440.831" timestamp="1635651415687" />
     <state width="1398" height="196" key="GridCell.Tab.0.right/0.23.1440.832@0.23.1440.832" timestamp="1635653029105" />
     <state x="229" y="77" key="SettingsEditor" timestamp="1635562411266">

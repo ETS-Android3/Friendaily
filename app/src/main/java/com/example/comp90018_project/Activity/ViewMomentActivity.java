@@ -84,9 +84,9 @@ public class ViewMomentActivity extends AppCompatActivity {
                             Map<String, Object> moment_map = moments_list.get(i);
                             String avatar_url = (String) moment_map.get("user_avatar_url");
                             if (avatar_url == null) {
-                                map.put("moment_image", null);
+                                map.put("avatar", R.drawable.a);
                             } else {
-                                map.put("moment_image", moment_map.get("user_avatar_url"));
+                                map.put("avatar", moment_map.get("user_avatar_url"));
                             }
                             map.put("name", moment_map.get("username"));
                             map.put("content", moment_map.get("content"));
