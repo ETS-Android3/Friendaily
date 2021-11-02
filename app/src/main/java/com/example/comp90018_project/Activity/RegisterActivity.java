@@ -12,6 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.comp90018_project.R;
+import com.example.comp90018_project.model.Moment;
 import com.example.comp90018_project.model.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -27,6 +28,8 @@ import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Pattern;
 
@@ -189,6 +192,13 @@ public class RegisterActivity extends AppCompatActivity {
                 Toast.makeText(RegisterActivity.this, "Register failed! There is something wrong with database, please try again later", Toast.LENGTH_LONG).show();
             }
         });
+
+        // Also, set the empty moment document
+        Map<String, Object> moment_list = new HashMap<>();
+        moment_list.put("all_friends_moments", new ArrayList<Moment>());
+        mDB.collection("moments").document(user.getUid()).set(moment_list);
+
+
     }
 
     private void findAllViews() {

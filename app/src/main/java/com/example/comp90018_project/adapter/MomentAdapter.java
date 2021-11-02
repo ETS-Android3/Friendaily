@@ -12,6 +12,8 @@ import android.widget.TextView;
 import com.example.comp90018_project.R;
 import com.example.comp90018_project.Util.LoadImageView;
 
+import org.w3c.dom.Text;
+
 import java.util.List;
 import java.util.Map;
 
@@ -45,11 +47,12 @@ public class MomentAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        @SuppressLint({"ViewHolder", "InflateParams"}) View view = inflater.inflate(R.layout.friend_list, null);
+        @SuppressLint({"ViewHolder", "InflateParams"}) View view = inflater.inflate(R.layout.moment_view_item, null);
         LoadImageView avatar = view.findViewById(R.id.img_avatar);
         TextView name = (TextView) view.findViewById(R.id.tv_name);
         LoadImageView image =  view.findViewById(R.id.img_image);
         TextView content = (TextView) view.findViewById(R.id.tv_content);
+        TextView timestamp = (TextView) view.findViewById(R.id.tv_time);
         ImageView collection =  view.findViewById(R.id.img_collection);
         ImageView like = view.findViewById(R.id.img_like);
         ImageView comment = view.findViewById(R.id.img_comment);
@@ -60,6 +63,7 @@ public class MomentAdapter extends BaseAdapter {
         } else {
             avatar.setImageResource((Integer) map.get("avatar"));
         }
+        timestamp.setText((String) map.get("timestamp"));
         name.setText((String) map.get("name"));
         content.setText((String) map.get("content"));
         image.loadImageFromURL((String) map.get("image"));

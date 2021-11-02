@@ -265,7 +265,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         startActivity(intent4);
                         break;
                     case R.id.menu_item5:
-                        Intent intent5 = new Intent(MainActivity.this, GeoQueryActivity.class);
+                        Intent intent5 = new Intent(MainActivity.this, PostMomentActivity.class);
                         startActivity(intent5);
                         break;
                     case R.id.menu_item6:
@@ -323,6 +323,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 //                } else {
 //                    fragmentTransaction.show(channelF);
 //                }
+                Intent intent = new Intent(MainActivity.this, ViewMomentActivity.class);
+                startActivity(intent);
                 break;
             case R.id.txt_message:
                 Toast.makeText(MainActivity.this, "This is text message", Toast.LENGTH_SHORT).show();

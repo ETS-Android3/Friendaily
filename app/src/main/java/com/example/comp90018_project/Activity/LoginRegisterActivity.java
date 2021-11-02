@@ -53,17 +53,17 @@ public class LoginRegisterActivity extends AppCompatActivity {
         Log.i(TAG, "onCreate: Go to the Login/Regiester page");
     }
 
-    @Override
-    protected void onStart(){
-        super.onStart();
-        mAuth = FirebaseAuth.getInstance();
-        if(mAuth.getCurrentUser() != null){
-            setPresence();
-            Intent intent = new Intent(LoginRegisterActivity.this, MainActivity.class);
-            finish();
-            startActivity(intent);
-        }
-    }
+//    @Override
+//    protected void onStart(){
+//        super.onStart();
+//        mAuth = FirebaseAuth.getInstance();
+//        if(mAuth.getCurrentUser() != null){
+//            setPresence();
+//            Intent intent = new Intent(LoginRegisterActivity.this, MainActivity.class);
+//            finish();
+//            startActivity(intent);
+//        }
+//    }
 
     /**
      * Build event listener for presence system

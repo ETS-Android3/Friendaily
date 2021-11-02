@@ -11,13 +11,16 @@ public class Moment {
     private Long timestamp;
     private String content;
     private String image_url;
+    private String username;
+    private String user_avatar_url;
 
-    public Moment(String uid, Long timestamp, String content, String image_url){
+    public Moment(String uid, Long timestamp, String content, String image_url, String username, String user_avatar_url){
         this.uid= uid;
         this.timestamp = timestamp;
         this.content = content;
         this.image_url = image_url;
-
+        this.username = username;
+        this.user_avatar_url = user_avatar_url;
     }
 
     public Moment(Map<String,Object> moment){
@@ -25,6 +28,8 @@ public class Moment {
         this.timestamp = (Long) moment.get("timestamp");
         this.content = moment.get("content").toString();
         this.image_url = moment.get("image_download_url").toString();
+        this.username = moment.get("username").toString();
+        this.user_avatar_url = moment.get("user_avatar_url").toString();
     }
 
     public String getContent(){
@@ -40,6 +45,14 @@ public class Moment {
         return image_url;
     }
 
+    public String getUsername() {
+        return username;
+    }
+
+    public String getUser_avatar_url() {
+        return user_avatar_url;
+    }
+
     public Map<String,Object> toMap(){
         Map<String,Object> moment = new HashMap<>();
         Date date = new Date(System.currentTimeMillis());
@@ -48,6 +61,8 @@ public class Moment {
         moment.put("timestamp",timestamp);
         moment.put("content", content);
         moment.put("image_download_url",image_url);
+        moment.put("username", username);
+        moment.put("user_avatar_url", user_avatar_url);
         return moment;
     }
 

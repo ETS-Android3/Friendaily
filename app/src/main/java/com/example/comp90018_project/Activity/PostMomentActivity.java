@@ -1,32 +1,66 @@
 package com.example.comp90018_project.Activity;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+import androidx.core.content.FileProvider;
 
+import android.Manifest;
+import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.ContentResolver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
+import android.webkit.MimeTypeMap;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+
 import com.example.comp90018_project.Util.ImageHolder;
 import com.example.comp90018_project.model.Moment;
 import com.example.comp90018_project.R;
+import com.example.comp90018_project.model.User;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.firestore.Transaction;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
+import java.io.File;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 
 public class PostMomentActivity extends AppCompatActivity {
@@ -40,8 +74,11 @@ public class PostMomentActivity extends AppCompatActivity {
     private ImageHolder imageHolder;
     private FirebaseAuth mAuth;
     private String USERID;
+    String currentPhotoPath;
     String TAG = "POST_Moment";
     Context context;
+    private Uri image_uri = null;
+    private String image_filename = null;
     public static final int CAMERA_PERM_CODE = 101;
 
     @Override
@@ -66,17 +103,18 @@ public class PostMomentActivity extends AppCompatActivity {
             image.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    imageHolder = new ImageHolder(image);
-                    imageHolder.selectImage(context);
+//                    imageHolder = new ImageHolder(image);
+//                    imageHolder.selectImage(context);
+                    selectImage();
                 }
             });
 
             btn_submit.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if (imageHolder != null && imageHolder.getUri() != null){
+                    if (image_uri != null && image_filename != null){
                         //The user has taken a new picture
-                        uploadImageToFirebase(imageHolder.getName(), imageHolder.getUri());
+                        uploadImageToFirebase(image_filename, image_uri);
                         Log.d(TAG, "image downloaded uri is empty =============================");
                         if (image_downloaded_uri == null) {
                             Log.d(TAG, "image downloaded uri is empty =============================");
@@ -96,7 +134,7 @@ public class PostMomentActivity extends AppCompatActivity {
 
     /**
      * Select image from album, set the imageview, get the link
-     *//*
+     */
     private void selectImage() {
         final CharSequence[] options = { "Take photo", "Select from gallery", "Cancel"};
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -203,9 +241,9 @@ public class PostMomentActivity extends AppCompatActivity {
 //        File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
         File storageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
         File image = File.createTempFile(
-                imageFileName,  *//* prefix *//*
-                ".jpg",         *//* suffix *//*
-                storageDir      *//* directory *//*
+                imageFileName,  //*//* prefix *//*
+                ".jpg",         //*//* suffix *//*
+                storageDir      //*//* directory *//*
         );
 
         // Save a file: path for use with ACTION_VIEW intents
@@ -235,7 +273,7 @@ public class PostMomentActivity extends AppCompatActivity {
             }
         }
     }
-*/
+
     private void uploadImageToFirebase(String name, Uri contentUri) {
         Log.d(TAG, "+++++++++++++ image name is +++++++++++++++++++ " + name);
         Log.d(TAG, "+++++++++++++ image uri is +++++++++++++++++++ " + contentUri.toString());
@@ -282,33 +320,118 @@ public class PostMomentActivity extends AppCompatActivity {
     private void addToFireStore() {
         if (content != null || image_downloaded_uri != null){
             // begin to add data only when user add a picture or write text
-            String text = null;
-            String url = null;
-            if(content != null) text = content.getText().toString();
-            if(image_downloaded_uri != null) url = image_downloaded_uri.toString();
-            Long timestamp = System.currentTimeMillis();
-            Date date = new Date(timestamp);
-            Moment newMom = new Moment(USERID,timestamp, text, url);
+//            String moment_text = null;
+//            String moment_url = null;
+//            if(content != null) moment_text = content.getText().toString();
+//            if(image_downloaded_uri != null) moment_url = image_downloaded_uri.toString();
+//            Long timestamp = System.currentTimeMillis();
+//            Date date = new Date(timestamp);
 
-            // Task<DocumentReference> addedDocRef = mDB.collection("cities").add(newMoment);
-            mDB.collection("moments").document().set(newMom.toMap()).addOnSuccessListener(new OnSuccessListener<Void>(){
+            // need to get the user_avtar_url and username
+            CollectionReference friendRef = mDB.collection("users");
+            Query query = friendRef.whereEqualTo("uid", USERID);
+            query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                 @Override
-                public void onSuccess(Void unused) {
-                    Log.i(TAG, "Post successful!");
-                    Intent intent = new Intent();
-                    intent.setClass(PostMomentActivity.this, MainActivity.class);
-                    finish();
-                    startActivity(intent);
-                }
-            }).addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception e) {
-                    Log.i(TAG, "Post failed!");
-                    Toast.makeText(PostMomentActivity.this, "Post failed! There is something wrong with database, please try again later", Toast.LENGTH_LONG).show();
+                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                    if (!task.isSuccessful()) {
+                        Log.e("firebase", "Error getting data", task.getException());
+                    } else {
+                        String moment_text = null;
+                        String moment_url = null;
+                        if(content != null) moment_text = content.getText().toString();
+                        if(image_downloaded_uri != null) moment_url = image_downloaded_uri.toString();
+                        Long timestamp = System.currentTimeMillis();
+                        Date date = new Date(timestamp);
+
+                        User user = new User(task.getResult().getDocuments().get(0).getData());
+                        String username = user.getUsername();
+                        String user_avatar_url = user.getAvatarUrl();
+                        ArrayList<Map<String, Object>> friendList = (ArrayList<Map<String,Object>>) user.getaddedFriends();
+                        Moment newMom = new Moment(USERID,timestamp, moment_text, moment_url, username, user_avatar_url);
+                        for (Map<String, Object> friend : friendList) {
+                            String friend_uid = (String) friend.get("uid");
+                            String friend_username = (String) friend.get("username");
+                            postMoment(friend_uid, newMom, friend_username);
+                        }
+                        postMoment(USERID, newMom, username);
+                        // postMomentToAllFriend(USERID, timestamp, moment_text, moment_url, user_avatar_url, username);
+                    }
                 }
             });
+
+//            Moment newMom = new Moment(USERID,timestamp, text, url);
+
+//            mDB.collection("moments").document(USERID).set(newMom.toMap()).addOnSuccessListener(new OnSuccessListener<Void>(){
+//                @Override
+//                public void onSuccess(Void unused) {
+//                    Log.i(TAG, "Post successful!");
+//                    Intent intent = new Intent();
+//                    intent.setClass(PostMomentActivity.this, MainActivity.class);
+//                    finish();
+//                    startActivity(intent);
+//                }
+//            }).addOnFailureListener(new OnFailureListener() {
+//                @Override
+//                public void onFailure(@NonNull Exception e) {
+//                    Log.i(TAG, "Post failed!");
+//                    Toast.makeText(PostMomentActivity.this, "Post failed! There is something wrong with database, please try again later", Toast.LENGTH_LONG).show();
+//                }
+//            });
         }else Toast.makeText(PostMomentActivity.this, "Cannot post a empty moment", Toast.LENGTH_LONG).show();
     }
+
+//    private void postMomentToAllFriend(String userID, Long timestamp, String text, String url, String user_avatar_url, String username) {
+//        Moment newMom = new Moment(USERID,timestamp, text, url, username, user_avatar_url);
+//        CollectionReference friendRef = mDB.collection("users");
+//        Query query = friendRef.whereEqualTo("uid", USERID);
+//        query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+//            @Override
+//            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+//                if (!task.isSuccessful()) {
+//                    Log.e("firebase", "Error getting data", task.getException());
+//                } else {
+//                    User user = new User(task.getResult().getDocuments().get(0).getData());
+//                    ArrayList<Map<String, Object>> friendList = (ArrayList<Map<String,Object>>) user.getaddedFriends();
+//
+//                    for (Map<String, Object> friend : friendList) {
+//                        String friend_username = (String) friend.get("username");
+//                        postMoment(friend_username, newMom);
+//                    }
+//                }
+//            }
+//        });
+//        postMoment(USERID, newMom);
+//    }
+
+    private void postMoment(String userID, Moment newMoment, String userName) {
+        DocumentReference momentsRef = mDB.collection("moments").document(userID);
+        mDB.runTransaction(new Transaction.Function<Void>() {
+
+            @Override
+            public Void apply(Transaction transaction) throws FirebaseFirestoreException {
+                ArrayList<Moment> existing_moments = (ArrayList<Moment>) transaction.get(momentsRef).get("all_friends_moments");
+                existing_moments.add(newMoment);
+                transaction.update(momentsRef, "all_friends_moments", existing_moments);
+                return null;
+            }
+        }).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void unused) {
+                Log.i(TAG, userName + " Post successful!");
+                Intent intent = new Intent();
+                intent.setClass(PostMomentActivity.this, MainActivity.class);
+                finish();
+                startActivity(intent);
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.i(TAG, userName + " Post failed!");
+                // Toast.makeText(PostMomentActivity.this, "Post failed! There is something wrong with database, please try again later", Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
 
     /**
      * if user don't log in, return to login page
