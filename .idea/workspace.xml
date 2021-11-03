@@ -33,7 +33,6 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="67753c76-f43f-4895-8510-bec1646e6bff" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/example/comp90018_project/Util/BitmapTransfer.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/6.7.1/executionHistory/executionHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/6.7.1/executionHistory/executionHistory.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/6.7.1/executionHistory/executionHistory.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/6.7.1/executionHistory/executionHistory.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/6.7.1/fileHashes/fileHashes.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/6.7.1/fileHashes/fileHashes.bin" afterDir="false" />
@@ -42,11 +41,18 @@
       <change beforePath="$PROJECT_DIR$/.gradle/6.7.1/javaCompile/javaCompile.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/6.7.1/javaCompile/javaCompile.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/comp90018_project/Activity/HomeActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/comp90018_project/Activity/HomeActivity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/comp90018_project/Activity/PostMomentActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/comp90018_project/Activity/PostMomentActivity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/comp90018_project/Util/ImageHolder.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/comp90018_project/Util/LoadImageView.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/comp90018_project/Util/LoadImageView.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/comp90018_project/adapter/FriendAdapter.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/comp90018_project/adapter/FriendAdapter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/comp90018_project/Activity/MainActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/comp90018_project/Activity/MainActivity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/comp90018_project/Activity/MyMomentActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/comp90018_project/Activity/MyMomentActivity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/comp90018_project/Activity/ViewMomentActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/comp90018_project/Activity/ViewMomentActivity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/comp90018_project/Util/BitmapTransfer.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/comp90018_project/Util/BitmapTransfer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activ_main.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activ_main.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_main.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_main.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_my_moment.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_view_moments.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/head.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/head.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/register.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/register.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/signin.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/signin.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/signin2.xml" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -318,47 +324,59 @@
     </state>
     <state x="235" y="176" key="#PSD/0.23.1440.830@0.23.1440.830" timestamp="1635562166707" />
     <state x="235" y="176" key="#PSD/0.23.1440.831@0.23.1440.831" timestamp="1635649520139" />
-    <state x="458" y="192" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1635775215200">
+    <state x="508" y="224" key="#Web_Browsers" timestamp="1635950169388">
       <screen x="0" y="23" width="1440" height="830" />
     </state>
-    <state x="458" y="192" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.23.1440.830@0.23.1440.830" timestamp="1635775215200" />
+    <state x="508" y="224" key="#Web_Browsers/0.23.1440.830@0.23.1440.830" timestamp="1635950169388" />
+    <state x="458" y="192" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1635952052634">
+      <screen x="0" y="23" width="1440" height="830" />
+    </state>
+    <state x="458" y="192" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.23.1440.830@0.23.1440.830" timestamp="1635952052634" />
     <state x="100" y="123" width="1240" height="630" key="AVDManager" timestamp="1635850208171">
       <screen x="0" y="23" width="1440" height="830" />
     </state>
     <state x="100" y="123" width="1240" height="630" key="AVDManager/0.23.1440.830@0.23.1440.830" timestamp="1635850208171" />
-    <state width="1398" height="183" key="GridCell.Tab.0.bottom" timestamp="1635874903079">
+    <state width="1398" height="10" key="GridCell.Tab.0.bottom" timestamp="1635953399628">
       <screen x="0" y="23" width="1440" height="830" />
     </state>
-    <state width="1398" height="183" key="GridCell.Tab.0.bottom/0.23.1440.830@0.23.1440.830" timestamp="1635874903079" />
+    <state width="1398" height="10" key="GridCell.Tab.0.bottom/0.23.1440.830@0.23.1440.830" timestamp="1635953399628" />
     <state width="1398" height="94" key="GridCell.Tab.0.bottom/0.23.1440.831@0.23.1440.831" timestamp="1635651415688" />
     <state width="1398" height="196" key="GridCell.Tab.0.bottom/0.23.1440.832@0.23.1440.832" timestamp="1635653029106" />
-    <state width="1398" height="183" key="GridCell.Tab.0.center" timestamp="1635874903078">
+    <state width="1398" height="10" key="GridCell.Tab.0.center" timestamp="1635953399626">
       <screen x="0" y="23" width="1440" height="830" />
     </state>
-    <state width="1398" height="183" key="GridCell.Tab.0.center/0.23.1440.830@0.23.1440.830" timestamp="1635874903078" />
+    <state width="1398" height="10" key="GridCell.Tab.0.center/0.23.1440.830@0.23.1440.830" timestamp="1635953399626" />
     <state width="1398" height="94" key="GridCell.Tab.0.center/0.23.1440.831@0.23.1440.831" timestamp="1635651415687" />
     <state width="1398" height="196" key="GridCell.Tab.0.center/0.23.1440.832@0.23.1440.832" timestamp="1635653029104" />
-    <state width="1398" height="183" key="GridCell.Tab.0.left" timestamp="1635874903078">
+    <state width="1398" height="10" key="GridCell.Tab.0.left" timestamp="1635953399626">
       <screen x="0" y="23" width="1440" height="830" />
     </state>
-    <state width="1398" height="183" key="GridCell.Tab.0.left/0.23.1440.830@0.23.1440.830" timestamp="1635874903078" />
+    <state width="1398" height="10" key="GridCell.Tab.0.left/0.23.1440.830@0.23.1440.830" timestamp="1635953399626" />
     <state width="1398" height="94" key="GridCell.Tab.0.left/0.23.1440.831@0.23.1440.831" timestamp="1635651415686" />
     <state width="1398" height="196" key="GridCell.Tab.0.left/0.23.1440.832@0.23.1440.832" timestamp="1635653029103" />
-    <state width="1398" height="183" key="GridCell.Tab.0.right" timestamp="1635874903078">
+    <state width="1398" height="10" key="GridCell.Tab.0.right" timestamp="1635953399627">
       <screen x="0" y="23" width="1440" height="830" />
     </state>
-    <state width="1398" height="183" key="GridCell.Tab.0.right/0.23.1440.830@0.23.1440.830" timestamp="1635874903078" />
+    <state width="1398" height="10" key="GridCell.Tab.0.right/0.23.1440.830@0.23.1440.830" timestamp="1635953399627" />
     <state width="1398" height="94" key="GridCell.Tab.0.right/0.23.1440.831@0.23.1440.831" timestamp="1635651415687" />
     <state width="1398" height="196" key="GridCell.Tab.0.right/0.23.1440.832@0.23.1440.832" timestamp="1635653029105" />
     <state x="229" y="77" key="SettingsEditor" timestamp="1635562411266">
       <screen x="0" y="23" width="1440" height="830" />
     </state>
     <state x="229" y="77" key="SettingsEditor/0.23.1440.830@0.23.1440.830" timestamp="1635562411266" />
+    <state x="320" y="178" key="Vcs.Push.Dialog.v2" timestamp="1635945675542">
+      <screen x="0" y="23" width="1440" height="830" />
+    </state>
+    <state x="320" y="178" key="Vcs.Push.Dialog.v2/0.23.1440.830@0.23.1440.830" timestamp="1635945675542" />
     <state x="430" y="254" key="com.android.tools.idea.run.deployment.SelectMultipleDevicesDialog" timestamp="1635658030237">
       <screen x="0" y="23" width="1440" height="830" />
     </state>
     <state x="430" y="254" key="com.android.tools.idea.run.deployment.SelectMultipleDevicesDialog/0.23.1440.830@0.23.1440.830" timestamp="1635658030237" />
     <state x="430" y="254" key="com.android.tools.idea.run.deployment.SelectMultipleDevicesDialog/0.23.1440.831@0.23.1440.831" timestamp="1635650186865" />
+    <state x="487" y="335" key="git4idea.remote.GitConfigureRemotesDialog" timestamp="1635945860365">
+      <screen x="0" y="23" width="1440" height="830" />
+    </state>
+    <state x="487" y="335" key="git4idea.remote.GitConfigureRemotesDialog/0.23.1440.830@0.23.1440.830" timestamp="1635945860365" />
     <state x="450" y="357" key="vcs.readOnlyHandler.ReadOnlyStatusDialog" timestamp="1635776224297">
       <screen x="0" y="23" width="1440" height="830" />
     </state>

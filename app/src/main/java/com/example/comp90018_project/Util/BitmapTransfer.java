@@ -15,7 +15,7 @@ public class BitmapTransfer {
         return Base64.encodeToString(appicon, Base64.DEFAULT);
     }
 
-    public static Bitmap convertStringToIcon(String st) {
+    public static Bitmap convertStringToBitmap(String st) {
             Bitmap bitmap = null;
             try {
                 // out = new FileOutputStream("/sdcard/aa.jpg");
