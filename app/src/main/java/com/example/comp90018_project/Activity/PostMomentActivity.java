@@ -70,7 +70,6 @@ public class PostMomentActivity extends AppCompatActivity {
 
     private EditText content;
     private ImageView image;
-    private ImageView backMain;
     private Uri image_downloaded_uri;
     private String image_bitmap_str;
     private Button btn_submit;
@@ -93,7 +92,6 @@ public class PostMomentActivity extends AppCompatActivity {
         content = (EditText) findViewById(R.id.moment_content);
         image = (ImageView) findViewById(R.id.moment_image);
         btn_submit = (Button) findViewById(R.id.moment_submit_btn);
-        backMain = findViewById(R.id.commentBackMain);
 
         storageReference = FirebaseStorage.getInstance().getReference();
         mDB = FirebaseFirestore.getInstance();
@@ -122,15 +120,6 @@ public class PostMomentActivity extends AppCompatActivity {
                     startActivity(intent);
                 }
             });
-
-            backMain.setOnClickListener(
-                    new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            finish();
-                        }
-                    }
-            );
         }
     }
 

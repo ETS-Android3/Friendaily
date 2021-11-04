@@ -6,35 +6,59 @@
     android:layout_height="match_parent">
 
     <LinearLayout
-        android:id="@+id/linearLayout"
-        android:layout_width="451dp"
-        android:layout_height="55dp"
-        android:background="#FF0000"
+        android:id="@+id/linearLayout3"
+        android:layout_width="match_parent"
+        android:layout_height="77dp"
+        android:background="#4f4f4f"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="0.6"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
+        <ImageView
+            android:id="@+id/collectionBackMain"
+            android:layout_width="wrap_content"
+            android:layout_height="23dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="0dp"
+            android:layout_weight="1"
+            android:contentDescription="@string/left_label"
+            android:src="@drawable/img_15">
+
+        </ImageView>
+
         <TextView
-            android:id="@+id/collect_ContactText"
-            android:layout_width="415dp"
-            android:layout_height="match_parent"
+            android:id="@+id/txt_explore"
+            android:layout_width="263dp"
+            android:layout_height="43dp"
+            android:layout_marginTop="18dp"
+            android:layout_weight="7"
+            android:background="@drawable/btn_shape"
             android:gravity="center"
-            android:text="My Collections"
-            android:textColor="#FFFFFF"
-            android:textSize="18sp"
-            android:textStyle="bold" />
+            android:text="My Favorite"
+            android:textColor="@color/black"
+            android:textSize="18sp" />
+
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="0dp"
+            android:layout_weight="1"
+            android:contentDescription="@string/left_label">
+
+        </ImageView>
     </LinearLayout>
 
     <ListView
         android:id="@+id/collect_momentsList"
-        android:layout_width="409dp"
-        android:layout_height="674dp"
+        android:layout_width="416dp"
+        android:layout_height="566dp"
         android:layout_marginStart="1dp"
-        android:layout_marginTop="1dp"
+        android:layout_marginTop="3dp"
         android:layout_marginEnd="1dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout3" />
 </androidx.constraintlayout.widget.ConstraintLayout>

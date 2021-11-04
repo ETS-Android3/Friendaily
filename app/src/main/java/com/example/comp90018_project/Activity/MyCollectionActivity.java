@@ -3,6 +3,8 @@ package com.example.comp90018_project.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.ListView;
 
 import androidx.annotation.NonNull;
@@ -29,6 +31,7 @@ public class MyCollectionActivity extends AppCompatActivity {
     private static final String TAG = "My collection";
     private FirebaseUser currentUser;
     private String USERID;
+    private ImageView backMain;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +39,7 @@ public class MyCollectionActivity extends AppCompatActivity {
         mAuth =  FirebaseAuth.getInstance();
         mDB = FirebaseFirestore.getInstance();
         setContentView(R.layout.activity_my_collection);
+        backMain = findViewById(R.id.collectionBackMain);
         currentUser = mAuth.getCurrentUser();
         if (currentUser == null){
             reload();
@@ -43,6 +47,14 @@ public class MyCollectionActivity extends AppCompatActivity {
             // TODO: 2021/10/23 Add construction of layout
             USERID = currentUser.getUid();
             myCollectedView();
+            backMain.setOnClickListener(
+                    new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            finish();
+                        }
+                    }
+            );
         }
     }
 
