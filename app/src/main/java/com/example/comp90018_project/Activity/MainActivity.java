@@ -186,6 +186,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 startActivity(intent);
             }
         });
+        setting.setOnClickListener(this);
     }
 
     private void initView() {
@@ -321,6 +322,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void momentView() {
+        ListView MomentListview = (ListView) findViewById(R.id.momentsList);
+        MomentListview.setAdapter(null);
         String UserID = currentUser.getUid();
         Log.d(TAG, UserID);
         // Get moment query and set adapter
@@ -382,6 +385,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         switch (view.getId()) {
             case R.id.channel:
                 Toast.makeText(MainActivity.this, "This is text channel", Toast.LENGTH_SHORT).show();
+                momentView();
 //                setNotSelected();
 //                txt_topbar.setText(R.string.tab_menu_normal);
 //                channel.setSelected(true);
@@ -408,6 +412,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             case R.id.setting:
                 Toast.makeText(MainActivity.this, "This is text setting", Toast.LENGTH_SHORT).show();
+                ListView MomentListview = (ListView) findViewById(R.id.momentsList);
+                MomentListview.setAdapter(null);
 //                setNotSelected();
 //                txt_topbar.setText(R.string.tab_menu_setting);
 //                setting.setSelected(true);
