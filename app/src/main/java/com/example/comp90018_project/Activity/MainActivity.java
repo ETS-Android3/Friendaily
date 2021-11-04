@@ -287,8 +287,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         startActivity(intent2);
                         break;
                     case R.id.menu_item3:
-//                        Intent intent3 = new Intent(MainActivity.this, CommentActivity.class);
-//                        startActivity(intent3);
+                        Intent intent3 = new Intent(MainActivity.this, MyMomentActivity.class);
+                        startActivity(intent3);
                         break;
                     case R.id.menu_item4:
                         Intent intent4 = new Intent(MainActivity.this, ShowFriendActivity.class);

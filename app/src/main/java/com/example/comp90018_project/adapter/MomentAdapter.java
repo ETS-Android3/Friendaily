@@ -91,11 +91,6 @@ public class MomentAdapter extends BaseAdapter {
         ImageView comment = view.findViewById(R.id.img_comment);
 
         Map map = this.momentList.get(position);
-//        if (String.valueOf(map.get("avatar").getClass()).contains("String")) {
-//            avatar.loadImageFromURL((String) map.get("avatar"));
-//        } else {
-//            avatar.setImageResource((Integer) map.get("avatar"));
-//        }
         String avatar_url = (String) map.get("avatar");
         String ts = (String) map.get("timestamp");
         Log.d(TAG, "what read from timestamp is !!!!!!!!!!!! " + ts + " !!!!!!!!!!!!!!!!!!");
