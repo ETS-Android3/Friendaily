@@ -94,10 +94,10 @@ public class MomentAdapter extends BaseAdapter {
         String avatar_url = (String) map.get("avatar");
         String ts = (String) map.get("timestamp");
         Log.d(TAG, "what read from timestamp is !!!!!!!!!!!! " + ts + " !!!!!!!!!!!!!!!!!!");
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+//        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         try {
-            Date date = sdf.parse(ts);
-            long millis = date.getTime() + 39600000;
+//            Date date = sdf.parse(ts);
+//            long millis = date.getTime() + 39600000;
             String username = (String) map.get("name");
             String mom_content = (String) map.get("content");
             String mom_img_url = (String) map.get("image");
@@ -126,7 +126,7 @@ public class MomentAdapter extends BaseAdapter {
                 public void onClick(View view) {
                     like.setBackgroundResource(R.drawable.dianzan_after);
                     Log.d(TAG, "like is clicked, with " + username + "'s post");
-                    Moment newMom = new Moment(uid, millis, mom_content, mom_img_url, username, avatar_url);
+                    Moment newMom = new Moment(uid, ts, mom_content, mom_img_url, username, avatar_url);
                     postMomentToLike(currentUser.getUid(), newMom.toMap(), username);
                 }
             });
@@ -136,7 +136,7 @@ public class MomentAdapter extends BaseAdapter {
                 public void onClick(View view) {
                     collection.setBackgroundResource(R.drawable.shoucang_after);
                     Log.d(TAG, "collection is clicked, with " + username + "'s post");
-                    Moment newMom = new Moment(uid, millis, mom_content, mom_img_url, username, avatar_url);
+                    Moment newMom = new Moment(uid, ts, mom_content, mom_img_url, username, avatar_url);
                     postMomentToCollection(currentUser.getUid(), newMom.toMap(), username);
                 }
             });
@@ -154,7 +154,7 @@ public class MomentAdapter extends BaseAdapter {
                 }
             });
 
-        } catch (ParseException e) {
+        } catch (Exception e) {
             System.out.println(e);
         }
 

@@ -93,6 +93,7 @@ public class PostMomentActivity extends AppCompatActivity {
         image = (ImageView) findViewById(R.id.moment_image);
         btn_submit = (Button) findViewById(R.id.moment_submit_btn);
 
+
         storageReference = FirebaseStorage.getInstance().getReference();
         mDB = FirebaseFirestore.getInstance();
         mAuth = FirebaseAuth.getInstance();
@@ -120,6 +121,7 @@ public class PostMomentActivity extends AppCompatActivity {
                     startActivity(intent);
                 }
             });
+
         }
     }
 
@@ -318,15 +320,17 @@ public class PostMomentActivity extends AppCompatActivity {
                         String moment_bitmap = null;
                         if(content != null) moment_text = content.getText().toString();
                         moment_bitmap = image_bitmap_str;
+
+                        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                         Long timestamp = System.currentTimeMillis();
-                        Date date = new Date(timestamp);
+                        String date = simpleDateFormat.format(new Date(timestamp));
 
 
                         User user = new User(task.getResult().getDocuments().get(0).getData());
                         String username = user.getUsername();
                         String user_avatar_url = user.getAvatarUrl();
                         ArrayList<Map<String, Object>> friendList = (ArrayList<Map<String,Object>>) user.getaddedFriends();
-                        Moment newMom = new Moment(USERID,timestamp, moment_text, moment_bitmap, username, user_avatar_url);
+                        Moment newMom = new Moment(USERID,date, moment_text, moment_bitmap, username, user_avatar_url);
 
                         Map<String, Object> newMonMap = newMom.toMap();
 

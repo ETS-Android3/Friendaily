@@ -8,15 +8,15 @@ import java.util.Map;
 public class Moment {
     SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     private String userID;
-    private Long timestamp;
+    private String date;
     private String content;
     private String image_url;
     private String username;
     private String user_avatar_url;
 
-    public Moment(String uid, Long timestamp, String content, String image_url, String username, String user_avatar_url){
+    public Moment(String uid, String date, String content, String image_url, String username, String user_avatar_url){
         this.userID= uid;
-        this.timestamp = timestamp;
+        this.date = date;
         this.content = content;
         this.image_url = image_url;
         this.username = username;
@@ -25,7 +25,7 @@ public class Moment {
 
     public Moment(Map<String,Object> moment){
         this.userID= moment.get("uid").toString();
-        this.timestamp = (Long) moment.get("timestamp");
+        this.date = moment.get("date").toString();
         this.content = moment.get("content").toString();
         this.image_url = moment.get("image_download_url").toString();
         this.username = moment.get("username").toString();
@@ -37,8 +37,9 @@ public class Moment {
     }
 
     public String getDate(){
-        Date date = new Date(timestamp);
-        return simpleDateFormat.format(date);
+//        Date date = new Date(timestamp);
+//        return simpleDateFormat.format(date);
+        return date;
     }
 
     public String getImage_url(){
@@ -55,10 +56,10 @@ public class Moment {
 
     public Map<String,Object> toMap(){
         Map<String,Object> moment = new HashMap<>();
-        Date date = new Date(System.currentTimeMillis());
-        String DateTime = simpleDateFormat.format(date);
+//        Date date = new Date(System.currentTimeMillis());
+//        String DateTime = simpleDateFormat.format(date);
         moment.put("uid",userID);
-        moment.put("date",DateTime);
+        moment.put("date",date);
         moment.put("content", content);
         moment.put("image_download_url",image_url);
         moment.put("username", username);
