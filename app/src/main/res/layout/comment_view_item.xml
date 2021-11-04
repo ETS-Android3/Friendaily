@@ -23,14 +23,15 @@
         android:layout_height="wrap_content"
         android:layout_weight="6"
         android:orientation="vertical">
-
+dp
         <TextView
+            android:id="@+id/comment_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/comment_name"
-            android:textSize="20sp"
+            android:text="小王"
             android:textColor="#111"
-            android:text="小王"/>
+            android:textSize="20sp" />
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -38,6 +39,7 @@
             android:textSize="15sp"
             android:textColor="#666"
             android:text="2018-8-21"/>
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -50,4 +52,5 @@
 
 
     </LinearLayout>
+
 </LinearLayout>

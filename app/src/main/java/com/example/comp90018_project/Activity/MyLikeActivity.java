@@ -6,6 +6,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.ListView;
 
 import com.example.comp90018_project.R;
@@ -35,6 +37,7 @@ public class MyLikeActivity extends AppCompatActivity {
     private static final String TAG = "MyLike";
     private FirebaseUser currentUser;
     private String USERID;
+    private ImageView backMain;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,12 +47,21 @@ public class MyLikeActivity extends AppCompatActivity {
         mDB = FirebaseFirestore.getInstance();
         setContentView(R.layout.activity_my_like);
         currentUser = mAuth.getCurrentUser();
+        backMain = findViewById(R.id.myLikeBackMain);
         if (currentUser == null){
             reload();
         }else {
             // TODO: 2021/10/23 Add construction of layout
             USERID = currentUser.getUid();
             myLikeView();
+            backMain.setOnClickListener(
+                    new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            finish();
+                        }
+                    }
+            );
         }
     }
 

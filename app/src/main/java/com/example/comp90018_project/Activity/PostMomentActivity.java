@@ -70,7 +70,6 @@ public class PostMomentActivity extends AppCompatActivity {
 
     private EditText content;
     private ImageView image;
-    private ImageView backMain;
     private Uri image_downloaded_uri;
     private String image_bitmap_str;
     private Button btn_submit;
@@ -93,7 +92,7 @@ public class PostMomentActivity extends AppCompatActivity {
         content = (EditText) findViewById(R.id.moment_content);
         image = (ImageView) findViewById(R.id.moment_image);
         btn_submit = (Button) findViewById(R.id.moment_submit_btn);
-//        backMain = (ImageView) findViewById(R.id.commentBackMain);
+
 
         storageReference = FirebaseStorage.getInstance().getReference();
         mDB = FirebaseFirestore.getInstance();
@@ -123,14 +122,6 @@ public class PostMomentActivity extends AppCompatActivity {
                 }
             });
 
-//            backMain.setOnClickListener(
-//                    new View.OnClickListener() {
-//                        @Override
-//                        public void onClick(View v) {
-//                            finish();
-//                        }
-//                    }
-//            );
         }
     }
 
@@ -190,7 +181,7 @@ public class PostMomentActivity extends AppCompatActivity {
                         try
                         {
                             BitmapFactory.Options option = new BitmapFactory.Options();
-                            option.inSampleSize = 5;
+                            option.inSampleSize = 4;
                             option.inPreferredConfig= Bitmap.Config.RGB_565;
                             Bitmap bitmap = BitmapFactory.decodeStream(getContentResolver().openInputStream(image_uri), null, option);
                             bitmap = topSquareScale(bitmap);
@@ -221,10 +212,16 @@ public class PostMomentActivity extends AppCompatActivity {
                         Log.d("tag", "onActivityResult: Gallery Image Uri:  " +  imageFileName);
                         ContentResolver cr = PostMomentActivity.this.getContentResolver();
                         try {
-                            BitmapFactory.Options option = new BitmapFactory.Options();
-                            option.inSampleSize = 5;
-                            option.inPreferredConfig= Bitmap.Config.RGB_565;
-                            bitmap = BitmapFactory.decodeStream(cr.openInputStream(contentUri), null, option);
+                            bitmap = BitmapFactory.decodeStream(cr.openInputStream(contentUri));
+                            int round = 2;
+                            while (BitmapTransfer.convertBitmapToString(bitmap).length() > 20000) {
+                                BitmapFactory.Options option = new BitmapFactory.Options();
+                                option.inSampleSize = round;
+                                option.inPreferredConfig= Bitmap.Config.RGB_565;
+                                bitmap = BitmapFactory.decodeStream(cr.openInputStream(contentUri), null, option);
+                                round += 1;
+                            }
+                            Log.i(TAG, "final size: " + BitmapTransfer.convertBitmapToString(bitmap).length());
                             //设置图片显示，可以看到效果
                         } catch (FileNotFoundException e) {
                             Log.e("Exception", e.getMessage(),e);

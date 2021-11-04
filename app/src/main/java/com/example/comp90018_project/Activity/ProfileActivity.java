@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -17,6 +18,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.comp90018_project.R;
 import com.example.comp90018_project.adapter.FriendAdapter;
+import com.example.comp90018_project.adapter.MomentAdapter;
+import com.example.comp90018_project.adapter.ProfileAdapter;
 import com.example.comp90018_project.model.User;
 import com.example.comp90018_project.Util.LoadImageView;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -43,8 +46,10 @@ public class ProfileActivity extends AppCompatActivity {
     private FirebaseFirestore mDB;
     private FirebaseAuth mAuth;
     private LoadImageView avatar;
+    private ImageView backMain;
     private TextView username;
     private TextView email;
+    private TextView bio;
     private TextView uid;
     private Button button;
     private Button deleteButton;
@@ -55,6 +60,7 @@ public class ProfileActivity extends AppCompatActivity {
     private String message;
     private String messageType = "Chat";
     private static final String TAG = "profile";
+    public static final String EXTRA_MESSAGE = "com.example.comp90018_project.PROFILE_MESSAGE";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,9 +77,23 @@ public class ProfileActivity extends AppCompatActivity {
             message = intent.getStringExtra(FindNewFriendActivity.EXTRA_MESSAGE);
             messageType = "Add";
         }
+        if (message == null) {
+            message = intent.getStringExtra(MainActivity.EXTRA_MESSAGE);
+            Log.i(TAG, message);
+            messageType = "Chat";
+        }
         findUser();
         setContentView(R.layout.profile);
         setProfileView();
+        backMain = findViewById(R.id.profileBackMain);
+        backMain.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        finish();
+                    }
+                }
+        );
     }
 
     private void setProfileView() {
@@ -81,13 +101,14 @@ public class ProfileActivity extends AppCompatActivity {
         username = (TextView)findViewById(R.id.profileUsername);
         email = (TextView)findViewById(R.id.profileEmail);
         uid = (TextView)findViewById(R.id.profileUid);
+        bio = (TextView)findViewById(R.id.profileBio);
         button = (Button)findViewById(R.id.profileButton);
         deleteButton = (Button)findViewById(R.id.deleteFriendButton);
 
         uid.setText(message);
         button.setText(messageType);
 
-        if (messageType.equals("Add")) {
+        if (messageType.equals("Add") || message.equals(userId)) {
             deleteButton.setVisibility(View.GONE);
         }
 
@@ -100,6 +121,7 @@ public class ProfileActivity extends AppCompatActivity {
                 searchedUser = new User(task.getResult().getDocuments().get(0).getData());
                 username.setText(searchedUser.getUsername());
                 email.setText(searchedUser.getEmail());
+                bio.setText(searchedUser.getBio());
                 String avatar_url = searchedUser.getAvatarUrl();
                 if (avatar_url == null) {
                     avatar.setImageResource(R.drawable.default_user_avatar);
@@ -116,6 +138,13 @@ public class ProfileActivity extends AppCompatActivity {
                     public void onClick(View v) {
                         if (messageType.equals("Add")) {
                             uploadToFireStore(user);
+                        }
+                        else {
+                            Intent intent = new Intent(ProfileActivity.this, ChatActivity.class);
+                            String selectUser = message;
+                            Log.d(TAG, "selected:" + selectUser);
+                            intent.putExtra(EXTRA_MESSAGE, selectUser);
+                            startActivity(intent);
                         }
                     }
                 }

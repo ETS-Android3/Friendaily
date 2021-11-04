@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ListView;
 
 import androidx.annotation.NonNull;
@@ -58,6 +59,7 @@ public class ViewCommentActivity extends AppCompatActivity {
     private String commentor_userid;
     private Button post_my_comment;
     private ListView commentListView;
+    private ImageView backMain;
     private CommentAdapter adapter;
     String TAG = "View Comment";
 
@@ -72,6 +74,7 @@ public class ViewCommentActivity extends AppCompatActivity {
         moment_date = intent.getStringExtra("date");
         moment_UserID = intent.getStringExtra("uid");
         moment_username = intent.getStringExtra("username");
+        backMain = findViewById(R.id.commentBackMain);
         currentUser = mAuth.getCurrentUser();
         // initialize widget
         my_comment_content = (EditText) findViewById(R.id.leave_comment);
@@ -116,6 +119,15 @@ public class ViewCommentActivity extends AppCompatActivity {
                 }
             }
         });
+
+        backMain.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        finish();
+                    }
+                }
+        );
 
 
         if (currentUser == null) {

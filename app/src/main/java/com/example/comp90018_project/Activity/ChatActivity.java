@@ -43,6 +43,9 @@ public class ChatActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         Intent intent = getIntent();
         message = intent.getStringExtra(MainActivity.EXTRA_MESSAGE);
+        if (message == null) {
+            message = intent.getStringExtra(ProfileActivity.EXTRA_MESSAGE);
+        }
         FirebaseUser currentUser = mAuth.getCurrentUser();
         assert currentUser != null;
         userId = currentUser.getUid();

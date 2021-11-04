@@ -180,7 +180,7 @@ public class HomeActivity extends AppCompatActivity {
                         try
                         {
                             BitmapFactory.Options option = new BitmapFactory.Options();
-                            option.inSampleSize = 5;
+                            option.inSampleSize = 4;
                             option.inPreferredConfig= Bitmap.Config.RGB_565;
                             Bitmap bitmap = BitmapFactory.decodeStream(getContentResolver().openInputStream(image_uri), null, option);
                             bitmap = topSquareScale(bitmap);
@@ -211,10 +211,16 @@ public class HomeActivity extends AppCompatActivity {
                         Log.d("tag", "onActivityResult: Gallery Image Uri:  " +  imageFileName);
                         ContentResolver cr = HomeActivity.this.getContentResolver();
                         try {
-                            BitmapFactory.Options option = new BitmapFactory.Options();
-                            option.inSampleSize = 5;
-                            option.inPreferredConfig= Bitmap.Config.RGB_565;
-                            bitmap = BitmapFactory.decodeStream(cr.openInputStream(contentUri), null, option);
+                            bitmap = BitmapFactory.decodeStream(cr.openInputStream(contentUri));
+                            int round = 2;
+                            while (BitmapTransfer.convertBitmapToString(bitmap).length() > 20000) {
+                                BitmapFactory.Options option = new BitmapFactory.Options();
+                                option.inSampleSize = round;
+                                option.inPreferredConfig= Bitmap.Config.RGB_565;
+                                bitmap = BitmapFactory.decodeStream(cr.openInputStream(contentUri), null, option);
+                                round += 1;
+                            }
+                            Log.i(TAG, "final size: " + BitmapTransfer.convertBitmapToString(bitmap).length());
                             //设置图片显示，可以看到效果
                         } catch (FileNotFoundException e) {
                             Log.e("Exception", e.getMessage(),e);
@@ -302,7 +308,9 @@ public class HomeActivity extends AppCompatActivity {
             @Override
             public Void apply(Transaction transaction) throws FirebaseFirestoreException {
                 DocumentSnapshot snapshot = transaction.get(sfDocRef);
-                transaction.update(sfDocRef, "avatar_url", image_bitmap_str);
+                if (image_bitmap_str != null) {
+                    transaction.update(sfDocRef, "avatar_url", image_bitmap_str);
+                }
                 if(content != null){
                     transaction.update(sfDocRef, "bio", content.getText().toString());
                 }
