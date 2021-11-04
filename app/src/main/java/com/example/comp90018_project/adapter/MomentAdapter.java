@@ -108,8 +108,8 @@ public class MomentAdapter extends BaseAdapter {
             String mom_img_url = (String) map.get("image");
             String uid = (String) map.get("uid");
 
-            if (avatar_url.equals("")) {
-                avatar.setImageResource(R.drawable.a);
+            if (avatar_url == null) {
+                avatar.setImageResource(R.drawable.default_user_avatar);
             } else {
                 avatar.loadImageFromURL(avatar_url);
             }

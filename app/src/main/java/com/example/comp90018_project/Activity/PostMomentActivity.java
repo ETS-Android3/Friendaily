@@ -174,22 +174,18 @@ public class PostMomentActivity extends AppCompatActivity {
                 @Override
                 public void onActivityResult(ActivityResult result) {
                     Log.d("tag", "reach here !!!!!!! ");
-                    if (result.getResultCode() == Activity.RESULT_OK) {
-                        // There are no request codes
-                        File f = new File(currentPhotoPath);
-                        image.setImageURI(Uri.fromFile(f));
-                        Log.d("tag", "ABsolute Url of Image is " + Uri.fromFile(f));
-
-                        Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
-                        Uri contentUri = Uri.fromFile(f);
-                        mediaScanIntent.setData(contentUri);
-                        // result.sendBroadcast(mediaScanIntent);
-
-                        // uploadImageToFirebase(f.getName(),contentUri);
-                        // uploadImageToFirebase(f.getName(), contentUri);
-                        image_uri = contentUri;
-                        image_filename = f.getName();
-
+                    if(result.getResultCode() == RESULT_OK)
+                    {
+                        try
+                        {
+                            Bitmap bitmap= BitmapFactory.decodeStream(getContentResolver().openInputStream(image_uri));
+                            image_bitmap_str = BitmapTransfer.convertBitmapToString(bitmap);
+                            image.setImageBitmap(bitmap);
+                        }
+                        catch (FileNotFoundException e)
+                        {
+                            e.printStackTrace();
+                        }
                     }
                 }
             }
@@ -304,48 +300,28 @@ public class PostMomentActivity extends AppCompatActivity {
         return mime.getExtensionFromMimeType(c.getType(contentUri));
     }
 
-
-    private File createImageFile() throws IOException {
-        // Create an image file name
-        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-        String imageFileName = "JPEG_" + timeStamp + "_";
-//        File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
-        File storageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
-        File image = File.createTempFile(
-                imageFileName,  //*//* prefix *//*
-                ".jpg",         //*//* suffix *//*
-                storageDir      //*//* directory *//*
-        );
-
-        // Save a file: path for use with ACTION_VIEW intents
-        currentPhotoPath = image.getAbsolutePath();
-        return image;
-    }
-
     private void dispatchTakePictureIntent() {
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        // Ensure that there's a camera activity to handle the intent
-        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
-            // Create the File where the photo should go
-            File photoFile = null;
-            try {
-                photoFile = createImageFile();
-            } catch (IOException ex) {
-
+        File photoFile = new File(getExternalCacheDir(),"output_image.jpg");
+        try {
+            if(photoFile.exists())
+            {
+                photoFile.delete();
             }
-            // Continue only if the File was successfully created
-            if (photoFile != null) {
-                Uri photoURI = FileProvider.getUriForFile(this,
-                        "net.smallacademy.android.fileprovider",
-                        photoFile);
-                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
-                //startActivityForResult(takePictureIntent, CAMERA_REQUEST_CODE);
-                takePhotoResultLauncher.launch(takePictureIntent);
-            }
+            photoFile.createNewFile();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        // Continue only if the File was successfully created
+        if (photoFile != null) {
+            image_uri = FileProvider.getUriForFile(this,
+                    "com.example.cameraalbumtest.fileprovider",
+//                        "net.smallacademy.android.fileprovider",
+                    photoFile);
+            takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, image_uri);
+            takePhotoResultLauncher.launch(takePictureIntent);
         }
     }
-
-
 
     private void addToFireStore() {
         if (content != null || image_bitmap_str != null){

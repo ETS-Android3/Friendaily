@@ -359,11 +359,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             Map<String, Object> map = new HashMap<String, Object>();
                             Map<String, Object> moment_map = moments_list.get(i);
                             String avatar_url = (String) moment_map.get("user_avatar_url");
-                            if (avatar_url == null) {
-                                map.put("avatar", R.drawable.default_user_avatar);
-                            } else {
-                                map.put("avatar", moment_map.get("user_avatar_url"));
-                            }
+                            map.put("avatar", avatar_url);
                             map.put("name", moment_map.get("username"));
                             map.put("content", moment_map.get("content"));
                             map.put("image", moment_map.get("image_download_url"));
