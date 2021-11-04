@@ -549,4 +549,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         logout();
     }
 
+    public void clickEditProfile(View view) {
+        Intent intent = new Intent();
+        intent.setClass(MainActivity.this, HomeActivity.class);
+        startActivity(intent);
+    }
+
 }

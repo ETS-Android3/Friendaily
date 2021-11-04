@@ -10,7 +10,7 @@
         android:layout_width="166dp"
         android:layout_height="27dp"
         android:layout_marginStart="29dp"
-        android:layout_marginTop="80dp"
+        android:layout_marginTop="60dp"
         android:text="Username:"
         app:layout_constraintStart_toEndOf="@+id/linearLayout2"
         app:layout_constraintTop_toTopOf="parent" />
@@ -40,7 +40,7 @@
         android:layout_width="150dp"
         android:layout_height="150dp"
         android:layout_marginStart="30dp"
-        android:layout_marginTop="80dp"
+        android:layout_marginTop="60dp"
         android:orientation="horizontal"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -55,21 +55,35 @@
 
     <TextView
         android:id="@+id/mainProfileBio"
-        android:layout_width="326dp"
-        android:layout_height="87dp"
+        android:layout_width="329dp"
+        android:layout_height="67dp"
         android:layout_marginStart="30dp"
-        android:layout_marginTop="72dp"
+        android:layout_marginTop="52dp"
         android:layout_marginEnd="30dp"
         android:text="TextView"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.48"
+        app:layout_constraintHorizontal_bias="0.478"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/mainProfileUid" />
 
     <Button
+        android:id="@+id/editProfile"
+        android:layout_width="150dp"
+        android:layout_height="38dp"
+        android:layout_marginStart="130dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginEnd="131dp"
+        android:background="@drawable/btnshape2"
+        android:onClick="clickEditProfile"
+        android:text="Edit"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/mainProfileBio" />
+
+    <Button
         android:id="@+id/logOutButton"
-        android:layout_width="154dp"
-        android:layout_height="48dp"
+        android:layout_width="150dp"
+        android:layout_height="38dp"
         android:layout_marginStart="128dp"
         android:layout_marginTop="30dp"
         android:layout_marginEnd="129dp"
@@ -77,9 +91,8 @@
         android:onClick="clickLogout"
         android:text="Log out"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/mainProfileBio" />
+        app:layout_constraintTop_toBottomOf="@+id/editProfile" />
 
     <TextView
         android:id="@+id/textView3"

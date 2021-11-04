@@ -62,20 +62,19 @@ public class ProfileAdapter extends BaseAdapter {
         TextView email = (TextView) view.findViewById(R.id.mainProfileEmail);
         TextView uid = (TextView) view.findViewById(R.id.mainProfileUid);
         TextView bio = (TextView) view.findViewById(R.id.mainProfileBio);
+        Button editProfile = (Button) view.findViewById(R.id.editProfile);
         Button logout = (Button) view.findViewById(R.id.logOutButton);
 
         Map map = this.profileList.get(position);
-        if (String.valueOf(map.get("avatar").getClass()).contains("String")) {
+        if (map.get("avatar") != null) {
             avatar.loadImageFromURL((String) map.get("avatar"));
         } else {
-            avatar.setImageResource((Integer) map.get("avatar"));
+            avatar.setImageResource(R.drawable.default_user_avatar);
         }
         username.setText((String) map.get("username"));
         email.setText((String) map.get("email"));
         uid.setText((String) map.get("uid"));
         bio.setText((String) map.get("bio"));
-        logout.setBackgroundResource(R.drawable.btn_shape);
-
         return view;
     }
 }
