@@ -51,6 +51,7 @@ import com.google.firebase.storage.UploadTask;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -218,11 +219,83 @@ public class HomeActivity extends AppCompatActivity {
 
                         // uploadImageToFirebase(imageFileName,contentUri);
                         image.setImageURI(contentUri);
+
+                        bitmap = topSquareScale(bitmap);
                         image_bitmap_str = BitmapTransfer.convertBitmapToString(bitmap);
+
                     }
                 }
             }
     );
+
+//    private Bitmap topSquareScale(Bitmap bitmap) {
+//        if (bitmap == null) {
+//            return null;
+//        }
+//
+//        Bitmap finalBitmap;
+//        int widthOrg = bitmap.getWidth();
+//        int heightOrg = bitmap.getHeight();
+//        int length;
+//
+//        if (widthOrg != heightOrg) {
+//            if (widthOrg > heightOrg) {
+//                length = heightOrg;
+//            }
+//            else {
+//                length = widthOrg;
+//            }
+//
+//            int xTopLeft = (widthOrg - length) / 2;
+//            int yTopLeft = (heightOrg - length) / 2;
+//
+//            try{
+//                finalBitmap = Bitmap.createBitmap(bitmap, xTopLeft, yTopLeft, length, length);
+//            }
+//            catch(Exception e){
+//                return bitmap;
+//            }
+//            return finalBitmap;
+//        }
+//        return bitmap;
+//    }
+
+    private Bitmap topSquareScale(Bitmap bitmap) {
+        if (bitmap == null) {
+            return null;
+        }
+
+        Bitmap finalBitmap = bitmap;
+        int widthOrg = bitmap.getWidth();
+        int heightOrg = bitmap.getHeight();
+        int length = 100;
+
+        if (widthOrg != heightOrg) {
+//            if (widthOrg > heightOrg) {
+//                length = heightOrg;
+//            }
+//            else {
+//                length = widthOrg;
+//            }
+
+            int xTopLeft = (widthOrg - length) / 2;
+            int yTopLeft = (heightOrg - length) / 2;
+
+            try{
+                finalBitmap = Bitmap.createBitmap(bitmap, xTopLeft, yTopLeft, length, length);
+            }
+            catch(Exception e){
+                return bitmap;
+            }
+            return finalBitmap;
+        } else {
+            //正方形时
+            int TopLeft = (widthOrg - length) / 2;
+            finalBitmap = Bitmap.createBitmap(bitmap, TopLeft, TopLeft, length, length);
+            return finalBitmap;
+        }
+        // return bitmap;
+    }
 
     private String getFileExt(Uri contentUri) {
         ContentResolver c = getContentResolver();
@@ -239,7 +312,7 @@ public class HomeActivity extends AppCompatActivity {
         File storageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
         File image = File.createTempFile(
                 imageFileName,
-                ".jpg",
+                ".jpeg",
                 storageDir
         );
 
@@ -274,6 +347,7 @@ public class HomeActivity extends AppCompatActivity {
     private void uploadToFireStore() {
         DocumentReference sfDocRef = mDB.collection("users").document(USERID);
         Log.d(TAG, "UserID==============" + USERID);
+        Log.d(TAG, "avatar_bitmap_str==============" + image_bitmap_str);
 
         mDB.runTransaction(new Transaction.Function<Void>() {
             @Override

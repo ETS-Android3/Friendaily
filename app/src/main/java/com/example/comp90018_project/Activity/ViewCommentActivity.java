@@ -78,7 +78,7 @@ public class ViewCommentActivity extends AppCompatActivity {
         commentListView = (ListView) findViewById(R.id.comment_List);
         // initialize adapter
         adapter = new CommentAdapter(ViewCommentActivity.this);
-        commentListView.setAdapter(adapter);
+        // commentListView.setAdapter(adapter);
 
         post_my_comment.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -110,8 +110,6 @@ public class ViewCommentActivity extends AppCompatActivity {
 
                         }
                     });
-
-
                 }
             }
         });
@@ -131,7 +129,7 @@ public class ViewCommentActivity extends AppCompatActivity {
             public Void apply(Transaction transaction) throws FirebaseFirestoreException {
                 ArrayList<Map<String, Object>> existing_comments = (ArrayList<Map<String, Object>>) transaction.get(ref).get("comment_list");
                 existing_comments.add(newComment);
-                transaction.update(ref, "my_collected_moments", existing_comments);
+                transaction.update(ref, "comment_list", existing_comments);
                 return null;
             }
         }).addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -139,7 +137,9 @@ public class ViewCommentActivity extends AppCompatActivity {
             public void onSuccess(Void unused) {
                 Log.i(TAG, commentor_username + " comment successful!");
                 // notify the adapter to refresh
+                commentListView.setAdapter(adapter);
                 adapter.notifyDataSetChanged();
+                commentView();
                 //Toast.makeText(ViewMomentActivity.class, "Post failed! There is something wrong with database, please try again later", Toast.LENGTH_LONG).show();
             }
         }).addOnFailureListener(new OnFailureListener() {
@@ -155,7 +155,7 @@ public class ViewCommentActivity extends AppCompatActivity {
         String UserID = currentUser.getUid();
         Log.d(TAG, UserID);
         String cid = moment_username + "_" + moment_date;
-        DocumentReference docRef = mDB.collection("moments").document(cid);
+        DocumentReference docRef = mDB.collection("comments").document(cid);
         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
@@ -165,7 +165,7 @@ public class ViewCommentActivity extends AppCompatActivity {
                         ArrayList<Map<String, Object>> comments_list = (ArrayList<Map<String, Object>>) task.getResult().getData().get("comment_list");
                         if (comments_list != null) {
                             Log.d(TAG, "comments list get");
-                            ListView commentListview = (ListView) findViewById(R.id.comment_List);
+                            // ListView commentListview = (ListView) findViewById(R.id.comment_List);
                             List<Map<String, Object>> commentfound_list = new ArrayList<Map<String, Object>>();
                             for (int i=0; i < comments_list.size(); i++) {
                                 Map<String, Object> map = new HashMap<String, Object>();
@@ -185,7 +185,7 @@ public class ViewCommentActivity extends AppCompatActivity {
                             }
                             //CommentAdapter adapter = new CommentAdapter(ViewCommentActivity.this);
                             adapter.setCommentList(commentfound_list);
-                            //commentListview.setAdapter(adapter);
+                            commentListView.setAdapter(adapter);
                         }
                     } else {
                         // if document not existed, set the document

@@ -74,7 +74,7 @@ public class MyCollectionActivity extends AppCompatActivity {
                             map.put("uid", moment_map.get("uid"));
                             map.put("name", moment_map.get("username"));
                             map.put("content", moment_map.get("content"));
-                            map.put("image", moment_map.get("image_url"));
+                            map.put("image", moment_map.get("image_download_url"));
                             map.put("timestamp", moment_map.get("date"));
                             Log.d(TAG, "the userID is ------------ " + moment_map.get("uid") + " ------------------");
 

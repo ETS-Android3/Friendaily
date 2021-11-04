@@ -10,7 +10,7 @@ public class BitmapTransfer {
 
     public static String convertBitmapToString(Bitmap bitmap){
         ByteArrayOutputStream baos = new ByteArrayOutputStream();// outputstream
-        bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
+        bitmap.compress(Bitmap.CompressFormat.PNG, 20, baos);
         byte[] appicon = baos.toByteArray();// 转为byte数组
         return Base64.encodeToString(appicon, Base64.DEFAULT);
     }

@@ -221,12 +221,82 @@ public class PostMomentActivity extends AppCompatActivity {
                         // uploadImageToFirebase(imageFileName,contentUri);
 
                         image.setImageURI(contentUri);
+                        bitmap = topSquareScale(bitmap);
                         image_bitmap_str = BitmapTransfer.convertBitmapToString(bitmap);
 
                     }
                 }
             }
     );
+
+//    private Bitmap topSquareScale(Bitmap bitmap) {
+//        if (bitmap == null) {
+//            return null;
+//        }
+//
+//        Bitmap finalBitmap;
+//        int widthOrg = bitmap.getWidth();
+//        int heightOrg = bitmap.getHeight();
+//        int length;
+//
+//        if (widthOrg != heightOrg) {
+//            if (widthOrg > heightOrg) {
+//                length = heightOrg;
+//            }
+//            else {
+//                length = widthOrg;
+//            }
+//
+//            int xTopLeft = (widthOrg - length) / 2;
+//            int yTopLeft = (heightOrg - length) / 2;
+//
+//            try{
+//                finalBitmap = Bitmap.createBitmap(bitmap, xTopLeft, yTopLeft, length, length);
+//            }
+//            catch(Exception e){
+//                return bitmap;
+//            }
+//            return finalBitmap;
+//        }
+//        return bitmap;
+//    }
+
+    private Bitmap topSquareScale(Bitmap bitmap) {
+        if (bitmap == null) {
+            return null;
+        }
+
+        Bitmap finalBitmap = bitmap;
+        int widthOrg = bitmap.getWidth();
+        int heightOrg = bitmap.getHeight();
+        int length = 100;
+
+        if (widthOrg != heightOrg) {
+//            if (widthOrg > heightOrg) {
+//                length = heightOrg;
+//            }
+//            else {
+//                length = widthOrg;
+//            }
+
+            int xTopLeft = (widthOrg - length) / 2;
+            int yTopLeft = (heightOrg - length) / 2;
+
+            try{
+                finalBitmap = Bitmap.createBitmap(bitmap, xTopLeft, yTopLeft, length, length);
+            }
+            catch(Exception e){
+                return bitmap;
+            }
+            return finalBitmap;
+        } else {
+            //正方形时
+            int TopLeft = (widthOrg - length) / 2;
+            finalBitmap = Bitmap.createBitmap(bitmap, TopLeft, TopLeft, length, length);
+            return finalBitmap;
+        }
+        // return bitmap;
+    }
 
     private String getFileExt(Uri contentUri) {
         ContentResolver c = getContentResolver();

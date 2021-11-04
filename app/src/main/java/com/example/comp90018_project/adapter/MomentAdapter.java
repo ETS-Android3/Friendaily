@@ -149,11 +149,10 @@ public class MomentAdapter extends BaseAdapter {
             comment.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Moment newMom = new Moment(uid, millis, mom_content, mom_img_url, username, avatar_url);
+
                     Log.d(TAG, "collection is clicked, with " + username + "'s post");
                     Intent intent = new Intent(view.getContext(), ViewCommentActivity.class);
-                    String date = (String) newMom.toMap().get("date");
-                    intent.putExtra("date", date);
+                    intent.putExtra("date", ts);
                     intent.putExtra("uid", uid);
                     intent.putExtra("username", username);
                     view.getContext().startActivity(intent);

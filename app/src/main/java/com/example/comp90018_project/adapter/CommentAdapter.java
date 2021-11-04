@@ -55,7 +55,7 @@ public class CommentAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        @SuppressLint({"ViewHolder", "InflateParams"}) View view = inflater.inflate(R.layout.moment_view_item, null);
+        @SuppressLint({"ViewHolder", "InflateParams"}) View view = inflater.inflate(R.layout.comment_view_item, null);
         mDB = FirebaseFirestore.getInstance();
         mAuth = FirebaseAuth.getInstance();
         currentUser = mAuth.getCurrentUser();
@@ -69,6 +69,7 @@ public class CommentAdapter extends BaseAdapter {
         String avatar_url = (String) map.get("avatar");
         String ts = (String) map.get("timestamp");
         Log.d(TAG, "what read from timestamp is !!!!!!!!!!!! " + ts + " !!!!!!!!!!!!!!!!!!");
+        Log.d(TAG, "what avatar_url !!!!!!!!!!!! " + avatar_url + " !!!!!!!!!!!!!!!!!!");
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         try {
             Date date = sdf.parse(ts);
