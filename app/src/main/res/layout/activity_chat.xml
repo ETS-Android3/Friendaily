@@ -68,11 +68,87 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
+            <TextView
+                android:id="@+id/message1"
+                android:layout_width="165dp"
+                android:layout_height="49dp"
+                android:layout_marginTop="25dp"
+                android:layout_weight="7"
+                android:background="@drawable/btn_shape"
+                android:gravity="center"
+                android:text="Chat1"
+                android:textColor="@color/black"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/message2"
+                android:layout_width="165dp"
+                android:layout_height="49dp"
+                android:layout_marginTop="25dp"
+                android:layout_marginLeft="235dp"
+                android:layout_weight="7"
+                android:background="@drawable/btn_shape"
+                android:gravity="center"
+                android:text="Chat2"
+                android:textColor="@color/black"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/message3"
+                android:layout_width="165dp"
+                android:layout_height="49dp"
+                android:layout_marginTop="25dp"
+                android:layout_weight="7"
+                android:background="@drawable/btn_shape"
+                android:gravity="center"
+                android:text="Chat3"
+                android:textColor="@color/black"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/message4"
+                android:layout_width="165dp"
+                android:layout_height="49dp"
+                android:layout_marginTop="25dp"
+                android:layout_marginLeft="235dp"
+                android:layout_weight="7"
+                android:background="@drawable/btn_shape"
+                android:gravity="center"
+                android:text="Chat4"
+                android:textColor="@color/black"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/message5"
+                android:layout_width="165dp"
+                android:layout_height="49dp"
+                android:layout_marginTop="25dp"
+                android:layout_weight="7"
+                android:background="@drawable/btn_shape"
+                android:gravity="center"
+                android:text="Chat5"
+                android:textColor="@color/black"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/message6"
+                android:layout_width="165dp"
+                android:layout_height="49dp"
+                android:layout_marginTop="25dp"
+                android:layout_marginLeft="235dp"
+                android:layout_weight="7"
+                android:background="@drawable/btn_shape"
+                android:gravity="center"
+                android:text="Chat6"
+                android:textColor="@color/black"
+                android:textSize="20sp" />
+
             <ImageView
                 android:id="@+id/imageView3"
                 android:layout_width="414dp"
                 android:layout_height="1dp"
                 android:background="@color/white" />
+
         </LinearLayout>
     </ScrollView>
 

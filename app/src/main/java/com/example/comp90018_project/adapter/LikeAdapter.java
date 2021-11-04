@@ -15,6 +15,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Map;
 
@@ -65,6 +66,12 @@ public class LikeAdapter extends BaseAdapter {
         ImageView collection =  view.findViewById(R.id.like_img_collection);
         ImageView like = view.findViewById(R.id.like_img_like);
         ImageView comment = view.findViewById(R.id.like_img_comment);
+
+        Map map = this.liked_momentList.get(position);
+        String avatar_url = (String) map.get("avatar");
+        String ts = (String) map.get("timestamp");
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
 
         return view;
     }

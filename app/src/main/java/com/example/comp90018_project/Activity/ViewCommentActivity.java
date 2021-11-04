@@ -37,6 +37,7 @@ import com.example.comp90018_project.R;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.android.gms.tasks.OnCompleteListener;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -67,7 +68,7 @@ public class ViewCommentActivity extends AppCompatActivity {
         mDB = FirebaseFirestore.getInstance();
         setContentView(R.layout.activity_comment);
         Intent intent = getIntent();
-        // get data from last activity (adapter)
+        // get data from last activity (moment adapter)
         moment_date = intent.getStringExtra("date");
         moment_UserID = intent.getStringExtra("uid");
         moment_username = intent.getStringExtra("username");
@@ -85,6 +86,8 @@ public class ViewCommentActivity extends AppCompatActivity {
             public void onClick(View view) {
                 if (currentUser != null && my_comment_content.getText() != null && !my_comment_content.getText().toString().equals("")) {
                     Long timestamp = System.currentTimeMillis();
+                    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                    String date = simpleDateFormat.format(new Date(timestamp));
                     String content = my_comment_content.getText().toString();
                     String cid = moment_username + "_" + moment_date;
                     commentor_userid = currentUser.getUid();
@@ -103,7 +106,7 @@ public class ViewCommentActivity extends AppCompatActivity {
                                 String commentor_username = user.getUsername();
                                 String commentor_user_avatar = user.getAvatarUrl();
 
-                                Comment newComment = new Comment(commentor_userid, cid, timestamp, content, commentor_username, commentor_user_avatar);
+                                Comment newComment = new Comment(commentor_userid, cid, date, content, commentor_username, commentor_user_avatar);
                                 postComment(commentor_userid, newComment.toMap(), commentor_username);
 
                             }
