@@ -174,22 +174,22 @@ public class PostMomentActivity extends AppCompatActivity {
                 @Override
                 public void onActivityResult(ActivityResult result) {
                     Log.d("tag", "reach here !!!!!!! ");
-                    if (result.getResultCode() == Activity.RESULT_OK) {
-                        // There are no request codes
-                        File f = new File(currentPhotoPath);
-                        image.setImageURI(Uri.fromFile(f));
-                        Log.d("tag", "ABsolute Url of Image is " + Uri.fromFile(f));
-
-                        Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
-                        Uri contentUri = Uri.fromFile(f);
-                        mediaScanIntent.setData(contentUri);
-                        // result.sendBroadcast(mediaScanIntent);
-
-                        // uploadImageToFirebase(f.getName(),contentUri);
-                        // uploadImageToFirebase(f.getName(), contentUri);
-                        image_uri = contentUri;
-                        image_filename = f.getName();
-
+                    if(result.getResultCode() == RESULT_OK)
+                    {
+                        try
+                        {
+                            BitmapFactory.Options option = new BitmapFactory.Options();
+                            option.inSampleSize = 4;
+                            option.inPreferredConfig= Bitmap.Config.RGB_565;
+                            Bitmap bitmap = BitmapFactory.decodeStream(getContentResolver().openInputStream(image_uri), null, option);
+                            bitmap = topSquareScale(bitmap);
+                            image_bitmap_str = BitmapTransfer.convertBitmapToString(bitmap);
+                            image.setImageBitmap(bitmap);
+                        }
+                        catch (FileNotFoundException e)
+                        {
+                            e.printStackTrace();
+                        }
                     }
                 }
             }
@@ -211,18 +211,59 @@ public class PostMomentActivity extends AppCompatActivity {
                         ContentResolver cr = PostMomentActivity.this.getContentResolver();
                         try {
                             bitmap = BitmapFactory.decodeStream(cr.openInputStream(contentUri));
+                            int round = 2;
+                            while (BitmapTransfer.convertBitmapToString(bitmap).length() > 20000) {
+                                BitmapFactory.Options option = new BitmapFactory.Options();
+                                option.inSampleSize = round;
+                                option.inPreferredConfig= Bitmap.Config.RGB_565;
+                                bitmap = BitmapFactory.decodeStream(cr.openInputStream(contentUri), null, option);
+                                round += 1;
+                            }
+                            Log.i(TAG, "final size: " + BitmapTransfer.convertBitmapToString(bitmap).length());
                             //设置图片显示，可以看到效果
                         } catch (FileNotFoundException e) {
                             Log.e("Exception", e.getMessage(),e);
                         }
 
-                        // uploadImageToFirebase(imageFileName,contentUri);
-                        image.setImageURI(contentUri);
+                        bitmap = topSquareScale(bitmap);
+                        image.setImageBitmap(bitmap);
                         image_bitmap_str = BitmapTransfer.convertBitmapToString(bitmap);
                     }
                 }
             }
     );
+
+    private Bitmap topSquareScale(Bitmap bitmap) {
+        if (bitmap == null) {
+            return null;
+        }
+
+        Bitmap finalBitmap;
+        int widthOrg = bitmap.getWidth();
+        int heightOrg = bitmap.getHeight();
+        int length;
+
+        if (widthOrg != heightOrg) {
+            if (widthOrg > heightOrg) {
+                length = heightOrg;
+            }
+            else {
+                length = widthOrg;
+            }
+
+            int xTopLeft = (widthOrg - length) / 2;
+            int yTopLeft = (heightOrg - length) / 2;
+
+            try{
+                finalBitmap = Bitmap.createBitmap(bitmap, xTopLeft, yTopLeft, length, length);
+            }
+            catch(Exception e){
+                return bitmap;
+            }
+            return finalBitmap;
+        }
+        return bitmap;
+    }
 
     private String getFileExt(Uri contentUri) {
         ContentResolver c = getContentResolver();
@@ -230,49 +271,31 @@ public class PostMomentActivity extends AppCompatActivity {
         return mime.getExtensionFromMimeType(c.getType(contentUri));
     }
 
-
-    private File createImageFile() throws IOException {
-        // Create an image file name
-        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-        String imageFileName = "JPEG_" + timeStamp + "_";
-//        File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
-        File storageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
-        File image = File.createTempFile(
-                imageFileName,  //*//* prefix *//*
-                ".jpg",         //*//* suffix *//*
-                storageDir      //*//* directory *//*
-        );
-
-        // Save a file: path for use with ACTION_VIEW intents
-        currentPhotoPath = image.getAbsolutePath();
-        return image;
-    }
-
     private void dispatchTakePictureIntent() {
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        // Ensure that there's a camera activity to handle the intent
-        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
-            // Create the File where the photo should go
-            File photoFile = null;
-            try {
-                photoFile = createImageFile();
-            } catch (IOException ex) {
-
+        File photoFile = new File(getExternalCacheDir(),"output_image.jpg");
+        try {
+            if(photoFile.exists())
+            {
+                photoFile.delete();
             }
-            // Continue only if the File was successfully created
-            if (photoFile != null) {
-                Uri photoURI = FileProvider.getUriForFile(this,
-                        "net.smallacademy.android.fileprovider",
-                        photoFile);
-                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
-                //startActivityForResult(takePictureIntent, CAMERA_REQUEST_CODE);
-                takePhotoResultLauncher.launch(takePictureIntent);
-            }
+            photoFile.createNewFile();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        // Continue only if the File was successfully created
+        if (photoFile != null) {
+            image_uri = FileProvider.getUriForFile(this,
+                    "com.example.cameraalbumtest.fileprovider",
+//                        "net.smallacademy.android.fileprovider",
+                    photoFile);
+            takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, image_uri);
+            takePhotoResultLauncher.launch(takePictureIntent);
         }
     }
 
     private void addToFireStore() {
-        if (content != null || image_downloaded_uri != null){
+        if (content != null || image_bitmap_str != null){
             // begin to add data only when user add a picture or write text
 //            String moment_text = null;
 //            String moment_url = null;
@@ -291,23 +314,28 @@ public class PostMomentActivity extends AppCompatActivity {
                         Log.e("firebase", "Error getting data", task.getException());
                     } else {
                         String moment_text = null;
+
                         String moment_bitmap = null;
                         if(content != null) moment_text = content.getText().toString();
                         moment_bitmap = image_bitmap_str;
                         Long timestamp = System.currentTimeMillis();
                         Date date = new Date(timestamp);
 
+
                         User user = new User(task.getResult().getDocuments().get(0).getData());
                         String username = user.getUsername();
                         String user_avatar_url = user.getAvatarUrl();
                         ArrayList<Map<String, Object>> friendList = (ArrayList<Map<String,Object>>) user.getaddedFriends();
                         Moment newMom = new Moment(USERID,timestamp, moment_text, moment_bitmap, username, user_avatar_url);
+
+                        Map<String, Object> newMonMap = newMom.toMap();
+
                         for (Map<String, Object> friend : friendList) {
                             String friend_uid = (String) friend.get("uid");
                             String friend_username = (String) friend.get("username");
-                            postMoment(friend_uid, newMom, friend_username);
+                            postMoment(friend_uid, newMonMap, friend_username);
                         }
-                        postMoment(USERID, newMom, username);
+                        postMoment(USERID, newMonMap, username);
                         // postMomentToAllFriend(USERID, timestamp, moment_text, moment_url, user_avatar_url, username);
                     }
                 }
@@ -357,13 +385,13 @@ public class PostMomentActivity extends AppCompatActivity {
 //        postMoment(USERID, newMom);
 //    }
 
-    private void postMoment(String userID, Moment newMoment, String userName) {
+    private void postMoment(String userID, Map<String, Object> newMoment, String userName) {
         DocumentReference momentsRef = mDB.collection("moments").document(userID);
         mDB.runTransaction(new Transaction.Function<Void>() {
 
             @Override
             public Void apply(Transaction transaction) throws FirebaseFirestoreException {
-                ArrayList<Moment> existing_moments = (ArrayList<Moment>) transaction.get(momentsRef).get("all_friends_moments");
+                ArrayList<Map<String, Object>> existing_moments = (ArrayList<Map<String, Object>>) transaction.get(momentsRef).get("all_friends_moments");
                 existing_moments.add(newMoment);
                 transaction.update(momentsRef, "all_friends_moments", existing_moments);
                 return null;
@@ -381,6 +409,7 @@ public class PostMomentActivity extends AppCompatActivity {
             }
         });
     }
+
 
 
     /**

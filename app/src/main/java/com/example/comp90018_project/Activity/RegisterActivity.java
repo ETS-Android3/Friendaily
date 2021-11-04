@@ -198,6 +198,15 @@ public class RegisterActivity extends AppCompatActivity {
         moment_list.put("all_friends_moments", new ArrayList<Moment>());
         mDB.collection("moments").document(user.getUid()).set(moment_list);
 
+        // set the empty like document
+        Map<String, Object> like_list = new HashMap<>();
+        like_list.put("my_like_moments", new ArrayList<Moment>());
+        mDB.collection("likes").document(user.getUid()).set(like_list);
+
+        // set the empty collection document
+        Map<String, Object> collect_list = new HashMap<>();
+        collect_list.put("my_collected_moments", new ArrayList<Moment>());
+        mDB.collection("collections").document(user.getUid()).set(collect_list);
 
     }
 

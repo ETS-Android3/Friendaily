@@ -14,8 +14,7 @@
         <com.example.comp90018_project.Util.LoadImageView
             android:id="@+id/img_avatar"
             android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:onClick="click" />
+            android:layout_height="50dp" />
 
     </LinearLayout>
 
@@ -69,7 +68,7 @@
                 android:id="@+id/img_collection"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
-                android:background="@drawable/shoucang" />
+                android:background="@drawable/favorite" />
 
             <ImageView
                 android:id="@+id/img_comment"
@@ -84,7 +83,7 @@
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:layout_toLeftOf="@id/tv_num_like"
-                android:background="@drawable/dianzan" />
+                android:background="@drawable/like" />
 
             <TextView
                 android:id="@+id/tv_num_like"

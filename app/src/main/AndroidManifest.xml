@@ -27,7 +27,10 @@
             android:name=".Activity.MyLikeActivity"
             android:exported="true" />
         <activity
-            android:name=".Activity.CommentActivity"
+            android:name=".Activity.ViewCommentActivity"
+            android:exported="true" />
+        <activity
+            android:name=".Activity.MyCollectionActivity"
             android:exported="true" />
         <activity
             android:name=".Activity.FindNewFriendActivity"
@@ -53,10 +56,20 @@
         <activity android:name=".Activity.RegisterActivity" />
         <activity android:name=".Activity.HomeActivity" />
         <activity android:name=".Activity.ShowFriendActivity" />
-<!--        <activity android:name=".Activity.ViewMomentActivity" />-->
+        <activity android:name=".Activity.MyMomentActivity" />
         <activity android:name=".Activity.ProfileActivity"/>
         <activity android:name=".Activity.MessageActivity"/>
         <activity android:name=".Activity.ChatActivity"/>
+
+        <provider
+            android:authorities="com.example.cameraalbumtest.fileprovider"
+            android:name="androidx.core.content.FileProvider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/provider_paths" />
+        </provider>
 
 <!--        <service android:name=".model.GPSTracker" />-->
     </application>

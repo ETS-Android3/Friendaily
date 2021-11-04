@@ -247,7 +247,7 @@ public class GeoQueryActivity extends AppCompatActivity {
         query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                if (task.getResult().getDocuments().get(0).getData() == null) {
+                if (task.getResult().getDocuments().size() == 0) {
                     //dont find anything, do nothing
                 } else {
                     //Get the corresponding information

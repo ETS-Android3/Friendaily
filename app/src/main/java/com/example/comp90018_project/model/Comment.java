@@ -7,45 +7,67 @@ import java.util.Map;
 
 public class Comment {
     SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-    private String uid;
-    private String mid;
+    private String userID;
+    private String cid;
     private Long timestamp;
     private String content;
+    private String username;
+    private String user_avatar_url;
 
-    public Comment(String uid,String mid,Long timestamp, Date date, String content){
-        this.uid= uid;
-        this.mid= mid;
+    public Comment(String uid,String cid, Long timestamp, String content, String username, String user_avatar_url){
+        this.userID= uid;
+        this.cid = cid;
         this.timestamp = timestamp;
         this.content = content;
-
+        this.username = username;
+        this.user_avatar_url = user_avatar_url;
     }
 
-    public Comment(Map<String,Object> moment){
-        this.uid= moment.get("uid").toString();
-        this.mid= moment.get("mid").toString();
-        this.timestamp = (Long) moment.get("timestamp");
-        this.content = moment.get("content").toString();
+    public String getUserID() {
+        return userID;
+    }
+
+    public String getCid() {
+        return cid;
     }
 
     public String getContent(){
         return content;
     }
 
-    public  String getDate(){
+    public Comment(Map<String,Object> comment){
+        this.userID= comment.get("uid").toString();
+        this.cid = comment.get("cid").toString();
+        this.timestamp = (Long) comment.get("timestamp");
+        this.content = comment.get("content").toString();
+        this.username = comment.get("username").toString();
+        this.user_avatar_url = comment.get("user_avatar_url").toString();
+    }
 
+
+    public String getDate(){
         Date date = new Date(timestamp);
         return simpleDateFormat.format(date);
     }
 
+    public String getUsername() {
+        return username;
+    }
+
+    public String getUser_avatar_url() {
+        return user_avatar_url;
+    }
 
     public Map<String,Object> toMap(){
         Map<String,Object> comment = new HashMap<>();
         Date date = new Date(System.currentTimeMillis());
         String DateTime = simpleDateFormat.format(date);
-        comment.put("uid",uid);
-        comment.put("mid",mid);
-        comment.put("timestamp",timestamp);
+        comment.put("uid",userID);
+        comment.put("cid",cid);
+        comment.put("date",DateTime);
         comment.put("content", content);
+        comment.put("username", username);
+        comment.put("user_avatar_url", user_avatar_url);
         return comment;
     }
 }

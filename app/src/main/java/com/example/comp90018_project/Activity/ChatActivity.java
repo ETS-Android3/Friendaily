@@ -75,8 +75,10 @@ public class ChatActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         hasInitialized = false;
-        Intent intent = getIntent();
-        message = intent.getStringExtra(MainActivity.EXTRA_MESSAGE);
+        Intent intent = getIntent();        
+        if (message == null) {
+            message = intent.getStringExtra(ProfileActivity.EXTRA_MESSAGE);
+        }
 //        message = "CehhWfxzBBZ01Fz2MyNR7rAyAAq1";
 //        mAuth.signInWithEmailAndPassword("111@111.com","123456");
 //        message = "2TgJhepgxFSgDhZ1JpmOFgRlZ6j2";
@@ -118,8 +120,6 @@ public class ChatActivity extends AppCompatActivity {
             });
             findChatUser();
         }
-
-
     }
 
     @Override
@@ -129,7 +129,6 @@ public class ChatActivity extends AppCompatActivity {
             //resume the Listener
             setChatListener();
         }
-
     }
 
     @Override
