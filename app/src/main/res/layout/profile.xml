@@ -7,6 +7,7 @@
     android:background="@drawable/starter2">
 
     <ImageView
+        android:id="@+id/imageView4"
         android:layout_width="404dp"
         android:layout_height="522dp"
         android:layout_marginStart="2dp"
@@ -97,5 +98,17 @@
             tools:srcCompat="@tools:sample/avatars" />
 
     </LinearLayout>
+
+    <ImageView
+        android:id="@+id/profileBackMain"
+        android:layout_width="38dp"
+        android:layout_height="33dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="42dp"
+        android:layout_marginBottom="36dp"
+        app:layout_constraintBottom_toTopOf="@+id/imageView4"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/img_15" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

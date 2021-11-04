@@ -98,7 +98,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private User myInfo;
     private User user;
 
-    public static final String EXTRA_MESSAGE = "com.example.comp90018_project.CHAT_MESSAGE";
+    public static final String EXTRA_MESSAGE = "com.example.comp90018_project.MAIN_MESSAGE";
 
 
     Handler handler = new Handler(Looper.getMainLooper()) {
@@ -369,6 +369,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         MomentAdapter adapter = new MomentAdapter(MainActivity.this);
                         adapter.setMomentList(momentfound_list);
                         MomentListview.setAdapter(adapter);
+                        MomentListview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                            @Override
+                            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                                LoadImageView avatar = view.findViewById(R.id.img_avatar);
+                                avatar.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        String selectUser = (String) moments_list.get(moments_list.size() - position - 1).get("uid");
+                                        Log.i(TAG, selectUser);
+                                        Intent intent = new Intent(MainActivity.this, ProfileActivity.class);
+                                        intent.putExtra(EXTRA_MESSAGE, selectUser);
+                                        startActivity(intent);
+                                    }
+                                });
+                            }
+                        });
                     }
                 }
             }

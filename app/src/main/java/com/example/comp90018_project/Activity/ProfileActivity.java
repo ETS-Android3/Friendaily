@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -17,6 +18,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.comp90018_project.R;
 import com.example.comp90018_project.adapter.FriendAdapter;
+import com.example.comp90018_project.adapter.MomentAdapter;
+import com.example.comp90018_project.adapter.ProfileAdapter;
 import com.example.comp90018_project.model.User;
 import com.example.comp90018_project.Util.LoadImageView;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -43,6 +46,7 @@ public class ProfileActivity extends AppCompatActivity {
     private FirebaseFirestore mDB;
     private FirebaseAuth mAuth;
     private LoadImageView avatar;
+    private ImageView backMain;
     private TextView username;
     private TextView email;
     private TextView uid;
@@ -55,6 +59,7 @@ public class ProfileActivity extends AppCompatActivity {
     private String message;
     private String messageType = "Chat";
     private static final String TAG = "profile";
+    public static final String EXTRA_MESSAGE = "com.example.comp90018_project.PROFILE_MESSAGE";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,9 +76,23 @@ public class ProfileActivity extends AppCompatActivity {
             message = intent.getStringExtra(FindNewFriendActivity.EXTRA_MESSAGE);
             messageType = "Add";
         }
+        if (message == null) {
+            message = intent.getStringExtra(MainActivity.EXTRA_MESSAGE);
+            Log.i(TAG, message);
+            messageType = "Chat";
+        }
         findUser();
         setContentView(R.layout.profile);
         setProfileView();
+        backMain = findViewById(R.id.profileBackMain);
+        backMain.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        finish();
+                    }
+                }
+        );
     }
 
     private void setProfileView() {
@@ -116,6 +135,13 @@ public class ProfileActivity extends AppCompatActivity {
                     public void onClick(View v) {
                         if (messageType.equals("Add")) {
                             uploadToFireStore(user);
+                        }
+                        else {
+                            Intent intent = new Intent(ProfileActivity.this, ChatActivity.class);
+                            String selectUser = message;
+                            Log.d(TAG, "selected:" + selectUser);
+                            intent.putExtra(EXTRA_MESSAGE, selectUser);
+                            startActivity(intent);
                         }
                     }
                 }

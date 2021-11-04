@@ -2,6 +2,7 @@ package com.example.comp90018_project.adapter;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +11,9 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.example.comp90018_project.Activity.HomeActivity;
+import com.example.comp90018_project.Activity.MainActivity;
+import com.example.comp90018_project.Activity.ProfileActivity;
 import com.example.comp90018_project.R;
 import com.example.comp90018_project.Util.LoadImageView;
 import com.google.firebase.firestore.DocumentReference;
@@ -26,8 +30,8 @@ public class ProfileAdapter extends BaseAdapter {
 
     List<Map<String, Object>> profileList;
     LayoutInflater inflater;
-    private static final String TAG = "Adapter";
     private FirebaseFirestore mDB;
+    private static final String TAG = "Adapter";
 
     public ProfileAdapter(Context context) {
         inflater = LayoutInflater.from(context);
@@ -62,8 +66,6 @@ public class ProfileAdapter extends BaseAdapter {
         TextView email = (TextView) view.findViewById(R.id.mainProfileEmail);
         TextView uid = (TextView) view.findViewById(R.id.mainProfileUid);
         TextView bio = (TextView) view.findViewById(R.id.mainProfileBio);
-        Button editProfile = (Button) view.findViewById(R.id.editProfile);
-        Button logout = (Button) view.findViewById(R.id.logOutButton);
 
         Map map = this.profileList.get(position);
         if (map.get("avatar") != null) {
@@ -71,6 +73,7 @@ public class ProfileAdapter extends BaseAdapter {
         } else {
             avatar.setImageResource(R.drawable.default_user_avatar);
         }
+
         username.setText((String) map.get("username"));
         email.setText((String) map.get("email"));
         uid.setText((String) map.get("uid"));
