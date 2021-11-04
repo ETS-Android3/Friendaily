@@ -3,81 +3,64 @@ package com.example.comp90018_project.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ListView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.comp90018_project.adapter.FriendAdapter;
+import com.example.comp90018_project.R;
 import com.example.comp90018_project.adapter.MomentAdapter;
-import com.example.comp90018_project.model.Moment;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.Query;
-import com.google.firebase.firestore.QuerySnapshot;
-import com.google.firebase.storage.FirebaseStorage;
-import com.example.comp90018_project.R;
-import com.google.firebase.firestore.QuerySnapshot;
-import com.google.android.gms.tasks.OnCompleteListener;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static com.example.comp90018_project.Activity.LoginActivity.USERID;
-
-public class ViewMomentActivity extends AppCompatActivity {
-
+public class MyCollectionActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private FirebaseFirestore mDB;
+    private static final String TAG = "My collection";
     private FirebaseUser currentUser;
-    String TAG = "View Moment";
+    private String USERID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //Log.d(TAG, "!!!!!!!!!!!!!!!!!!!!!!!!!!!! starts!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-
-        mAuth = FirebaseAuth.getInstance();
+        mAuth =  FirebaseAuth.getInstance();
         mDB = FirebaseFirestore.getInstance();
-        setContentView(R.layout.activity_view_moments);
+        setContentView(R.layout.activity_my_collection);
         currentUser = mAuth.getCurrentUser();
-        if (currentUser == null) {
+        if (currentUser == null){
             reload();
-        } else {
-            momentView();
+        }else {
+            // TODO: 2021/10/23 Add construction of layout
+            USERID = currentUser.getUid();
+            myCollectedView();
         }
     }
 
-    private void momentView() {
-        String UserID = currentUser.getUid();
-        Log.d(TAG, UserID);
-        // Get moment query and set adapter
-        //CollectionReference momentRef = mDB.collection("moments");
-        DocumentReference docRef = mDB.collection("moments").document(USERID);
-        //Query query = momentRef.whereEqualTo("uid", USERID);
+    private void myCollectedView() {
+        DocumentReference docRef = mDB.collection("collections").document(USERID);
         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                 if (!task.isSuccessful()) {
                     Log.e("firebase", "Error getting data", task.getException());
                 } else {
-                    Log.d(TAG, "===============================TRY TO GET MOMENTS LIST ========================================");
+                    Log.d(TAG, "===============================TRY TO GET LIKE MOMENTS LIST ========================================");
 
                     Log.d(TAG, "===============================" +  task.getResult().getData().size() + "========================================");
-                    ArrayList<Map<String, Object>> moments_list = (ArrayList<Map<String, Object>>) task.getResult().getData().get("all_friends_moments");
+                    ArrayList<Map<String, Object>> moments_list = (ArrayList<Map<String, Object>>) task.getResult().getData().get("my_collected_moments");
                     if (moments_list != null) {
-                        Log.d(TAG, "moments list get");
-                        ListView MomentListview = (ListView) findViewById(R.id.momentsList);
+                        Log.d(TAG, "collected moments list get");
+                        ListView MomentListview = (ListView) findViewById(R.id.collect_momentsList);
                         List<Map<String, Object>> momentfound_list = new ArrayList<Map<String, Object>>();
                         for (int i=0; i < moments_list.size(); i++) {
                             Map<String, Object> map = new HashMap<String, Object>();
@@ -93,10 +76,12 @@ public class ViewMomentActivity extends AppCompatActivity {
                             map.put("content", moment_map.get("content"));
                             map.put("image", moment_map.get("image_url"));
                             map.put("timestamp", moment_map.get("date"));
+                            Log.d(TAG, "the userID is ------------ " + moment_map.get("uid") + " ------------------");
+
+                            Log.d(TAG, "the time stamp is ------------ " + moment_map.get("date") + " ------------------");
                             momentfound_list.add(map);
-                            Log.d(TAG, "The got uid is =============== " + moment_map.get("uid") + " ================");
                         }
-                        MomentAdapter adapter = new MomentAdapter(ViewMomentActivity.this);
+                        MomentAdapter adapter = new MomentAdapter(MyCollectionActivity.this);
                         adapter.setMomentList(momentfound_list);
                         MomentListview.setAdapter(adapter);
                     }
@@ -105,9 +90,10 @@ public class ViewMomentActivity extends AppCompatActivity {
         });
     }
 
-    private void reload() {
+    //if user does not log in, return to the Login
+    private void reload(){
         Intent intent = new Intent();
-        intent.setClass(ViewMomentActivity.this, LoginActivity.class);
+        intent.setClass(MyCollectionActivity.this, LoginActivity.class);
         finish();
         startActivity(intent);
     }

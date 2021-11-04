@@ -143,7 +143,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             initView();
         }
-
     }
 
     @Override
@@ -260,12 +259,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.menu_item1:
-//                        Intent intent = new Intent(MainActivity.this, FindNewFriendActivity.class);
-//                        startActivity(intent);
+                        Intent intent = new Intent(MainActivity.this, MyCollectionActivity.class);
+                        startActivity(intent);
                         break;
                     case R.id.menu_item2:
-//                        Intent intent2 = new Intent(MainActivity.this, MyLikeActivity.class);
-//                        startActivity(intent2);
+                        Intent intent2 = new Intent(MainActivity.this, MyLikeActivity.class);
+                        startActivity(intent2);
                         break;
                     case R.id.menu_item3:
 //                        Intent intent3 = new Intent(MainActivity.this, CommentActivity.class);
@@ -299,9 +298,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         DatabaseReference localRef = FirebaseDatabase.getInstance().getReference("usersAvailable");
                         localRef.child(mAuth.getCurrentUser().getUid()).removeValue();
                         mAuth.signOut();
-                        Intent intent = new Intent();
-                        intent.setClass(MainActivity.this, LoginActivity.class);
-                        startActivity(intent);
+                        Intent intent8 = new Intent();
+                        intent8.setClass(MainActivity.this, LoginActivity.class);
+                        startActivity(intent8);
                 }
                 return true;
             }

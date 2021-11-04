@@ -17,18 +17,18 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <TextView
-            android:id="@+id/like_ContactText"
+            android:id="@+id/collect_ContactText"
             android:layout_width="415dp"
             android:layout_height="match_parent"
             android:gravity="center"
-            android:text="My likes"
+            android:text="My Collections"
             android:textColor="#FFFFFF"
             android:textSize="18sp"
             android:textStyle="bold" />
     </LinearLayout>
 
     <ListView
-        android:id="@+id/like_momentsList"
+        android:id="@+id/collect_momentsList"
         android:layout_width="409dp"
         android:layout_height="674dp"
         android:layout_marginStart="1dp"
