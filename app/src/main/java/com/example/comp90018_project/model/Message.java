@@ -3,6 +3,9 @@ package com.example.comp90018_project.model;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * This instance is for chat
+ */
 public class Message implements Comparable<Message>{
     private String sender;
     private String msgid;
@@ -15,15 +18,20 @@ public class Message implements Comparable<Message>{
         this.sender = sender;
         this.receiver = receiver;
         this.content = content;
+        this.date = System.currentTimeMillis();
         this.msgid = null;
-        date = System.currentTimeMillis();
     }
 
     public Message(Map<String,Object> msg){
         this.sender = (String) msg.get("sender");
         this.receiver = (String) msg.get("receiver");
         this.content = (String) msg.get("content");
-        this.date = (long) msg.get("date");
+        if(msg.get("date") == null){
+            this.date = 0;
+        }else{
+            this.date = (long) msg.get("date");
+        }
+
     }
 
     public Map<String,Object> toMap(){
@@ -42,7 +50,6 @@ public class Message implements Comparable<Message>{
     public long getDate() {
         return date;
     }
-
     @Override
     /**
      * If the id of two message is the same, then they are the same message

@@ -50,6 +50,17 @@ public class User {
         this.addedFriends = (ArrayList<Map<String,Object>>) user.get("friends");
     }
 
+    public User() {
+        this.uid = null;
+        this.email = null;
+        this.username = null;
+        this.password = null;
+        this.bio = null;
+        this.avatarUrl = null;
+        this.pendingFriends = new ArrayList<Map<String,Object>>();
+        this.addedFriends = new ArrayList<Map<String,Object>>();
+    }
+
     /**
      * Return a map for update database
      * @return Map<Sring,String></Sring,String>

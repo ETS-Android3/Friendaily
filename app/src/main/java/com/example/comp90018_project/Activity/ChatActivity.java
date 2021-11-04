@@ -51,6 +51,11 @@ public class ChatActivity extends AppCompatActivity {
     private CollectionReference otherMsgRef;
     //It connect with message - [My user ID] - [Another user's ID] in database
     private  CollectionReference myMsgRef;
+    //Connect to message - [My user ID] - [Chat] - [Another user's ID]
+    private DocumentReference myChat;
+    //Connect to message - [Another user's ID] - [Chat] - [My user ID]
+    private DocumentReference otherChat;
+
     private TextView username;
     private Button send;
     private EditText content;
@@ -79,10 +84,6 @@ public class ChatActivity extends AppCompatActivity {
         if (message == null) {
             message = intent.getStringExtra(ProfileActivity.EXTRA_MESSAGE);
         }
-//        message = "CehhWfxzBBZ01Fz2MyNR7rAyAAq1";
-//        mAuth.signInWithEmailAndPassword("111@111.com","123456");
-//        message = "2TgJhepgxFSgDhZ1JpmOFgRlZ6j2";
-//        mAuth.signInWithEmailAndPassword("jack@qq.com","1234567");
         FirebaseUser currentUser = mAuth.getCurrentUser();
         assert currentUser != null;
         userId = currentUser.getUid();
@@ -103,13 +104,18 @@ public class ChatActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
                     Log.i(TAG, "onClick: You click the send button");
-                    if(content.getText().toString().length()==0){
-                        Toast.makeText(ChatActivity.this, "You can't send a empty message", Toast.LENGTH_LONG).show();
+                    if(!hasInitialized){
+                        Toast.makeText(ChatActivity.this, "Please wait for a second!", Toast.LENGTH_LONG).show();
                     }else{
-                        Message msg = new Message(userId, message, content.getText().toString());
-                        sendMessage(msg);
+                        if(content.getText().toString().length()==0){
+                            Toast.makeText(ChatActivity.this, "You can't send a empty message", Toast.LENGTH_LONG).show();
+                        }else{
+                            Message msg = new Message(userId, message, content.getText().toString());
+                            sendMessage(msg);
+                            content.setText(null);
+                        }
                     }
-                    content.setText(null);
+
                 }
             });
             backMain.setOnClickListener(new View.OnClickListener() {
@@ -125,8 +131,9 @@ public class ChatActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        if (!isListening && hasInitialized) {
+        if (!isListening && hasInitialized == true) {
             //resume the Listener
+            Log.i(TAG, "onResume: Set a listener for receiving again");
             setChatListener();
         }
     }
@@ -136,7 +143,9 @@ public class ChatActivity extends AppCompatActivity {
         super.onPause();
         //Stop listening for receiving
         if(recieveMsg != null && isListening){
+            Log.i(TAG, "onPause: Remove a listener for receiving");
             recieveMsg.remove();
+            isListening = false;
         }
     }
 
@@ -147,27 +156,30 @@ public class ChatActivity extends AppCompatActivity {
     private void findChatUser() {
         CollectionReference userRef = mDB.collection("users");
         Log.i(TAG, "findChatUser: find user " + message);
-        userRef.document(message).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+        userRef.document(message).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
-            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-
-                    if (task.getResult().getData() == null){
-                        //Back to the last page
-                        finish();
-                    }else{
-                        otherMsgRef = messageRef.document(message).collection(userId);
-                        myMsgRef = messageRef.document(userId).collection(message);
-                        chatUser = new User(task.getResult().getData());
-                        username = (TextView) findViewById(R.id.chatName);
-                        username.setText(chatUser.getUsername());
-                        getChatHistory();
-                }
+            public void onSuccess(DocumentSnapshot user) {
+                if(user.getData().size() != 0)
+                otherMsgRef = messageRef.document(message).collection(userId);
+                myMsgRef = messageRef.document(userId).collection(message);
+                otherChat = messageRef.document(message).collection("Chat").document(userId);
+                myChat = messageRef.document(userId).collection("Chat").document(message);
+                chatUser = new User(user.getData());
+                username = (TextView) findViewById(R.id.chatName);
+                username.setText(chatUser.getUsername());
+                getChatHistory();
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                finish();
             }
         });
     }
 
     /**
      * Send message to the database
+     * Update last_chat_date in both users' database
      */
     private void sendMessage(Message msg) {
         //This message will be stored in messages-[other user' ID]-[this user's ID]
@@ -178,35 +190,41 @@ public class ChatActivity extends AppCompatActivity {
             public Void apply(@NonNull Transaction transaction) throws FirebaseFirestoreException {
                 //Send a message
                 Long date = msg.getDate();
-                DocumentReference newChatRef = otherMsgRef.document();
-                newChatRef.set(msg.toMap()).addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(@NonNull Void unused) {
-                        Log.i(TAG, "onSuccess: send successful!");
-                        //Add this to msglist
-                        msg.setMsgid(newChatRef.getId());
-                        msgList.add(msg);
 
-                    }
-                }).addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(ChatActivity.this, "Send failed!", Toast.LENGTH_LONG).show();
-                    }
-                });
-                DocumentSnapshot unread = transaction.get(otherMsgRef.document("unread"));
-                if (unread.exists()) {
-                    Double newCount = unread.getDouble("count") + 1.0;
-                    transaction.update(otherMsgRef.document("unread"), "count", newCount);
-                    transaction.update(otherMsgRef.document("unread"), "date", date);
+                DocumentSnapshot otherchat = transaction.get(otherChat);
+                DocumentSnapshot mychat = transaction.get(myChat);
+                Log.i(TAG, "otherchat: Now we should update chat time for others");
+                if (otherchat.exists()) {
+                    Log.i(TAG, "otherchat: Exist");
+                    Double newCount = otherchat.getDouble("unread_count") + 1.0;
+                    transaction.update(otherChat, "unread_count", newCount);
+                    transaction.update(otherChat, "last_chat_date", date);
                 } else {
-                    Map<String, Object> count = new HashMap<>();
-                    count.put("count", 1.0);
-                    count.put("date",date);
-                    transaction.set(otherMsgRef.document("unread"), count);
+                    Log.i(TAG, "otherchat: Nonexist");
+                    Map<String, Object> chat_case = new HashMap<>();
+                    chat_case.put("unread_count", 1.0);
+                    chat_case.put("last_chat_date",date);
+                    transaction.set(otherChat, chat_case);
                 }
-                Log.i(TAG, "update count successful!");
+                if (mychat.exists()) {
+                    transaction.update(myChat, "last_chat_date", date);
+                } else {
+                    Map<String, Object> chat_case = new HashMap<>();
+                    chat_case.put("unread_count", 0);
+                    chat_case.put("last_chat_date",date);
+                    transaction.set(myChat, chat_case);
+                }
+                DocumentReference newChatRef = otherMsgRef.document();
+                transaction.set(newChatRef,msg.toMap());
+                msg.setMsgid(newChatRef.getId());
+                msgList.add(msg);
                 return null;
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(ChatActivity.this, "Send failed!", Toast.LENGTH_LONG).show();
+                Log.w(TAG, "Transaction failure.", e);
             }
         });
     }
@@ -252,40 +270,30 @@ public class ChatActivity extends AppCompatActivity {
                     finish();
                 }else{
                     for (DocumentChange dc : value.getDocumentChanges()) {
-                        switch (dc.getType()) {
-                            case ADDED:
-                                Log.d(TAG, "Add a new document");
-                                if(!dc.getDocument().getId().equals("unread") ){
-                                    Log.d(TAG, "Get a msg!!!");
-                                    QueryDocumentSnapshot msg = dc.getDocument();
-                                    Message newMsg = new Message(msg.getData());
-                                    newMsg.setMsgid(msg.getId());
-                                    mDB.runTransaction(new Transaction.Function<Void>() {
-                                        @Nullable
-                                        @Override
-                                        public Void apply(@NonNull Transaction transaction) throws FirebaseFirestoreException {
-                                            DocumentSnapshot unread = transaction.get(myMsgRef.document("unread"));
-                                            if (unread.exists()) {
-                                                Double newCount = max(unread.getDouble("count") - 1.0,0.0);
-                                                transaction.update(myMsgRef.document("unread"), "count", newCount);
-                                            }
-                                            return null;
-                                        }
-                                    });
-                                    if(!msgList.contains(newMsg)){
-                                        msgList.add(newMsg);
-                                    }else{
-                                        Log.i(TAG, "onEvent: We already have this msg");
+                        if (dc.getType().equals(DocumentChange.Type.ADDED)) {
+                            QueryDocumentSnapshot msg = dc.getDocument();
+                            Message newMsg = new Message(msg.getData());
+                            newMsg.setMsgid(msg.getId());
+                            //Mark msg as read
+                            mDB.runTransaction(new Transaction.Function<Void>() {
+                                @Nullable
+                                @Override
+                                public Void apply(@NonNull Transaction transaction) throws FirebaseFirestoreException {
+                                    DocumentSnapshot chat = transaction.get(myChat);
+                                    if (chat.exists()) {
+                                        Double newCount = max(chat.getDouble("unread_count") - 1.0,0.0);
+                                        transaction.update(myChat, "unread_count", newCount);
                                     }
-                                     Log.i(TAG, "getChatHistory: now we get" + msg.getData().toString());
+                                    return null;
                                 }
-                                break;
-                            case MODIFIED:
-                                Log.d(TAG, "Get a unread msg");
-                                break;
-                            case REMOVED:
-                                //Just in case
-                                break;
+                            });
+                            if(!msgList.contains(newMsg)){
+                                Log.d(TAG, "Get a new msg!!!");
+                                Log.i(TAG, "getChatHistory: now we get" + msg.getData().toString());
+                                msgList.add(newMsg);
+                            }else{
+                                Log.i(TAG,"Got a old msg");
+                            }
                         }
                     }
                     gotReceivedMsg = true;
