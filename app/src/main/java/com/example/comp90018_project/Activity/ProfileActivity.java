@@ -49,6 +49,7 @@ public class ProfileActivity extends AppCompatActivity {
     private ImageView backMain;
     private TextView username;
     private TextView email;
+    private TextView bio;
     private TextView uid;
     private Button button;
     private Button deleteButton;
@@ -100,13 +101,14 @@ public class ProfileActivity extends AppCompatActivity {
         username = (TextView)findViewById(R.id.profileUsername);
         email = (TextView)findViewById(R.id.profileEmail);
         uid = (TextView)findViewById(R.id.profileUid);
+        bio = (TextView)findViewById(R.id.profileBio);
         button = (Button)findViewById(R.id.profileButton);
         deleteButton = (Button)findViewById(R.id.deleteFriendButton);
 
         uid.setText(message);
         button.setText(messageType);
 
-        if (messageType.equals("Add")) {
+        if (messageType.equals("Add") || message.equals(userId)) {
             deleteButton.setVisibility(View.GONE);
         }
 
@@ -119,6 +121,7 @@ public class ProfileActivity extends AppCompatActivity {
                 searchedUser = new User(task.getResult().getDocuments().get(0).getData());
                 username.setText(searchedUser.getUsername());
                 email.setText(searchedUser.getEmail());
+                bio.setText(searchedUser.getBio());
                 String avatar_url = searchedUser.getAvatarUrl();
                 if (avatar_url == null) {
                     avatar.setImageResource(R.drawable.default_user_avatar);
