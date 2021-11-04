@@ -30,5 +30,5 @@ public class BitmapTransfer {
             catch (Exception e){
                 return null;
             }
-        }
+    }
 }

@@ -70,6 +70,7 @@ public class PostMomentActivity extends AppCompatActivity {
 
     private EditText content;
     private ImageView image;
+    private ImageView backMain;
     private Uri image_downloaded_uri;
     private String image_bitmap_str;
     private Button btn_submit;
@@ -92,6 +93,7 @@ public class PostMomentActivity extends AppCompatActivity {
         content = (EditText) findViewById(R.id.moment_content);
         image = (ImageView) findViewById(R.id.moment_image);
         btn_submit = (Button) findViewById(R.id.moment_submit_btn);
+        backMain = findViewById(R.id.commentBackMain);
 
         storageReference = FirebaseStorage.getInstance().getReference();
         mDB = FirebaseFirestore.getInstance();
@@ -120,6 +122,15 @@ public class PostMomentActivity extends AppCompatActivity {
                     startActivity(intent);
                 }
             });
+
+            backMain.setOnClickListener(
+                    new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            finish();
+                        }
+                    }
+            );
         }
     }
 
@@ -178,7 +189,11 @@ public class PostMomentActivity extends AppCompatActivity {
                     {
                         try
                         {
-                            Bitmap bitmap= BitmapFactory.decodeStream(getContentResolver().openInputStream(image_uri));
+                            BitmapFactory.Options option = new BitmapFactory.Options();
+                            option.inSampleSize = 5;
+                            option.inPreferredConfig= Bitmap.Config.RGB_565;
+                            Bitmap bitmap = BitmapFactory.decodeStream(getContentResolver().openInputStream(image_uri), null, option);
+                            bitmap = topSquareScale(bitmap);
                             image_bitmap_str = BitmapTransfer.convertBitmapToString(bitmap);
                             image.setImageBitmap(bitmap);
                         }
@@ -206,74 +221,40 @@ public class PostMomentActivity extends AppCompatActivity {
                         Log.d("tag", "onActivityResult: Gallery Image Uri:  " +  imageFileName);
                         ContentResolver cr = PostMomentActivity.this.getContentResolver();
                         try {
-                            bitmap = BitmapFactory.decodeStream(cr.openInputStream(contentUri));
+                            BitmapFactory.Options option = new BitmapFactory.Options();
+                            option.inSampleSize = 5;
+                            option.inPreferredConfig= Bitmap.Config.RGB_565;
+                            bitmap = BitmapFactory.decodeStream(cr.openInputStream(contentUri), null, option);
                             //设置图片显示，可以看到效果
                         } catch (FileNotFoundException e) {
                             Log.e("Exception", e.getMessage(),e);
                         }
 
-                        image.setImageURI(contentUri);
-                        image_bitmap_str = BitmapTransfer.convertBitmapToString(bitmap);
-                        // uploadImageToFirebase(imageFileName,contentUri);
-
-                        image.setImageURI(contentUri);
                         bitmap = topSquareScale(bitmap);
+                        image.setImageBitmap(bitmap);
                         image_bitmap_str = BitmapTransfer.convertBitmapToString(bitmap);
-
                     }
                 }
             }
     );
-
-//    private Bitmap topSquareScale(Bitmap bitmap) {
-//        if (bitmap == null) {
-//            return null;
-//        }
-//
-//        Bitmap finalBitmap;
-//        int widthOrg = bitmap.getWidth();
-//        int heightOrg = bitmap.getHeight();
-//        int length;
-//
-//        if (widthOrg != heightOrg) {
-//            if (widthOrg > heightOrg) {
-//                length = heightOrg;
-//            }
-//            else {
-//                length = widthOrg;
-//            }
-//
-//            int xTopLeft = (widthOrg - length) / 2;
-//            int yTopLeft = (heightOrg - length) / 2;
-//
-//            try{
-//                finalBitmap = Bitmap.createBitmap(bitmap, xTopLeft, yTopLeft, length, length);
-//            }
-//            catch(Exception e){
-//                return bitmap;
-//            }
-//            return finalBitmap;
-//        }
-//        return bitmap;
-//    }
 
     private Bitmap topSquareScale(Bitmap bitmap) {
         if (bitmap == null) {
             return null;
         }
 
-        Bitmap finalBitmap = bitmap;
+        Bitmap finalBitmap;
         int widthOrg = bitmap.getWidth();
         int heightOrg = bitmap.getHeight();
-        int length = 100;
+        int length;
 
         if (widthOrg != heightOrg) {
-//            if (widthOrg > heightOrg) {
-//                length = heightOrg;
-//            }
-//            else {
-//                length = widthOrg;
-//            }
+            if (widthOrg > heightOrg) {
+                length = heightOrg;
+            }
+            else {
+                length = widthOrg;
+            }
 
             int xTopLeft = (widthOrg - length) / 2;
             int yTopLeft = (heightOrg - length) / 2;
@@ -285,13 +266,8 @@ public class PostMomentActivity extends AppCompatActivity {
                 return bitmap;
             }
             return finalBitmap;
-        } else {
-            //正方形时
-            int TopLeft = (widthOrg - length) / 2;
-            finalBitmap = Bitmap.createBitmap(bitmap, TopLeft, TopLeft, length, length);
-            return finalBitmap;
         }
-        // return bitmap;
+        return bitmap;
     }
 
     private String getFileExt(Uri contentUri) {

@@ -7,41 +7,73 @@
     android:orientation="vertical">
 
     <LinearLayout
-        android:id="@+id/linearLayout"
-        android:layout_width="451dp"
-        android:layout_height="55dp"
-        android:background="#FF0000"
-        android:orientation="horizontal">
+        android:id="@+id/linearLayout3"
+        android:layout_width="match_parent"
+        android:layout_height="77dp"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="0dp"
+        android:layout_marginEnd="0dp"
+        android:background="#4f4f4f"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.6"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/commentBackMain"
+            android:layout_width="wrap_content"
+            android:layout_height="23dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="0dp"
+            android:layout_weight="1"
+            android:contentDescription="@string/left_label"
+            android:src="@drawable/img_15">
+
+        </ImageView>
 
         <TextView
-            android:id="@+id/comment_ContactText"
-            android:layout_width="180dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
+            android:id="@+id/txt_explore"
+            android:layout_width="263dp"
+            android:layout_height="43dp"
+            android:layout_marginTop="18dp"
+            android:layout_weight="7"
+            android:background="@drawable/btn_shape"
             android:gravity="center"
-            android:text="Comments"
-            android:textColor="#FFFFFF"
-            android:textSize="18sp"
-            android:textStyle="bold" />
+            android:text="Comment"
+            android:textColor="@color/black"
+            android:textSize="18sp" />
 
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="0dp"
+            android:layout_weight="1"
+            android:contentDescription="@string/left_label">
+
+        </ImageView>
     </LinearLayout>
 
     <LinearLayout
         android:id="@+id/linearLayout_myPost"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal" >
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal">
 
         <EditText
             android:id="@+id/leave_comment"
-            android:layout_width="200dp"
-            android:layout_height="30dp"
+            android:layout_width="240dp"
+            android:layout_height="match_parent"
+            android:layout_marginStart="30dp"
             android:hint="share your comments" />
 
         <Button
             android:id="@+id/post_comment"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
             android:text="post" />
 
 
@@ -49,10 +81,10 @@
 
     <ListView
         android:id="@+id/comment_List"
-        android:layout_width="409dp"
-        android:layout_height="674dp"
+        android:layout_width="411dp"
+        android:layout_height="596dp"
         android:layout_marginStart="1dp"
-        android:layout_marginTop="1dp"
+        android:layout_marginTop="5dp"
         android:layout_marginEnd="1dp" />
 
 </LinearLayout>

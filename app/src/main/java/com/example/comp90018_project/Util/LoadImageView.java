@@ -32,7 +32,7 @@ public class LoadImageView extends AppCompatImageView {
                 case GET_SUCCESS:
                     bitmap = (Bitmap) message.obj;
                     // onz what will this get called ?
-                    bitmap = topSquareScale(bitmap);
+//                    bitmap = topSquareScale(bitmap);
                     setImageBitmap(bitmap);
                     break;
                 case NETWORK_ERROR:
@@ -77,43 +77,6 @@ public class LoadImageView extends AppCompatImageView {
 //        return bitmap;
 //    }
 
-    private Bitmap topSquareScale(Bitmap bitmap) {
-        if (bitmap == null) {
-            return null;
-        }
-
-        Bitmap finalBitmap;
-        int widthOrg = bitmap.getWidth();
-        int heightOrg = bitmap.getHeight();
-        int length = 100;
-
-        if (widthOrg != heightOrg) {
-//            if (widthOrg > heightOrg) {
-//                length = heightOrg;
-//            }
-//            else {
-//                length = widthOrg;
-//            }
-
-            int xTopLeft = (widthOrg - length) / 2;
-            int yTopLeft = (heightOrg - length) / 2;
-
-            try{
-                finalBitmap = Bitmap.createBitmap(bitmap, xTopLeft, yTopLeft, length, length);
-            }
-            catch(Exception e){
-                return bitmap;
-            }
-            return finalBitmap;
-        } else {
-            //正方形时
-            int TopLeft = (widthOrg - length) / 2;
-            finalBitmap = Bitmap.createBitmap(bitmap, TopLeft, TopLeft, length, length);
-            return finalBitmap;
-        }
-        // return bitmap;
-    }
-
     public Bitmap getBitmap() {
         return bitmap;
     }
@@ -134,7 +97,7 @@ public class LoadImageView extends AppCompatImageView {
     // use a new thread to load image from Internet
     public void loadImageFromURL(String path) {
         Bitmap bitmap = BitmapTransfer.convertStringToBitmap(path);
-        bitmap = topSquareScale(bitmap);
+//        bitmap = topSquareScale(bitmap);
         setImageBitmap(bitmap);
 //        new Thread() {
 //            @Override
