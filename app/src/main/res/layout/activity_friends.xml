@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#3c3c3c">
+    android:background="#4f4f4f">
 
     <LinearLayout
         android:id="@+id/linearLayout"
@@ -20,8 +20,8 @@
 
         <ImageView
             android:id="@+id/friendBackMain"
-            android:layout_width="50dp"
-            android:layout_height="30dp"
+            android:layout_width="wrap_content"
+            android:layout_height="25dp"
             android:layout_gravity="center"
             android:layout_marginTop="0dp"
             android:layout_weight="1"
@@ -32,14 +32,14 @@
 
         <TextView
             android:layout_width="0dp"
-            android:layout_height="50dp"
-            android:layout_marginTop="10dp"
+            android:layout_height="30dp"
+            android:layout_marginTop="23dp"
             android:layout_weight="7"
             android:background="@drawable/btn_shape"
             android:gravity="center"
             android:text="Contacts"
             android:textColor="@color/black"
-            android:textSize="25sp" />
+            android:textSize="20sp" />
 
         <ImageView
             android:layout_width="30dp"

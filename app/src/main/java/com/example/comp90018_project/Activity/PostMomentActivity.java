@@ -114,6 +114,10 @@ public class PostMomentActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View view) {
                     addToFireStore();
+                    Intent intent = new Intent();
+                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                    intent.setClass(PostMomentActivity.this, MainActivity.class);
+                    startActivity(intent);
                 }
             });
         }
@@ -368,10 +372,6 @@ public class PostMomentActivity extends AppCompatActivity {
             @Override
             public void onSuccess(Void unused) {
                 Log.i(TAG, userName + " Post successful!");
-                Intent intent = new Intent();
-                intent.setClass(PostMomentActivity.this, MainActivity.class);
-                finish();
-                startActivity(intent);
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override

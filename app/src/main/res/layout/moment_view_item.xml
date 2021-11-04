@@ -12,9 +12,10 @@
         android:layout_marginRight="7dp">
 
         <com.example.comp90018_project.Util.LoadImageView
+            android:id="@+id/img_avatar"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:id="@+id/img_avatar"/>
+            android:onClick="click" />
 
     </LinearLayout>
 

@@ -41,7 +41,16 @@
       <change beforePath="$PROJECT_DIR$/.gradle/6.7.1/javaCompile/javaCompile.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/6.7.1/javaCompile/javaCompile.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/comp90018_project/Activity/FindNewFriendActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/comp90018_project/Activity/FindNewFriendActivity.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/comp90018_project/Activity/MainActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/comp90018_project/Activity/MainActivity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/comp90018_project/Activity/PostMomentActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/comp90018_project/Activity/PostMomentActivity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/comp90018_project/adapter/MomentAdapter.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/comp90018_project/adapter/MomentAdapter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_friends.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_friends.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_main.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_main.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_message.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_message.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/friend_list.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/friend_list.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/message_list.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/message_list.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/moment_view_item.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/moment_view_item.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -325,28 +334,28 @@
       <screen x="0" y="23" width="1440" height="830" />
     </state>
     <state x="100" y="123" width="1240" height="630" key="AVDManager/0.23.1440.830@0.23.1440.830" timestamp="1635850208171" />
-    <state width="1398" height="80" key="GridCell.Tab.0.bottom" timestamp="1635998768783">
+    <state width="1398" height="127" key="GridCell.Tab.0.bottom" timestamp="1636003573257">
       <screen x="0" y="23" width="1440" height="830" />
     </state>
-    <state width="1398" height="80" key="GridCell.Tab.0.bottom/0.23.1440.830@0.23.1440.830" timestamp="1635998768783" />
+    <state width="1398" height="127" key="GridCell.Tab.0.bottom/0.23.1440.830@0.23.1440.830" timestamp="1636003573257" />
     <state width="1398" height="94" key="GridCell.Tab.0.bottom/0.23.1440.831@0.23.1440.831" timestamp="1635651415688" />
     <state width="1398" height="196" key="GridCell.Tab.0.bottom/0.23.1440.832@0.23.1440.832" timestamp="1635653029106" />
-    <state width="1398" height="80" key="GridCell.Tab.0.center" timestamp="1635998768783">
+    <state width="1398" height="127" key="GridCell.Tab.0.center" timestamp="1636003573257">
       <screen x="0" y="23" width="1440" height="830" />
     </state>
-    <state width="1398" height="80" key="GridCell.Tab.0.center/0.23.1440.830@0.23.1440.830" timestamp="1635998768783" />
+    <state width="1398" height="127" key="GridCell.Tab.0.center/0.23.1440.830@0.23.1440.830" timestamp="1636003573257" />
     <state width="1398" height="94" key="GridCell.Tab.0.center/0.23.1440.831@0.23.1440.831" timestamp="1635651415687" />
     <state width="1398" height="196" key="GridCell.Tab.0.center/0.23.1440.832@0.23.1440.832" timestamp="1635653029104" />
-    <state width="1398" height="80" key="GridCell.Tab.0.left" timestamp="1635998768782">
+    <state width="1398" height="127" key="GridCell.Tab.0.left" timestamp="1636003573256">
       <screen x="0" y="23" width="1440" height="830" />
     </state>
-    <state width="1398" height="80" key="GridCell.Tab.0.left/0.23.1440.830@0.23.1440.830" timestamp="1635998768782" />
+    <state width="1398" height="127" key="GridCell.Tab.0.left/0.23.1440.830@0.23.1440.830" timestamp="1636003573256" />
     <state width="1398" height="94" key="GridCell.Tab.0.left/0.23.1440.831@0.23.1440.831" timestamp="1635651415686" />
     <state width="1398" height="196" key="GridCell.Tab.0.left/0.23.1440.832@0.23.1440.832" timestamp="1635653029103" />
-    <state width="1398" height="80" key="GridCell.Tab.0.right" timestamp="1635998768783">
+    <state width="1398" height="127" key="GridCell.Tab.0.right" timestamp="1636003573257">
       <screen x="0" y="23" width="1440" height="830" />
     </state>
-    <state width="1398" height="80" key="GridCell.Tab.0.right/0.23.1440.830@0.23.1440.830" timestamp="1635998768783" />
+    <state width="1398" height="127" key="GridCell.Tab.0.right/0.23.1440.830@0.23.1440.830" timestamp="1636003573257" />
     <state width="1398" height="94" key="GridCell.Tab.0.right/0.23.1440.831@0.23.1440.831" timestamp="1635651415687" />
     <state width="1398" height="196" key="GridCell.Tab.0.right/0.23.1440.832@0.23.1440.832" timestamp="1635653029105" />
     <state x="229" y="77" key="SettingsEditor" timestamp="1635562411266">

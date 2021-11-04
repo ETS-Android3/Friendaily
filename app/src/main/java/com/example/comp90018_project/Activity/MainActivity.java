@@ -374,6 +374,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setting.setSelected(false);
     }
 
+    public void click(View view) {
+        Intent intent = new Intent(MainActivity.this, PostMomentActivity.class);
+        startActivity(intent);
+    }
+
     @Override
     public void onClick(View view) {
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
