@@ -56,6 +56,7 @@ public class MessageActivity extends AppCompatActivity {
         setContentView(R.layout.activity_message);
         FirebaseUser currentUser = mAuth.getCurrentUser();
         if (currentUser == null){
+            Log.i(TAG, "reload...");
             reload();
         }else {
             // TODO: 2021/10/23 Add construction of layout
@@ -93,7 +94,7 @@ public class MessageActivity extends AppCompatActivity {
                         Map<String, Object> map = new HashMap<String, Object>();
                         String avatar_url = (String) pendingFriends.get(i).get("avatar_url");
                         if (avatar_url == null) {
-                            map.put("avatar", R.drawable.a);
+                            map.put("avatar", R.drawable.default_user_avatar);
                         }
                         else {
                             map.put("avatar", pendingFriends.get(i).get("avatar_url"));

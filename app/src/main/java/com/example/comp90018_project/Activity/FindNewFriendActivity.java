@@ -121,7 +121,7 @@ public class FindNewFriendActivity extends AppCompatActivity {
                         List<Map<String, Object>> userfound_list = new ArrayList<Map<String, Object>>();
                         Map<String, Object> map = new HashMap<String, Object>();
                         if (userfound.getAvatarUrl() == null) {
-                            map.put("avatar", R.drawable.a);
+                            map.put("avatar", R.drawable.default_user_avatar);
                         }
                         else {
                             map.put("avatar", userfound.getAvatarUrl());

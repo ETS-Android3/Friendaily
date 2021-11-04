@@ -34,8 +34,8 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+
 import com.example.comp90018_project.Util.BitmapTransfer;
-import com.example.comp90018_project.Util.ImageHolder;
 import com.example.comp90018_project.model.Moment;
 import com.example.comp90018_project.R;
 import com.example.comp90018_project.model.User;
@@ -75,7 +75,6 @@ public class PostMomentActivity extends AppCompatActivity {
     private Button btn_submit;
     StorageReference storageReference;
     private FirebaseFirestore mDB;
-    private ImageHolder imageHolder;
     private FirebaseAuth mAuth;
     private String USERID;
     String currentPhotoPath;
@@ -107,8 +106,6 @@ public class PostMomentActivity extends AppCompatActivity {
             image.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-//                    imageHolder = new ImageHolder(image);
-//                    imageHolder.selectImage(context);
                     selectImage();
                 }
             });
@@ -124,8 +121,6 @@ public class PostMomentActivity extends AppCompatActivity {
                 }
             });
         }
-
-
     }
 
     /**
@@ -142,7 +137,6 @@ public class PostMomentActivity extends AppCompatActivity {
                     askCameraPermissions();
                 } else if (options[i].equals("Select from gallery")) {
                     Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                    //startActivityForResult(intent, 2);
                     choosePhotoResultLauncher.launch(intent);
                 } else if (options[i].equals("Cancel")) {
                     dialogInterface.dismiss();
@@ -222,12 +216,13 @@ public class PostMomentActivity extends AppCompatActivity {
                             Log.e("Exception", e.getMessage(),e);
                         }
 
-
                         image.setImageURI(contentUri);
                         image_bitmap_str = BitmapTransfer.convertBitmapToString(bitmap);
                         // uploadImageToFirebase(imageFileName,contentUri);
-//                        image_uri = contentUri;
-//                        image_filename = imageFileName;
+
+                        image.setImageURI(contentUri);
+                        image_bitmap_str = BitmapTransfer.convertBitmapToString(bitmap);
+
                     }
                 }
             }
@@ -280,48 +275,7 @@ public class PostMomentActivity extends AppCompatActivity {
         }
     }
 
-//    private void uploadImageToFirebase(String name, Uri contentUri) {
-//        Log.d(TAG, "+++++++++++++ image name is +++++++++++++++++++ " + name);
-//        Log.d(TAG, "+++++++++++++ image uri is +++++++++++++++++++ " + contentUri.toString());
-//        final StorageReference image = storageReference.child("moment_image/" + name);
-//
-//        image.putFile(contentUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-//            @Override
-//            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-//                image.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-//                    @Override
-//                    public void onSuccess(Uri uri) {
-//                        Toast.makeText(PostMomentActivity.this, "Image Is Uploaded. Please wait for updating...", Toast.LENGTH_LONG).show();
-//                        image_downloaded_uri = uri;
-//                        addToFireStore();
-//
-//                        Log.d("tag", "onSuccess: Uploaded Image URl is " + uri.toString());
-//
-//                        if (image_downloaded_uri == null) {
-//                            Log.d("tag", " image_downloaded_uri is null ))))))))))))))");
-//                        } else {
-//                            Log.d("tag", "image_downloaded_uri is not null }}}}}}}}}}} " + image_downloaded_uri);
-//                        }
-//
-//
-//                        Toast.makeText(PostMomentActivity.this, "Image Is Uploaded.", Toast.LENGTH_SHORT).show();
-//                    }
-//                });
-//
-//                Toast.makeText(PostMomentActivity.this, "Image Is Uploaded.", Toast.LENGTH_SHORT).show();
-//            }
-//        }).addOnFailureListener(new OnFailureListener() {
-//            @Override
-//            public void onFailure(@NonNull Exception e) {
-//                Toast.makeText(PostMomentActivity.this, "Upload Failled.", Toast.LENGTH_SHORT).show();
-//            }
-//        });
-//
-//        Log.d(TAG, "image_downloaded_uri is " + image_downloaded_uri);
-//
-////        if (image_downloaded_uri != null) {
-////            // upadate image downloaded uri to firestore
-//    }
+
 
     private void addToFireStore() {
         if (content != null || image_bitmap_str != null){
@@ -343,10 +297,9 @@ public class PostMomentActivity extends AppCompatActivity {
                         Log.e("firebase", "Error getting data", task.getException());
                     } else {
                         String moment_text = null;
-                        //String moment_url = null;
+
                         String moment_bitmap = null;
                         if(content != null) moment_text = content.getText().toString();
-                        //if(image_downloaded_uri != null) moment_url = image_downloaded_uri.toString();
                         moment_bitmap = image_bitmap_str;
                         Long timestamp = System.currentTimeMillis();
                         Date date = new Date(timestamp);
@@ -357,7 +310,9 @@ public class PostMomentActivity extends AppCompatActivity {
                         String user_avatar_url = user.getAvatarUrl();
                         ArrayList<Map<String, Object>> friendList = (ArrayList<Map<String,Object>>) user.getaddedFriends();
                         Moment newMom = new Moment(USERID,timestamp, moment_text, moment_bitmap, username, user_avatar_url);
+
                         Map<String, Object> newMonMap = newMom.toMap();
+
                         for (Map<String, Object> friend : friendList) {
                             String friend_uid = (String) friend.get("uid");
                             String friend_username = (String) friend.get("username");
@@ -428,10 +383,6 @@ public class PostMomentActivity extends AppCompatActivity {
             @Override
             public void onSuccess(Void unused) {
                 Log.i(TAG, userName + " Post successful!");
-                Intent intent = new Intent();
-                intent.setClass(PostMomentActivity.this, MainActivity.class);
-                finish();
-                startActivity(intent);
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override

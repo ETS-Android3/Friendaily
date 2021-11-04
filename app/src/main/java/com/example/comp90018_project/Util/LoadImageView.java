@@ -6,6 +6,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -21,13 +22,17 @@ public class LoadImageView extends AppCompatImageView {
     public static final int GET_SUCCESS = 1;
     public static final int NETWORK_ERROR = 2;
     public static final int SERVER_ERROR = 3;
+
+    private Bitmap bitmap;
+
     private Handler handler = new Handler(Looper.getMainLooper()) {
         @Override
         public void handleMessage(Message message) {
             switch (message.what) {
                 case GET_SUCCESS:
-                    Bitmap bitmap = (Bitmap) message.obj;
+                    bitmap = (Bitmap) message.obj;
                     // onz what will this get called ?
+                    bitmap = topSquareScale(bitmap);
                     setImageBitmap(bitmap);
                     break;
                 case NETWORK_ERROR:
@@ -39,6 +44,42 @@ public class LoadImageView extends AppCompatImageView {
             }
         }
     };
+
+    private Bitmap topSquareScale(Bitmap bitmap) {
+        if (bitmap == null) {
+            return null;
+        }
+
+        Bitmap finalBitmap = bitmap;
+        int widthOrg = bitmap.getWidth();
+        int heightOrg = bitmap.getHeight();
+        int length;
+
+        if (widthOrg != heightOrg) {
+            if (widthOrg > heightOrg) {
+                length = heightOrg;
+            }
+            else {
+                length = widthOrg;
+            }
+
+            int xTopLeft = (widthOrg - length) / 2;
+            int yTopLeft = (heightOrg - length) / 2;
+
+            try{
+                finalBitmap = Bitmap.createBitmap(bitmap, xTopLeft, yTopLeft, length, length);
+            }
+            catch(Exception e){
+                return bitmap;
+            }
+            return finalBitmap;
+        }
+        return bitmap;
+    }
+
+    public Bitmap getBitmap() {
+        return bitmap;
+    }
 
     // provide one constructor, should be enough ?
     public LoadImageView(Context context) {
@@ -55,32 +96,35 @@ public class LoadImageView extends AppCompatImageView {
 
     // use a new thread to load image from Internet
     public void loadImageFromURL(String path) {
-        new Thread() {
-            @Override
-            public void run() {
-                try {
-                    URL url = new URL(path);
-                    HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-                    connection.setRequestMethod("GET");
-                    connection.setConnectTimeout(10000);
-                    int code = connection.getResponseCode();
-                    if (code == 200) {
-                        InputStream inputStream = connection.getInputStream();
-                        // decode the input stream to be the bitmap
-                        Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
-                        Message message = Message.obtain();
-                        message.obj = bitmap;
-                        message.what = GET_SUCCESS;
-                        handler.sendMessage(message);
-                        inputStream.close();
-                    } else {
-                        handler.sendEmptyMessage(SERVER_ERROR);
-                    }
-                } catch (IOException e) {
-                    e.printStackTrace();
-                    handler.sendEmptyMessage(NETWORK_ERROR);
-                }
-            }
-        }.start();
+        Bitmap bitmap = BitmapTransfer.convertStringToBitmap(path);
+        bitmap = topSquareScale(bitmap);
+        setImageBitmap(bitmap);
+//        new Thread() {
+//            @Override
+//            public void run() {
+//                try {
+//                    URL url = new URL(path);
+//                    HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+//                    connection.setRequestMethod("GET");
+//                    connection.setConnectTimeout(10000);
+//                    int code = connection.getResponseCode();
+//                    if (code == 200) {
+//                        InputStream inputStream = connection.getInputStream();
+//                        // decode the input stream to be the bitmap
+//                        Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
+//                        Message message = Message.obtain();
+//                        message.obj = bitmap;
+//                        message.what = GET_SUCCESS;
+//                        handler.sendMessage(message);
+//                        inputStream.close();
+//                    } else {
+//                        handler.sendEmptyMessage(SERVER_ERROR);
+//                    }
+//                } catch (IOException e) {
+//                    e.printStackTrace();
+//                    handler.sendEmptyMessage(NETWORK_ERROR);
+//                }
+//            }
+//        }.start();
     }
 }

@@ -3,6 +3,7 @@ package com.example.comp90018_project.Activity;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.comp90018_project.R;
+import com.example.comp90018_project.adapter.MomentAdapter;
 import com.example.comp90018_project.model.User;
 import com.example.comp90018_project.Util.LoadImageView;
 
@@ -13,6 +14,9 @@ import androidx.fragment.app.FragmentTransaction;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.res.ColorStateList;
+import android.graphics.Color;
+import android.media.Image;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -26,6 +30,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -47,7 +52,9 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import static com.example.comp90018_project.Activity.LoginActivity.USERID;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
@@ -59,11 +66,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     // UI Object
     private TextView txt_topbar;
-    private TextView txt_channel;
-    private TextView txt_message;
-    private TextView txt_setting;
+    private ImageView channel;
+    private ImageView message;
+    private ImageView setting;
     private FrameLayout ly_content;
-    private ImageButton find_new_friend_btn;
+    private ImageView find_new_friend;
 
     // todo:Fragment Object
     private FragmentManager fragmentManager;
@@ -132,6 +139,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             USERID = currentUser.getUid();
             Log.i(TAG, "test");
             setContentView(R.layout.activity_main);
+            momentView();
             if (getSupportActionBar() != null) {
                 getSupportActionBar().hide();
             }
@@ -139,7 +147,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             fragmentManager = getSupportFragmentManager();
             bindViews();
             findNewFriendView();
-            // txt_channel.performClick()
+            // channel.performClick()
 
             initView();
         }
@@ -151,8 +159,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void findNewFriendView() {
-        find_new_friend_btn = (ImageButton)findViewById(R.id.addFriendButton);
-        find_new_friend_btn.setOnClickListener(new View.OnClickListener() {
+        find_new_friend = (ImageView)findViewById(R.id.addFriendImage);
+        find_new_friend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(MainActivity.this, FindNewFriendActivity.class);
@@ -162,21 +170,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void bindViews() {
-        txt_topbar = (TextView)findViewById(R.id.txt_topbar);
-        txt_channel = (TextView)findViewById(R.id.txt_channel);
-        txt_message = (TextView)findViewById(R.id.txt_message);
-        txt_setting = (TextView)findViewById(R.id.txt_setting);
-        ly_content = (FrameLayout) findViewById(R.id.ly_content);
+        txt_topbar = (TextView)findViewById(R.id.txt_explore);
+        channel = (ImageView)findViewById(R.id.channel);
+        message = (ImageView) findViewById(R.id.message);
+        setting = (ImageView)findViewById(R.id.setting);
+//        ly_content = (FrameLayout) findViewById(R.id.ly_content);
 
-        txt_channel.setOnClickListener(this);
-        txt_message.setOnClickListener(this);
-        txt_message.setOnClickListener(new View.OnClickListener() {
+        channel.setOnClickListener(this);
+        message.setOnClickListener(this);
+        message.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(MainActivity.this, PostMomentActivity.class);
                 startActivity(intent);
             }
         });
+        setting.setOnClickListener(this);
     }
 
     private void initView() {
@@ -192,6 +201,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         user_email = headerView.findViewById(R.id.tv_menu_useremail);
         user_bio = headerView.findViewById(R.id.tv_menu_usersign);
         edit_user = headerView.findViewById(R.id.profileButton);
+
+        navigationView.setBackgroundColor(Color.parseColor("#3c3c3c"));
+        navigationView.setItemTextColor(ColorStateList.valueOf(Color.parseColor("#F88A99")));
 
         new Thread(new Runnable() {
             @Override
@@ -298,19 +310,74 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         DatabaseReference localRef = FirebaseDatabase.getInstance().getReference("usersAvailable");
                         localRef.child(mAuth.getCurrentUser().getUid()).removeValue();
                         mAuth.signOut();
+
                         Intent intent8 = new Intent();
+                        intent8.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                         intent8.setClass(MainActivity.this, LoginActivity.class);
                         startActivity(intent8);
+
                 }
                 return true;
             }
         });
     }
 
+    private void momentView() {
+        ListView MomentListview = (ListView) findViewById(R.id.momentsList);
+        MomentListview.setAdapter(null);
+        String UserID = currentUser.getUid();
+        Log.d(TAG, UserID);
+        // Get moment query and set adapter
+        //CollectionReference momentRef = mDB.collection("moments");
+        DocumentReference docRef = mDB.collection("moments").document(USERID);
+        //Query query = momentRef.whereEqualTo("uid", USERID);
+        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (!task.isSuccessful()) {
+                    Log.e("firebase", "Error getting data", task.getException());
+                } else {
+                    Log.d(TAG, "===============================TRY TO GET MOMENTS LIST ========================================");
+
+                    Log.d(TAG, "===============================" +  task.getResult().getData().size() + "========================================");
+                    ArrayList<Map<String, Object>> moments_list = (ArrayList<Map<String, Object>>) task.getResult().getData().get("all_friends_moments");
+                    if (moments_list != null) {
+                        Log.d(TAG, "moments list get");
+                        ListView MomentListview = (ListView) findViewById(R.id.momentsList);
+                        List<Map<String, Object>> momentfound_list = new ArrayList<Map<String, Object>>();
+                        for (int i=moments_list.size() - 1; i >= 0; i--) {
+                            Map<String, Object> map = new HashMap<String, Object>();
+                            Map<String, Object> moment_map = moments_list.get(i);
+                            String avatar_url = (String) moment_map.get("user_avatar_url");
+                            if (avatar_url == null) {
+                                map.put("avatar", R.drawable.default_user_avatar);
+                            } else {
+                                map.put("avatar", moment_map.get("user_avatar_url"));
+                            }
+                            map.put("name", moment_map.get("username"));
+                            map.put("content", moment_map.get("content"));
+                            map.put("image", moment_map.get("image_url"));
+                            map.put("timestamp", moment_map.get("date"));
+                            momentfound_list.add(map);
+                        }
+                        MomentAdapter adapter = new MomentAdapter(MainActivity.this);
+                        adapter.setMomentList(momentfound_list);
+                        MomentListview.setAdapter(adapter);
+                    }
+                }
+            }
+        });
+    }
+
     private void setNotSelected() {
-        txt_channel.setSelected(false);
-        txt_message.setSelected(false);
-        txt_setting.setSelected(false);
+        channel.setSelected(false);
+        message.setSelected(false);
+        setting.setSelected(false);
+    }
+
+    public void click(View view) {
+        Intent intent = new Intent(MainActivity.this, PostMomentActivity.class);
+        startActivity(intent);
     }
 
     @Override
@@ -322,25 +389,26 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 //        if(settingF != null) fragmentTransaction.hide(settingF);
         //todo: hideallfragment ??
         switch (view.getId()) {
-            case R.id.txt_channel:
+            case R.id.channel:
                 Toast.makeText(MainActivity.this, "This is text channel", Toast.LENGTH_SHORT).show();
+                momentView();
 //                setNotSelected();
 //                txt_topbar.setText(R.string.tab_menu_normal);
-//                txt_channel.setSelected(true);
+//                channel.setSelected(true);
 //                if (channelF == null) {
 //                    channelF = new ChannelFragment();
 //                    fragmentTransaction.add(R.id.ly_content, channelF);
 //                } else {
 //                    fragmentTransaction.show(channelF);
 //                }
-                Intent intent = new Intent(MainActivity.this, ViewMomentActivity.class);
-                startActivity(intent);
+//                Intent intent = new Intent(MainActivity.this, ViewMomentActivity.class);
+//                startActivity(intent);
                 break;
-            case R.id.txt_message:
+            case R.id.message:
                 Toast.makeText(MainActivity.this, "This is text message", Toast.LENGTH_SHORT).show();
 //                setNotSelected();
 //                txt_topbar.setText(R.string.tab_menu_message);
-//                txt_message.setSelected(true);
+//                message.setSelected(true);
 //                if (announceF == null) {
 //                    announceF = new AnnounceFragment();
 //                    fragmentTransaction.add(R.id.ly_content, announceF);
@@ -348,11 +416,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 //                    fragmentTransaction.show(announceF);
 //                }
                 break;
-            case R.id.txt_setting:
+            case R.id.setting:
                 Toast.makeText(MainActivity.this, "This is text setting", Toast.LENGTH_SHORT).show();
+                ListView MomentListview = (ListView) findViewById(R.id.momentsList);
+                MomentListview.setAdapter(null);
 //                setNotSelected();
 //                txt_topbar.setText(R.string.tab_menu_setting);
-//                txt_setting.setSelected(true);
+//                setting.setSelected(true);
 //                if (settingF == null) {
 //                    settingF = new FriendFragment();
 //                    fragmentTransaction.add(R.id.ly_content, settingF);

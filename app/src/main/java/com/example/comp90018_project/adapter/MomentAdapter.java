@@ -3,24 +3,27 @@ package com.example.comp90018_project.adapter;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.text.ParseException;
 
+
 import androidx.annotation.NonNull;
 
 import com.example.comp90018_project.Activity.MainActivity;
 import com.example.comp90018_project.Activity.PostMomentActivity;
 import com.example.comp90018_project.Activity.ViewCommentActivity;
-import com.example.comp90018_project.Activity.ViewMomentActivity;
+
 import com.example.comp90018_project.R;
 import com.example.comp90018_project.Util.LoadImageView;
 import com.example.comp90018_project.model.Moment;
@@ -114,7 +117,14 @@ public class MomentAdapter extends BaseAdapter {
             timestamp.setText(ts);
             name.setText(username);
             content.setText(mom_content);
-            image.loadImageFromURL(mom_img_url);
+
+            if (mom_img_url == null) {
+                image.setVisibility(View.GONE);
+            }
+            else {
+                image.loadImageFromURL(mom_img_url);
+            }
+
 
             like.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -154,7 +164,6 @@ public class MomentAdapter extends BaseAdapter {
             System.out.println(e);
         }
 
-        // set onclick listener for collections, likes, commments
         return view;
     }
 

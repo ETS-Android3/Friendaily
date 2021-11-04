@@ -25,7 +25,7 @@
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="5dp"
         android:text="Tomori Nao"
-        android:textColor="@color/text_white"
+        android:textColor="#F88A99"
         android:textSize="20dp" />
 
     <TextView
@@ -35,7 +35,7 @@
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="5dp"
         android:text="aaa@a.com"
-        android:textColor="@color/text_white"
+        android:textColor="#F88A99"
         android:textSize="15dp" />
 
     <TextView
@@ -45,7 +45,7 @@
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="5dp"
         android:text="aaa"
-        android:textColor="@color/text_white"
+        android:textColor="#F88A99"
         android:textSize="15dp" />
 
     <Button
@@ -59,7 +59,7 @@
         android:layout_marginBottom="260dp"
         android:background="@drawable/btn_shape"
         android:text="Edit"
-        android:textColor="@color/black"
+        android:textColor="#F88A99"
         android:textSize="12dp" />
 
 </LinearLayout>

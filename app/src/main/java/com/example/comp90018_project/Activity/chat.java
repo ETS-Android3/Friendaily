@@ -10,9 +10,7 @@
 //import android.widget.ScrollView;
 //import android.widget.TextView;
 //
-//import androidx.appcompat.app.AppCompatActivity;
-//
-//import com.example.comp90018_project.R;
+
 //import com.firebase.client.ChildEventListener;
 //import com.firebase.client.DataSnapshot;
 //import com.firebase.client.Firebase;

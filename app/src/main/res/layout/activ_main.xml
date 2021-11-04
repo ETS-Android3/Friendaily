@@ -153,15 +153,15 @@
 
 
             <ImageView
-                android:id="@+id/iv_main"
+                android:id="@+id/txt_channel"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_gravity="center_vertical"
                 android:layout_marginTop="-1dp"
                 android:layout_weight="1"
+                android:contentDescription="@string/explore_main"
                 android:drawablePadding="3dp"
-                android:src="@drawable/img_3"
-                android:contentDescription="@string/explore_main" />
+                android:src="@drawable/img_3" />
 
             <ImageView
                 android:id="@+id/iv_chat"
@@ -196,33 +196,7 @@
             android:layout_above="@id/ly_tab_bar"/>-->
 
 
-        <FrameLayout
-            android:id="@+id/ly_content"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_above="@id/div_tab_bar"
-            android:layout_below="@id/ly_top_bar"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="2dp"
-            tools:ignore="NotSibling" />
-
-
     </RelativeLayout>
-
-
-    <com.google.android.material.navigation.NavigationView
-        android:id="@+id/nav"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_gravity="left"
-        android:fitsSystemWindows="true"
-        app:headerLayout="@layout/head"
-        app:menu="@menu/menu"
-        tools:ignore="MissingConstraints">
-
-    </com.google.android.material.navigation.NavigationView>
-
-
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

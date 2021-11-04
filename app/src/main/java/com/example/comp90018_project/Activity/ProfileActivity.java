@@ -102,7 +102,7 @@ public class ProfileActivity extends AppCompatActivity {
                 email.setText(searchedUser.getEmail());
                 String avatar_url = searchedUser.getAvatarUrl();
                 if (avatar_url == null) {
-                    avatar.setImageResource(R.drawable.a);
+                    avatar.setImageResource(R.drawable.default_user_avatar);
                 } else {
                     avatar.loadImageFromURL(avatar_url);
                 }

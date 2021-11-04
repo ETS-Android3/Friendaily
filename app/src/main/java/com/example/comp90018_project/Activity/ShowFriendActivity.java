@@ -88,7 +88,7 @@ public class ShowFriendActivity extends AppCompatActivity {
                             Map<String, Object> map = new HashMap<String, Object>();
                             String avatar_url = (String) friendList.get(i).get("avatar_url");
                             if (avatar_url == null) {
-                                map.put("avatar", R.drawable.a);
+                                map.put("avatar", R.drawable.default_user_avatar);
                             }
                             else {
                                 map.put("avatar", friendList.get(i).get("avatar_url"));
