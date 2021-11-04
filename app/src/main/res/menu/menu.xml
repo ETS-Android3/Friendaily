@@ -23,16 +23,16 @@
             android:icon="@mipmap/menu_item4" />
         <item
             android:id="@+id/menu_item6"
-            android:title="Setting"
-            android:icon="@mipmap/menu_item5" />
+            android:title="Nearby"
+            android:icon="@mipmap/nearby" />
         <item
             android:id="@+id/menu_item7"
             android:title="Messages"
             android:icon="@mipmap/message" />
         <item
             android:id="@+id/menu_item8"
-            android:title="Log out"/>
-<!--            android:icon="@mipmap/menu_item5" />-->
+            android:title="Log out"
+            android:icon="@mipmap/logout" />
     </group>
 
 </menu>

@@ -50,18 +50,18 @@ public class LoadImageView extends AppCompatImageView {
             return null;
         }
 
-        Bitmap finalBitmap = bitmap;
+        Bitmap finalBitmap;
         int widthOrg = bitmap.getWidth();
         int heightOrg = bitmap.getHeight();
-        int length;
+        int length = 200;
 
-        if (widthOrg != heightOrg) {
-            if (widthOrg > heightOrg) {
-                length = heightOrg;
-            }
-            else {
-                length = widthOrg;
-            }
+        if (widthOrg > length || heightOrg > length) {
+//            if (widthOrg > heightOrg) {
+//                length = heightOrg;
+//            }
+//            else {
+//                length = widthOrg;
+//            }
 
             int xTopLeft = (widthOrg - length) / 2;
             int yTopLeft = (heightOrg - length) / 2;

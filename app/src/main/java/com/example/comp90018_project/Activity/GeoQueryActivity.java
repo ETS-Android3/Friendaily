@@ -15,6 +15,7 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.comp90018_project.adapter.FriendAdapter;
@@ -50,7 +51,7 @@ public class GeoQueryActivity extends AppCompatActivity {
     private ArrayList<UserNearby> usersNearby;
     Map<String,Object> userInfo = new HashMap<>();
 
-    private Button search;
+    private TextView search;
     private ImageView backMain;
     private GPSTracker gps;
 
@@ -71,8 +72,8 @@ public class GeoQueryActivity extends AppCompatActivity {
         userInfo = new HashMap<>();
         setContentView(R.layout.activity_geo_query);
         usersNearby = new ArrayList<UserNearby>();
-        search = findViewById(R.id.searchNearby_Button);
-        backMain = findViewById(R.id.backMain);
+        search = findViewById(R.id.searchNearby);
+        backMain = findViewById(R.id.nearByBackMain);
         search.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -253,7 +254,7 @@ public class GeoQueryActivity extends AppCompatActivity {
                     Log.i(TAG, String.valueOf(task.getResult().getDocuments().get(0).getData()));
                     Map<String, Object> userGet = task.getResult().getDocuments().get(0).getData();
                     if(userGet.get("avatar_url") == null){
-                        userInfo.put("avatar", R.drawable.a);
+                        userInfo.put("avatar", R.drawable.default_user_avatar);
                     }else{
                         userInfo.put("avatar", userGet.get("avatar_url"));
                     }
