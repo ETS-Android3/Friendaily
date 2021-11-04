@@ -18,8 +18,8 @@
 
         <com.example.comp90018_project.Util.LoadImageView
             android:id="@+id/pendingFriendAvatar"
-            android:layout_width="15dp"
-            android:layout_height="match_parent"
+            android:layout_width="12dp"
+            android:layout_height="76dp"
             android:layout_marginStart="35dp"
             android:layout_marginTop="4dp"
             android:layout_weight="1"
@@ -30,16 +30,16 @@
             android:id="@+id/pendingFriendUsername"
             android:layout_width="8dp"
             android:layout_height="match_parent"
+            android:layout_marginLeft="10dp"
             android:layout_weight="1"
-            android:layout_marginLeft="15dp"
             android:gravity="center|start"
             android:text="TextView"
             android:textColor="@color/black" />
 
         <Button
             android:id="@+id/agreeButton"
-            android:layout_width="3dp"
-            android:layout_height="30dp"
+            android:layout_width="2dp"
+            android:layout_height="25dp"
             android:layout_weight="1"
             android:background="@drawable/btn_shape"
             android:text="Agree"
@@ -47,8 +47,8 @@
 
         <Button
             android:id="@+id/disagreeButton"
-            android:layout_width="3dp"
-            android:layout_height="30dp"
+            android:layout_width="2dp"
+            android:layout_height="25dp"
             android:layout_weight="1"
             android:background="@drawable/btnshape2"
             android:text="Disagree"

@@ -311,6 +311,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         localRef.child(mAuth.getCurrentUser().getUid()).removeValue();
                         mAuth.signOut();
                         Intent intent = new Intent();
+                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                         intent.setClass(MainActivity.this, LoginActivity.class);
                         startActivity(intent);
                 }
@@ -345,7 +346,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             Map<String, Object> moment_map = moments_list.get(i);
                             String avatar_url = (String) moment_map.get("user_avatar_url");
                             if (avatar_url == null) {
-                                map.put("avatar", R.drawable.a);
+                                map.put("avatar", R.drawable.default_user_avatar);
                             } else {
                                 map.put("avatar", moment_map.get("user_avatar_url"));
                             }
