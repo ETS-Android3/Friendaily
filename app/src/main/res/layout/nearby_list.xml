@@ -3,21 +3,22 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:minHeight="80dp"
-    android:orientation="horizontal"
-    android:background="@drawable/btnshape2">
+    android:background="@drawable/btnshape2"
+    android:minHeight="70dp"
+    android:orientation="horizontal">
 
     <com.example.comp90018_project.Util.LoadImageView
         android:id="@+id/NearbyUserAvatar"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
         android:layout_marginStart="35dp"
-        android:scaleType="fitStart"/>
+        android:layout_marginTop="3dp"
+        android:scaleType="fitStart" />
 
     <TextView
 
         android:id="@+id/NearbyUserName"
-        android:layout_width="wrap_content"
+        android:layout_width="50dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
         android:layout_marginLeft="25dp"

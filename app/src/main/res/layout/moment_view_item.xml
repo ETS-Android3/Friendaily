@@ -14,8 +14,7 @@
         <com.example.comp90018_project.Util.LoadImageView
             android:id="@+id/img_avatar"
             android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:onClick="click" />
+            android:layout_height="50dp" />
 
     </LinearLayout>
 

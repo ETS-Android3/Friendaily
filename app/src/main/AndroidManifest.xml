@@ -20,9 +20,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Design.Light.NoActionBar">
-        <activity
-            android:name=".Activity.MyMomentActivity"
-            android:exported="true" />
+<!--        <activity-->
+<!--            android:name=".Activity.MyMomentActivity"-->
+<!--            android:exported="true" />-->
         <activity
             android:name=".Activity.MyLikeActivity"
             android:exported="true" />
@@ -56,11 +56,12 @@
         <activity android:name=".Activity.RegisterActivity" />
         <activity android:name=".Activity.HomeActivity" />
         <activity android:name=".Activity.ShowFriendActivity" />
-        <activity android:name=".Activity.ViewMomentActivity" />
+<!--        <activity android:name=".Activity.ViewMomentActivity" />-->
         <activity android:name=".Activity.ProfileActivity"/>
         <activity android:name=".Activity.MessageActivity"/>
+        <activity android:name=".Activity.ChatActivity"/>
 
-        <service android:name=".model.GPSTracker" />
+<!--        <service android:name=".model.GPSTracker" />-->
     </application>
 
 </manifest>

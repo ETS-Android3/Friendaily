@@ -3,7 +3,9 @@ package com.example.comp90018_project.Activity;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.comp90018_project.R;
+import com.example.comp90018_project.adapter.FriendAdapter;
 import com.example.comp90018_project.adapter.MomentAdapter;
+import com.example.comp90018_project.adapter.ProfileAdapter;
 import com.example.comp90018_project.model.User;
 import com.example.comp90018_project.Util.LoadImageView;
 
@@ -25,6 +27,7 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
@@ -41,6 +44,7 @@ import com.google.android.material.navigation.NavigationView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.GetTokenResult;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.CollectionReference;
@@ -89,9 +93,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private TextView user_name;
     private TextView user_email;
     private TextView user_bio;
+    private ListView MomentListview;
     private Button edit_user;
     private User myInfo;
     private User user;
+
+    public static final String EXTRA_MESSAGE = "com.example.comp90018_project.CHAT_MESSAGE";
 
 
     Handler handler = new Handler(Looper.getMainLooper()) {
@@ -178,13 +185,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         channel.setOnClickListener(this);
         message.setOnClickListener(this);
-        message.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this, PostMomentActivity.class);
-                startActivity(intent);
-            }
-        });
+//        message.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Intent intent = new Intent(MainActivity.this, PostMomentActivity.class);
+//                startActivity(intent);
+//            }
+//        });
         setting.setOnClickListener(this);
     }
 
@@ -203,7 +210,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         edit_user = headerView.findViewById(R.id.profileButton);
 
         navigationView.setBackgroundColor(Color.parseColor("#3c3c3c"));
-        navigationView.setItemTextColor(ColorStateList.valueOf(Color.parseColor("#F88A99")));
+        navigationView.setItemTextColor(ColorStateList.valueOf(Color.parseColor("#FFFFFF")));
+//        navigationView.setItemTextColor(ColorStateList.valueOf(Color.parseColor("#F88A99")));
 
         new Thread(new Runnable() {
             @Override
@@ -291,8 +299,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         startActivity(intent5);
                         break;
                     case R.id.menu_item6:
-                        //Setting avatar and bio
-                        Intent intent6 = new Intent(MainActivity.this, HomeActivity.class);
+                        Intent intent6 = new Intent(MainActivity.this, GeoQueryActivity.class);
                         startActivity(intent6);
                         break;
                     case R.id.menu_item7:
@@ -302,19 +309,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         break;
                     case R.id.menu_item8:
                         // Log Out
-                        Map<String, Object> isOffline = new HashMap<String,Object>();
-                        isOffline.put("status",false);
-                        isOffline.put("last_status_changed",System.currentTimeMillis());
-                        DatabaseReference statusRef = FirebaseDatabase.getInstance().getReference("status/"+currentUser.getUid());
-                        statusRef.updateChildren(isOffline);
-                        DatabaseReference localRef = FirebaseDatabase.getInstance().getReference("usersAvailable");
-                        localRef.child(mAuth.getCurrentUser().getUid()).removeValue();
-                        mAuth.signOut();
 
-                        Intent intent8 = new Intent();
-                        intent8.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-                        intent8.setClass(MainActivity.this, LoginActivity.class);
-                        startActivity(intent8);
+//                        Map<String, Object> isOffline = new HashMap<String,Object>();
+//                        isOffline.put("status",false);
+//                        isOffline.put("last_status_changed",System.currentTimeMillis());
+//                        DatabaseReference statusRef = FirebaseDatabase.getInstance().getReference("status/"+currentUser.getUid());
+//                        statusRef.updateChildren(isOffline);
+//                        DatabaseReference localRef = FirebaseDatabase.getInstance().getReference("usersAvailable");
+//                        localRef.child(mAuth.getCurrentUser().getUid()).removeValue();
+//                        mAuth.signOut();
+//
+//                        Intent intent8 = new Intent();
+//                        intent8.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+//                        intent8.setClass(MainActivity.this, LoginActivity.class);
+//                        startActivity(intent8);
+
+
+                        logout();
 
                 }
                 return true;
@@ -323,7 +334,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void momentView() {
-        ListView MomentListview = (ListView) findViewById(R.id.momentsList);
+        MomentListview = findViewById(R.id.momentsList);
         MomentListview.setAdapter(null);
         String UserID = currentUser.getUid();
         Log.d(TAG, UserID);
@@ -343,7 +354,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     ArrayList<Map<String, Object>> moments_list = (ArrayList<Map<String, Object>>) task.getResult().getData().get("all_friends_moments");
                     if (moments_list != null) {
                         Log.d(TAG, "moments list get");
-                        ListView MomentListview = (ListView) findViewById(R.id.momentsList);
                         List<Map<String, Object>> momentfound_list = new ArrayList<Map<String, Object>>();
                         for (int i=moments_list.size() - 1; i >= 0; i--) {
                             Map<String, Object> map = new HashMap<String, Object>();
@@ -369,15 +379,87 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         });
     }
 
+    private void friendView() {
+        MomentListview.setAdapter(null);
+        String UserID = currentUser.getUid();
+        Log.i(TAG, UserID);
+        CollectionReference friendRef = mDB.collection("users");
+        Query query = friendRef.whereEqualTo("uid", UserID);
+        query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (!task.isSuccessful()) {
+                    Log.e("firebase", "Error getting data", task.getException());
+                } else {
+                    User user = new User(task.getResult().getDocuments().get(0).getData());
+                    ArrayList<Map<String,Object>> friendList = (ArrayList<Map<String,Object>>) user.getaddedFriends();
+                    if (friendList != null) {
+                        Log.d(TAG, "friend list" + friendList);
+                        List<Map<String, Object>> userfound_list = new ArrayList<Map<String, Object>>();
+                        for (int i = 0; i < friendList.size(); i++) {
+                            Map<String, Object> map = new HashMap<String, Object>();
+                            String avatar_url = (String) friendList.get(i).get("avatar_url");
+                            if (avatar_url == null) {
+                                map.put("avatar", R.drawable.default_user_avatar);
+                            }
+                            else {
+                                map.put("avatar", friendList.get(i).get("avatar_url"));
+                            }
+                            map.put("name", friendList.get(i).get("username"));
+                            userfound_list.add(map);
+                        }
+                        FriendAdapter adapter = new FriendAdapter(MainActivity.this);
+                        adapter.setFriendList(userfound_list);
+                        MomentListview.setAdapter(adapter);
+                        MomentListview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                            @Override
+                            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                                String selectUser = (String) friendList.get(position).get("uid");
+                                Log.d(TAG, "selected:" + selectUser);
+                                Intent intent = new Intent(MainActivity.this, ChatActivity.class);
+                                intent.putExtra(EXTRA_MESSAGE, selectUser);
+                                startActivity(intent);
+                            }
+                        });
+                    }
+                }
+            }
+        });
+    }
+
+    private void profileView() {
+        MomentListview.setAdapter(null);
+        String UserID = currentUser.getUid();
+        Log.i(TAG, UserID);
+        CollectionReference friendRef = mDB.collection("users");
+        Query query = friendRef.whereEqualTo("uid", UserID);
+        query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (!task.isSuccessful()) {
+                    Log.e("firebase", "Error getting data", task.getException());
+                } else {
+                    User user = new User(task.getResult().getDocuments().get(0).getData());
+                    List<Map<String, Object>> userProfile = new ArrayList<Map<String, Object>>();
+                    Map<String, Object> map = new HashMap<String, Object>();
+                    map.put("avatar", user.getAvatarUrl());
+                    map.put("username", user.getUsername());
+                    map.put("email", user.getEmail());
+                    map.put("uid", user.getUid());
+                    map.put("bio", user.getBio());
+                    userProfile.add(map);
+                    ProfileAdapter adapter = new ProfileAdapter(MainActivity.this);
+                    adapter.setProfileList(userProfile);
+                    MomentListview.setAdapter(adapter);
+                }
+            }
+        });
+    }
+
     private void setNotSelected() {
         channel.setSelected(false);
         message.setSelected(false);
         setting.setSelected(false);
-    }
-
-    public void click(View view) {
-        Intent intent = new Intent(MainActivity.this, PostMomentActivity.class);
-        startActivity(intent);
     }
 
     @Override
@@ -406,6 +488,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             case R.id.message:
                 Toast.makeText(MainActivity.this, "This is text message", Toast.LENGTH_SHORT).show();
+                friendView();
 //                setNotSelected();
 //                txt_topbar.setText(R.string.tab_menu_message);
 //                message.setSelected(true);
@@ -418,8 +501,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             case R.id.setting:
                 Toast.makeText(MainActivity.this, "This is text setting", Toast.LENGTH_SHORT).show();
-                ListView MomentListview = (ListView) findViewById(R.id.momentsList);
-                MomentListview.setAdapter(null);
+                profileView();
 //                setNotSelected();
 //                txt_topbar.setText(R.string.tab_menu_setting);
 //                setting.setSelected(true);
@@ -450,6 +532,25 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 user = new User(task.getResult().getDocuments().get(0).getData());
             }
         });
+    }
+
+    private void logout() {
+        Map<String, Object> isOffline = new HashMap<String,Object>();
+        isOffline.put("status",false);
+        isOffline.put("last_status_changed",System.currentTimeMillis());
+        DatabaseReference statusRef = FirebaseDatabase.getInstance().getReference("status/"+currentUser.getUid());
+        statusRef.updateChildren(isOffline);
+        DatabaseReference localRef = FirebaseDatabase.getInstance().getReference("usersAvailable");
+        localRef.child(mAuth.getCurrentUser().getUid()).removeValue();
+        mAuth.signOut();
+        Intent intent = new Intent();
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.setClass(MainActivity.this, LoginActivity.class);
+        startActivity(intent);
+    }
+
+    public void clickLogout(View view) {
+        logout();
     }
 
 }

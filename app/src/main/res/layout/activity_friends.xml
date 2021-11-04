@@ -31,15 +31,15 @@
         </ImageView>
 
         <TextView
-            android:layout_width="0dp"
-            android:layout_height="30dp"
-            android:layout_marginTop="23dp"
+            android:layout_width="263dp"
+            android:layout_height="43dp"
+            android:layout_marginTop="15dp"
             android:layout_weight="7"
             android:background="@drawable/btn_shape"
             android:gravity="center"
             android:text="Contacts"
             android:textColor="@color/black"
-            android:textSize="20sp" />
+            android:textSize="18sp" />
 
         <ImageView
             android:layout_width="30dp"

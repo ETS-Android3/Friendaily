@@ -64,10 +64,6 @@ public class UserNearbyAdapter extends BaseAdapter {
         Log.i(TAG, String.valueOf(map));
         if (String.valueOf(map.get("avatar").getClass()).contains("String")) {
             avatar.loadImageFromURL((String) map.get("avatar"));
-            bitmap = avatar.getBitmap();
-            if (bitmap != null) {
-                Log.i(TAG, "avatar: " + BitmapTransfer.convertBitmapToString(bitmap));
-            }
         }
         else {
             avatar.setImageResource((Integer) map.get("avatar"));

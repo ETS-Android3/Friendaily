@@ -82,7 +82,7 @@ public class LoadImageView extends AppCompatImageView {
             return null;
         }
 
-        Bitmap finalBitmap = bitmap;
+        Bitmap finalBitmap;
         int widthOrg = bitmap.getWidth();
         int heightOrg = bitmap.getHeight();
         int length = 100;
