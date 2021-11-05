@@ -11,6 +11,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Paint;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -21,6 +22,7 @@ import android.webkit.MimeTypeMap;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.result.ActivityResult;
@@ -58,18 +60,15 @@ import java.util.Date;
 
 public class HomeActivity extends AppCompatActivity {
 
-    //private Button logoutButton;
-
     private FirebaseAuth mAuth;
 
     private EditText content;
+    private TextView editAvatar;
     private ImageView image;
+    private ImageView backMain;
     private String image_bitmap_str;
     private Uri image_uri;
-    private Uri image_downloaded_uri = null;
-    private String image_filename;
     private Button btn_update;
-    String currentPhotoPath;
     StorageReference storageReference;
     private FirebaseFirestore mDB;
     String USERID = null;
@@ -100,10 +99,13 @@ public class HomeActivity extends AppCompatActivity {
 
             Log.i(TAG, "On Create");
 
-            image = (ImageView) findViewById(R.id.edited_avatar2);
-            content = (EditText) findViewById(R.id.edited_bio2);
+            image = (ImageView) findViewById(R.id.profileAvatarView);
+            backMain = (ImageView) findViewById(R.id.editProfileBackMain);
+            content = (EditText) findViewById(R.id.edited_bio);
             btn_update = (Button) findViewById(R.id.setting_update_btn);
-            image.setOnClickListener(new View.OnClickListener() {
+            editAvatar = (TextView) findViewById(R.id.editAvatar);
+            editAvatar.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG);
+            editAvatar.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     selectImage();
@@ -115,6 +117,14 @@ public class HomeActivity extends AppCompatActivity {
                     uploadToFireStore();
                 }
             });
+            backMain.setOnClickListener(
+                    new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            finish();
+                        }
+                    }
+            );
         }
 
     }

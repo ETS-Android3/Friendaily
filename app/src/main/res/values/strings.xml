@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">My_Social_Test</string>
+    <string name="app_name">Friendaily</string>
     <string name="password">Password</string>
     <string name="log_in">log in</string>
     <string name="log_out">log out</string>

@@ -95,6 +95,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private TextView user_bio;
     private ListView MomentListview;
     private Button edit_user;
+    private Button postMomentButton;
     private User myInfo;
     private User user;
 
@@ -155,6 +156,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             fragmentManager = getSupportFragmentManager();
             bindViews();
             findNewFriendView();
+            postMomentView();
             // channel.performClick()
 
             initView();
@@ -172,6 +174,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(MainActivity.this, FindNewFriendActivity.class);
+                startActivity(intent);
+            }
+        });
+    }
+
+    private void postMomentView() {
+        postMomentButton = (Button) findViewById(R.id.postMomentButton);
+        postMomentButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, PostMomentActivity.class);
                 startActivity(intent);
             }
         });

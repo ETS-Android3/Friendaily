@@ -68,7 +68,7 @@
                 android:id="@+id/like_img_collection"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
-                android:background="@drawable/shoucang" />
+                android:background="@drawable/shoucang_before" />
 
             <ImageView
                 android:id="@+id/like_img_comment"
