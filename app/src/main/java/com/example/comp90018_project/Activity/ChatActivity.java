@@ -94,13 +94,15 @@ public class ChatActivity extends AppCompatActivity {
         if (message == null) {
             message = intent.getStringExtra(ProfileActivity.EXTRA_MESSAGE);
         }
+        if (message == null) {
+            message = intent.getStringExtra(MainActivity.EXTRA_MESSAGE);
+        }
         FirebaseUser currentUser = mAuth.getCurrentUser();
         assert currentUser != null;
         userId = currentUser.getUid();
         if (message == null) {
             //return to the last page
             finish();
-
         }else{
             isListening = false;
             gotSendMsg = false;
