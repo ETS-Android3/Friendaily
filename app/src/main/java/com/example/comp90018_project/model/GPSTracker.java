@@ -89,6 +89,7 @@ public class GPSTracker extends Service implements LocationListener {
                     Log.i(TAG,"Longitude is: " + location.getLongitude());
                     lat = location.getLatitude();
                     lng = location.getLongitude();
+                    updateDatabase();
                 }
             }
         };
