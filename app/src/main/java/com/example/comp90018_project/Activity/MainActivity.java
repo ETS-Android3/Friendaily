@@ -146,7 +146,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
         else{
             USERID = currentUser.getUid();
-            Log.i(TAG, "test");
             setContentView(R.layout.activity_main);
             momentView();
             if (getSupportActionBar() != null) {
@@ -390,7 +389,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                     @Override
                                     public void onClick(View v) {
                                         String selectUser = (String) moments_list.get(moments_list.size() - position - 1).get("uid");
-                                        Log.i(TAG, selectUser);
                                         Intent intent = new Intent(MainActivity.this, ProfileActivity.class);
                                         intent.putExtra(EXTRA_MESSAGE, selectUser);
                                         startActivity(intent);
@@ -407,7 +405,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void friendView() {
         MomentListview.setAdapter(null);
         String UserID = currentUser.getUid();
-        Log.i(TAG, UserID);
         CollectionReference friendRef = mDB.collection("users");
         Query query = friendRef.whereEqualTo("uid", UserID);
         query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -455,7 +452,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void profileView() {
         MomentListview.setAdapter(null);
         String UserID = currentUser.getUid();
-        Log.i(TAG, UserID);
         CollectionReference friendRef = mDB.collection("users");
         Query query = friendRef.whereEqualTo("uid", UserID);
         query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
