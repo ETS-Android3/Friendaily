@@ -79,7 +79,6 @@ public class GeoQueryActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 showUsersAvailable();
-
             }
         });
         backMain.setOnClickListener(
@@ -249,6 +248,7 @@ public class GeoQueryActivity extends AppCompatActivity {
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if (task.getResult().getDocuments().size() == 0) {
                     //dont find anything, do nothing
+                    Log.i(TAG, "No user found!");
                 } else {
                     //Get the corresponding information
                     Log.i(TAG, String.valueOf(task.getResult().getDocuments().get(0).getData()));
