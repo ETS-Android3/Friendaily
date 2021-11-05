@@ -6,9 +6,12 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -60,6 +63,8 @@ public class ChatActivity extends AppCompatActivity {
     private Button send;
     private EditText content;
     private ImageView backMain;
+    private LinearLayout layout;
+    private ScrollView scrollView;
     private ArrayList<Message> msgList;
     private User chatUser;
     private User user;
@@ -98,6 +103,10 @@ public class ChatActivity extends AppCompatActivity {
             setContentView(R.layout.activity_chat);
             send = findViewById(R.id.sendButton);
             content = findViewById(R.id.sentMessage);
+
+            layout = (LinearLayout)findViewById(R.id.layout1);
+            scrollView = (ScrollView) findViewById(R.id.chatView);
+
             content.setText(null);
             backMain = findViewById(R.id.chatBackMain);
             send.setOnClickListener(new View.OnClickListener() {
@@ -112,6 +121,7 @@ public class ChatActivity extends AppCompatActivity {
                         }else{
                             Message msg = new Message(userId, message, content.getText().toString());
                             sendMessage(msg);
+                            addMessageBox("Me: \n" + msg.getContent(), 1);
                             content.setText(null);
                         }
                     }
@@ -131,11 +141,15 @@ public class ChatActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        Log.i(TAG, "onResume: test test");
+        Log.i(TAG, "hasInitialized " + hasInitialized);
         if (!isListening && hasInitialized == true) {
             //resume the Listener
             Log.i(TAG, "onResume: Set a listener for receiving again");
             setChatListener();
         }
+        // setChatListener();
+        // findChatUser();
     }
 
     @Override
@@ -226,6 +240,12 @@ public class ChatActivity extends AppCompatActivity {
                 Toast.makeText(ChatActivity.this, "Send failed!", Toast.LENGTH_LONG).show();
                 Log.w(TAG, "Transaction failure.", e);
             }
+        }).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void unused) {
+                Log.w(TAG, "Transaction success.");
+                // addMessageBox("Me: \n" + msg.getContent(), 1);
+            }
         });
     }
 
@@ -274,6 +294,7 @@ public class ChatActivity extends AppCompatActivity {
                             QueryDocumentSnapshot msg = dc.getDocument();
                             Message newMsg = new Message(msg.getData());
                             newMsg.setMsgid(msg.getId());
+                            addMessageBox(newMsg.getReceiver() + ": \n" + newMsg.getContent(), 2);
                             //Mark msg as read
                             mDB.runTransaction(new Transaction.Function<Void>() {
                                 @Nullable
@@ -302,6 +323,24 @@ public class ChatActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    public void addMessageBox(String message, int type) {
+        TextView textView = new TextView(ChatActivity.this);
+        textView.setText(message);
+        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        lp.setMargins(0,0,0,10);
+        textView.setLayoutParams(lp);
+
+        // type indicating my message or other guy's message
+        if (type == 1) {
+            textView.setBackgroundResource(R.drawable.message_box_me);
+        } else {
+            textView.setBackgroundResource(R.drawable.message_box_opposite);
+        }
+
+        layout.addView(textView);
+        scrollView.fullScroll(View.FOCUS_DOWN);
     }
 
 }
