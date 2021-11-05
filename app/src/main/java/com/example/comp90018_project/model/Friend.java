@@ -70,11 +70,11 @@ public class Friend extends User implements Comparable<Friend>{
      */
     @Override
     public int compareTo(Friend o) {
-        if((int)this.unread_count > 0 && (int)o.unread_count > 0){
+        if((double)this.unread_count > 0 && (double)o.unread_count > 0){
             if(this.chat_date >= o.chat_date) return 1;
             else return -1;
         }
-        if((int)this.unread_count > 0) return 1;
+        if((double)this.unread_count > 0) return 1;
         else return -1;
     }
 
