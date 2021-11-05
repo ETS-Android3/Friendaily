@@ -6,10 +6,13 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.Intent;
+import android.content.IntentSender;
 import android.content.pm.PackageManager;
 import android.media.Image;
 import android.os.Bundle;
+import android.os.Looper;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -29,7 +32,17 @@ import com.firebase.geofire.GeoLocation;
 import com.firebase.geofire.GeoQuery;
 import com.firebase.geofire.GeoQueryDataEventListener;
 import com.example.comp90018_project.R;
+import com.google.android.gms.common.api.ResolvableApiException;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.location.LocationSettingsRequest;
+import com.google.android.gms.location.LocationSettingsResponse;
+import com.google.android.gms.location.LocationSettingsStates;
+import com.google.android.gms.location.SettingsClient;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -64,6 +77,8 @@ public class GeoQueryActivity extends AppCompatActivity {
     final GeoFire geoFire = new GeoFire(localRef);
     final FirebaseAuth mAu = FirebaseAuth.getInstance();
     final String PERMISSION = Manifest.permission.ACCESS_FINE_LOCATION;
+
+    protected static final int REQUEST_CHECK_SETTINGS = 0x1;
     private static final int LOCATION_PERM_CODE = 2;
     public static final String EXTRA_MESSAGE = "com.example.comp90018_project.FIND_MESSAGE";
 
@@ -269,6 +284,68 @@ public class GeoQueryActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+//    private void checkSetting(){
+//        LocationRequest locationRequest = LocationRequest.create();
+//        locationRequest.setInterval(1000);
+//        locationRequest.setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY);
+//        LocationSettingsRequest.Builder builder = new LocationSettingsRequest.Builder()
+//                .addLocationRequest(locationRequest);
+//        //check the setting
+//        SettingsClient client = LocationServices.getSettingsClient(GeoQueryActivity.this);
+//        Task<LocationSettingsResponse> task = client.checkLocationSettings(builder.build());
+//        task.addOnFailureListener(new OnFailureListener() {
+//            @Override
+//            public void onFailure(@NonNull Exception e) {
+//                if (e instanceof ResolvableApiException) {
+//                    // Location settings are not satisfied, but this can be fixed
+//                    // by showing the user a dialog.
+//                    Log.i(TAG, "Fail to check setting:" + e.toString());
+//                    try {
+//                        // Show the dialog by calling startResolutionForResult(),
+//                        // and check the result in onActivityResult().
+//                        ResolvableApiException resolvable = (ResolvableApiException) e;
+//                        resolvable.startResolutionForResult(GeoQueryActivity.this,
+//                                REQUEST_CHECK_SETTINGS);
+//                    } catch (IntentSender.SendIntentException sendEx) {
+//                        // Ignore the error.
+//                    }
+//                }
+//            }
+//        }).addOnSuccessListener(new OnSuccessListener<LocationSettingsResponse>() {
+//            @Override
+//            public void onSuccess(LocationSettingsResponse locationSettingsResponse) {
+//            }
+//        });
+//    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        final LocationSettingsStates states = LocationSettingsStates.fromIntent(data);
+        switch (requestCode) {
+            case REQUEST_CHECK_SETTINGS:
+                switch (resultCode) {
+                    case Activity.RESULT_OK:
+                        // All required changes were successfully made
+                        Log.i(TAG, "onActivityResult: User has changed");
+                        Toast.makeText(this, "This permission is needed!", Toast.LENGTH_SHORT).show();
+                        finish();
+                        break;
+                    case Activity.RESULT_CANCELED:
+                        // The user was asked to change settings, but chose not to
+                        Log.i(TAG, "onActivityResult: User don't wanna change!");
+                        if(gps == null){
+                            gps = new GPSTracker(this,geoFire, mAu.getCurrentUser().getUid());
+                        }
+                        findUserNearby(gps,radius);
+                        break;
+                    default:
+                        break;
+                }
+                break;
+        }
     }
 
     /**
