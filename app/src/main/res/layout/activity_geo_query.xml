@@ -38,7 +38,7 @@
             android:layout_weight="7"
             android:background="@drawable/btn_shape"
             android:gravity="center"
-            android:text="Nearby"
+            android:text="Find Nearby People"
             android:textColor="@color/black"
             android:textSize="18sp" />
 

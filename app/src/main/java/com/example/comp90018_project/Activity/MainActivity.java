@@ -498,6 +498,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         //todo: hideallfragment ??
         switch (view.getId()) {
             case R.id.channel:
+                postMomentButton.setVisibility(View.VISIBLE);
                 Toast.makeText(MainActivity.this, "This is text channel", Toast.LENGTH_SHORT).show();
                 momentView();
 //                setNotSelected();
@@ -513,6 +514,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 //                startActivity(intent);
                 break;
             case R.id.message:
+                postMomentButton.setVisibility(View.GONE);
                 Toast.makeText(MainActivity.this, "This is text message", Toast.LENGTH_SHORT).show();
                 friendView();
 //                setNotSelected();
@@ -526,6 +528,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 //                }
                 break;
             case R.id.setting:
+                postMomentButton.setVisibility(View.GONE);
                 Toast.makeText(MainActivity.this, "This is text setting", Toast.LENGTH_SHORT).show();
                 profileView();
 //                setNotSelected();
