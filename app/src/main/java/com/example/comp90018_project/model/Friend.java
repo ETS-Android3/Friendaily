@@ -9,7 +9,7 @@ import com.example.comp90018_project.R;
  * It can be ordered by the time of chatting
  */
 public class Friend extends User implements Comparable<Friend>{
-    private Double unread_count;
+    private Object unread_count;
     private long chat_date;
 
     public Friend(String uid, String username, String avatarUrl, Double unread_count, long chat_date){
@@ -28,7 +28,7 @@ public class Friend extends User implements Comparable<Friend>{
         super();
         this.setUid(uid);
         if(info.get("unread_count")!=null){
-            this.unread_count = (Double) info.get("unread_count");
+            this.unread_count = info.get("unread_count");
         }else this.unread_count = 0.0;
 
         if(info.get("last_chat_date")!=null){
@@ -54,8 +54,8 @@ public class Friend extends User implements Comparable<Friend>{
         this.setUsername(f.getUsername());
     }
 
-    public double getUnread_count(){
-        return  unread_count;
+    public Object getUnread_count(){
+        return unread_count;
     }
 
     public long getChat_date(){
@@ -70,11 +70,11 @@ public class Friend extends User implements Comparable<Friend>{
      */
     @Override
     public int compareTo(Friend o) {
-        if(this.unread_count > 0 && o.unread_count > 0){
+        if((int)this.unread_count > 0 && (int)o.unread_count > 0){
             if(this.chat_date >= o.chat_date) return 1;
             else return -1;
         }
-        if(this.unread_count > 0) return 1;
+        if((int)this.unread_count > 0) return 1;
         else return -1;
     }
 

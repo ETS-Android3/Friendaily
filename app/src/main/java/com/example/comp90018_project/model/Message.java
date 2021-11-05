@@ -47,8 +47,20 @@ public class Message implements Comparable<Message>{
         this.msgid = msgid;
     }
 
+    public String getReceiver() {
+        return receiver;
+    }
+
     public long getDate() {
         return date;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public String getSender() {
+        return sender;
     }
     @Override
     /**
