@@ -285,7 +285,7 @@ public class ChatActivity extends AppCompatActivity {
                     Message newMsg = new Message(msg.getData());
                     newMsg.setMsgid(msg.getId());
                     Log.d(TAG, "The content is " + newMsg.getContent());
-                    addMessageBox(chatUser.getUsername() + ": \n" + newMsg.getContent(), 2);
+                    //addMessageBox(chatUser.getUsername() + ": \n" + newMsg.getContent(), 2);
                     if(!msgList.contains(newMsg)){
                         msgList.add(newMsg);
                     }
@@ -315,7 +315,7 @@ public class ChatActivity extends AppCompatActivity {
                             QueryDocumentSnapshot msg = dc.getDocument();
                             Message newMsg = new Message(msg.getData());
                             newMsg.setMsgid(msg.getId());
-                            //addMessageBox(newMsg.getReceiver() + ": \n" + newMsg.getContent(), 2);
+                            addMessageBox(newMsg.getReceiver() + ": \n" + newMsg.getContent(), 2);
                             //Mark msg as read
                             mDB.runTransaction(new Transaction.Function<Void>() {
                                 @Nullable
