@@ -55,13 +55,8 @@ public class FriendAdapter extends BaseAdapter {
         TextView name = (TextView)view.findViewById(R.id.friendName);
 
         Map map = this.friendList.get(position);
-        Bitmap bitmap;
         if (String.valueOf(map.get("avatar").getClass()).contains("String")) {
             avatar.loadImageFromURL((String) map.get("avatar"));
-            bitmap = avatar.getBitmap();
-            if (bitmap != null) {
-                Log.i(TAG, "avatar: " + BitmapTransfer.convertBitmapToString(bitmap));
-            }
         }
         else {
             avatar.setImageResource((Integer) map.get("avatar"));
