@@ -11,7 +11,9 @@ import android.widget.ImageView;
 import android.widget.ListView;
 
 import com.example.comp90018_project.R;
+import com.example.comp90018_project.adapter.LikeAdapter;
 import com.example.comp90018_project.adapter.MomentAdapter;
+import com.example.comp90018_project.model.Like;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -34,7 +36,7 @@ public class MyLikeActivity extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
     private FirebaseFirestore mDB;
-    private static final String TAG = "MyLike";
+    private static final String TAG = "My Like";
     private FirebaseUser currentUser;
     private String USERID;
     private ImageView backMain;
@@ -97,8 +99,8 @@ public class MyLikeActivity extends AppCompatActivity {
                             map.put("timestamp", moment_map.get("date"));
                             momentfound_list.add(map);
                         }
-                        MomentAdapter adapter = new MomentAdapter(MyLikeActivity.this);
-                        adapter.setMomentList(momentfound_list);
+                        LikeAdapter adapter = new LikeAdapter(MyLikeActivity.this);
+                        adapter.setlikedMomentList(momentfound_list);
                         MomentListview.setAdapter(adapter);
                     }
                 }

@@ -24,36 +24,35 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.Transaction;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class LikeAdapter extends BaseAdapter {
-    List<Map<String, Object>> liked_momentList;
+public class CollectAdapter extends BaseAdapter {
+    List<Map<String, Object>> collected_momentList;
     LayoutInflater inflater;
     private FirebaseFirestore mDB;
     private FirebaseAuth mAuth;
     private FirebaseUser currentUser;
 
-    private static final String TAG = "like adapter";
+    private static final String TAG = "collect adapter";
 
-    public LikeAdapter(Context context) {
+    public CollectAdapter(Context context) {
         inflater = LayoutInflater.from(context);
     }
 
-    public void setlikedMomentList(List<Map<String, Object>> liked_momentList) {
-        this.liked_momentList = liked_momentList;
+    public void setCollectedMomentList(List<Map<String, Object>> liked_momentList) {
+        this.collected_momentList = liked_momentList;
     }
 
     @Override
     public int getCount() {
-        return liked_momentList.size();
+        return collected_momentList.size();
     }
 
     @Override
     public Object getItem(int position) {
-        return liked_momentList.get(position);
+        return collected_momentList.get(position);
     }
 
     @Override
@@ -63,24 +62,23 @@ public class LikeAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        @SuppressLint({"ViewHolder", "InflateParams"}) View view = inflater.inflate(R.layout.like_item_view, null);
+        @SuppressLint({"ViewHolder", "InflateParams"}) View view = inflater.inflate(R.layout.collect_item_view, null);
         mDB = FirebaseFirestore.getInstance();
         mAuth = FirebaseAuth.getInstance();
         currentUser = mAuth.getCurrentUser();
 
-        LoadImageView avatar = view.findViewById(R.id.like_img_avatar);
-        TextView name = (TextView) view.findViewById(R.id.like_tv_name);
-        LoadImageView image =  view.findViewById(R.id.like_img_image);
-        TextView content = (TextView) view.findViewById(R.id.like_tv_content);
-        TextView timestamp = (TextView) view.findViewById(R.id.like_tv_time);
-        ImageView collection =  view.findViewById(R.id.like_img_collection);
-        ImageView like = view.findViewById(R.id.like_img_like);
-        ImageView comment = view.findViewById(R.id.like_img_comment);
+        LoadImageView avatar = view.findViewById(R.id.collect_img_avatar);
+        TextView name = (TextView) view.findViewById(R.id.collect_tv_name);
+        LoadImageView image =  view.findViewById(R.id.collect_img_image);
+        TextView content = (TextView) view.findViewById(R.id.collect_tv_content);
+        TextView timestamp = (TextView) view.findViewById(R.id.collect_tv_time);
+        ImageView collection =  view.findViewById(R.id.collect_img_collection);
+        ImageView like = view.findViewById(R.id.collect_img_like);
+        ImageView comment = view.findViewById(R.id.collect_img_comment);
 
-        Map map = this.liked_momentList.get(position);
+        Map map = this.collected_momentList.get(position);
         String avatar_url = (String) map.get("avatar");
         String ts = (String) map.get("timestamp");
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
         String username = (String) map.get("name");
         String mom_content = (String) map.get("content");
@@ -92,6 +90,7 @@ public class LikeAdapter extends BaseAdapter {
         } else {
             avatar.loadImageFromURL(avatar_url);
         }
+
         timestamp.setText(ts);
         name.setText(username);
         content.setText(mom_content);
@@ -103,25 +102,25 @@ public class LikeAdapter extends BaseAdapter {
             image.loadImageFromURL(mom_img_url);
         }
 
-        like.setOnClickListener(new View.OnClickListener() {
+        collection.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                like.setBackgroundResource(R.drawable.dianzan_before);
+                collection.setBackgroundResource(R.drawable.shoucang_before);
                 Log.d(TAG, "like is unclicked, with " + username + "'s post");
                 Moment newMom = new Moment(uid, ts, mom_content, mom_img_url, username, avatar_url);
-                deleteMomentInLike(currentUser.getUid(), newMom.toMap(), username);
+                deleteMomentInCollect(currentUser.getUid(), newMom.toMap(), username);
             }
         });
 
         return view;
     }
 
-    private void deleteMomentInLike(String userID, Map<String, Object> newMoment, String username) {
-        DocumentReference ref = mDB.collection("likes").document(userID);
+    private void deleteMomentInCollect(String userID, Map<String, Object> newMoment, String username) {
+        DocumentReference ref = mDB.collection("collections").document(userID);
         mDB.runTransaction(new Transaction.Function<Void>() {
             @Override
             public Void apply(Transaction transaction) throws FirebaseFirestoreException {
-                ArrayList<Map<String, Object>> existing_moments = (ArrayList<Map<String, Object>>) transaction.get(ref).get("my_like_moments");
+                ArrayList<Map<String, Object>> existing_moments = (ArrayList<Map<String, Object>>) transaction.get(ref).get("my_collected_moments");
                 Map<String, Object> item_to_delete = null;
                 for (Map<String, Object> map : existing_moments) {
                     if (((String) map.get("date")).equals( (String)newMoment.get("date"))) {
@@ -130,7 +129,7 @@ public class LikeAdapter extends BaseAdapter {
                 }
                 if (item_to_delete != null) {
                     existing_moments.remove(item_to_delete);
-                    transaction.update(ref, "my_like_moments", existing_moments);
+                    transaction.update(ref, "my_collected_moments", existing_moments);
 
                 }
                 return null;

@@ -98,6 +98,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private User myInfo;
     private User user;
 
+
     public static final String EXTRA_MESSAGE = "com.example.comp90018_project.MAIN_MESSAGE";
 
 

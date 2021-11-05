@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.comp90018_project.R;
+import com.example.comp90018_project.adapter.CollectAdapter;
 import com.example.comp90018_project.adapter.MomentAdapter;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -93,8 +94,8 @@ public class MyCollectionActivity extends AppCompatActivity {
                             Log.d(TAG, "the time stamp is ------------ " + moment_map.get("date") + " ------------------");
                             momentfound_list.add(map);
                         }
-                        MomentAdapter adapter = new MomentAdapter(MyCollectionActivity.this);
-                        adapter.setMomentList(momentfound_list);
+                        CollectAdapter adapter = new CollectAdapter(MyCollectionActivity.this);
+                        adapter.setCollectedMomentList(momentfound_list);
                         MomentListview.setAdapter(adapter);
                     }
                 }
