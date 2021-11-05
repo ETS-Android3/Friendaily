@@ -37,24 +37,19 @@
       <change beforePath="$PROJECT_DIR$/.gradle/6.7.1/executionHistory/executionHistory.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/6.7.1/executionHistory/executionHistory.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/6.7.1/fileHashes/fileHashes.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/6.7.1/fileHashes/fileHashes.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/6.7.1/fileHashes/fileHashes.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/6.7.1/fileHashes/fileHashes.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/6.7.1/fileHashes/resourceHashesCache.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/6.7.1/fileHashes/resourceHashesCache.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/6.7.1/javaCompile/classAnalysis.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/6.7.1/javaCompile/classAnalysis.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/6.7.1/javaCompile/jarAnalysis.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/6.7.1/javaCompile/jarAnalysis.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/6.7.1/javaCompile/javaCompile.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/6.7.1/javaCompile/javaCompile.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/6.7.1/javaCompile/taskHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/6.7.1/javaCompile/taskHistory.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/comp90018_project/Activity/ChatActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/comp90018_project/Activity/ChatActivity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/comp90018_project/Activity/GeoQueryActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/comp90018_project/Activity/GeoQueryActivity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/comp90018_project/model/Friend.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/comp90018_project/model/Friend.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/nearby_list.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/nearby_list.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_chat.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_chat.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[SerialNumber@D3H5T18416006489]" />
+  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[VirtualDevicePath@/Users/Steven/.android/avd/Pixel_2_API_30.avd]" />
   <component name="ExternalProjectsData">
     <projectState path="$PROJECT_DIR$">
       <ProjectState />
@@ -125,7 +120,7 @@
     <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
     <property name="ChangesTree.GroupingKeys" value="module" />
     <property name="DeviceAndSnapshotComboBoxAction.selectedDevice" value="SerialNumber@D3H5T18416006489" />
-    <property name="DeviceAndSnapshotComboBoxAction.selectionTime" value="2021-11-05T10:27:21.226811Z" />
+    <property name="DeviceAndSnapshotComboBoxAction.selectionTime" value="2021-11-05T11:00:00.856892Z" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
@@ -348,28 +343,28 @@
       <screen x="0" y="23" width="1440" height="830" />
     </state>
     <state x="308" y="200" key="AndroidCreateResourceFileDialog/0.23.1440.830@0.23.1440.830" timestamp="1636042228666" />
-    <state width="1398" height="283" key="GridCell.Tab.0.bottom" timestamp="1636108050724">
+    <state width="1398" height="107" key="GridCell.Tab.0.bottom" timestamp="1636111332192">
       <screen x="0" y="23" width="1440" height="830" />
     </state>
-    <state width="1398" height="283" key="GridCell.Tab.0.bottom/0.23.1440.830@0.23.1440.830" timestamp="1636108050724" />
+    <state width="1398" height="107" key="GridCell.Tab.0.bottom/0.23.1440.830@0.23.1440.830" timestamp="1636111332192" />
     <state width="1398" height="107" key="GridCell.Tab.0.bottom/0.23.1440.831@0.23.1440.831" timestamp="1636101641648" />
     <state width="1398" height="474" key="GridCell.Tab.0.bottom/0.23.1440.832@0.23.1440.832" timestamp="1636100398340" />
-    <state width="1398" height="283" key="GridCell.Tab.0.center" timestamp="1636108050723">
+    <state width="1398" height="107" key="GridCell.Tab.0.center" timestamp="1636111332191">
       <screen x="0" y="23" width="1440" height="830" />
     </state>
-    <state width="1398" height="283" key="GridCell.Tab.0.center/0.23.1440.830@0.23.1440.830" timestamp="1636108050723" />
+    <state width="1398" height="107" key="GridCell.Tab.0.center/0.23.1440.830@0.23.1440.830" timestamp="1636111332191" />
     <state width="1398" height="107" key="GridCell.Tab.0.center/0.23.1440.831@0.23.1440.831" timestamp="1636101641647" />
     <state width="1398" height="474" key="GridCell.Tab.0.center/0.23.1440.832@0.23.1440.832" timestamp="1636100398338" />
-    <state width="1398" height="283" key="GridCell.Tab.0.left" timestamp="1636108050722">
+    <state width="1398" height="107" key="GridCell.Tab.0.left" timestamp="1636111332190">
       <screen x="0" y="23" width="1440" height="830" />
     </state>
-    <state width="1398" height="283" key="GridCell.Tab.0.left/0.23.1440.830@0.23.1440.830" timestamp="1636108050722" />
+    <state width="1398" height="107" key="GridCell.Tab.0.left/0.23.1440.830@0.23.1440.830" timestamp="1636111332190" />
     <state width="1398" height="107" key="GridCell.Tab.0.left/0.23.1440.831@0.23.1440.831" timestamp="1636101641646" />
     <state width="1398" height="474" key="GridCell.Tab.0.left/0.23.1440.832@0.23.1440.832" timestamp="1636100398337" />
-    <state width="1398" height="283" key="GridCell.Tab.0.right" timestamp="1636108050723">
+    <state width="1398" height="107" key="GridCell.Tab.0.right" timestamp="1636111332192">
       <screen x="0" y="23" width="1440" height="830" />
     </state>
-    <state width="1398" height="283" key="GridCell.Tab.0.right/0.23.1440.830@0.23.1440.830" timestamp="1636108050723" />
+    <state width="1398" height="107" key="GridCell.Tab.0.right/0.23.1440.830@0.23.1440.830" timestamp="1636111332192" />
     <state width="1398" height="107" key="GridCell.Tab.0.right/0.23.1440.831@0.23.1440.831" timestamp="1636101641648" />
     <state width="1398" height="474" key="GridCell.Tab.0.right/0.23.1440.832@0.23.1440.832" timestamp="1636100398339" />
     <state x="229" y="77" key="SettingsEditor" timestamp="1636017889774">
