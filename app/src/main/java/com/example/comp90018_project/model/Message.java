@@ -58,6 +58,10 @@ public class Message implements Comparable<Message>{
     public String getContent() {
         return content;
     }
+
+    public String getSender() {
+        return sender;
+    }
     @Override
     /**
      * If the id of two message is the same, then they are the same message
