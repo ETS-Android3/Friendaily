@@ -169,7 +169,6 @@ public class GeoQueryActivity extends AppCompatActivity {
                         if (distance <= radius){
                             //Retrieve this user's information from users database
                             addToList(uid,distance);
-
                         }
                     }
                 }

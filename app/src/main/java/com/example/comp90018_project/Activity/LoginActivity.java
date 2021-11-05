@@ -183,7 +183,6 @@ public class LoginActivity extends AppCompatActivity {
                     statusRef.onDisconnect().updateChildren(isOffline);
                     DatabaseReference localRef = FirebaseDatabase.getInstance().getReference("usersAvailable");
                     localRef.child(mAuth.getCurrentUser().getUid()).onDisconnect().removeValue();
-
                 }else {
                     Log.i(TAG, "Sorry this user is offline in realtime database");
                 }

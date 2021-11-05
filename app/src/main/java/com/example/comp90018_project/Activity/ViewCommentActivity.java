@@ -111,6 +111,7 @@ public class ViewCommentActivity extends AppCompatActivity {
 
                                 Comment newComment = new Comment(commentor_userid, cid, date, content, commentor_username, commentor_user_avatar);
                                 postComment(commentor_userid, newComment.toMap(), commentor_username);
+                                my_comment_content.setText("");
 
                             }
 
