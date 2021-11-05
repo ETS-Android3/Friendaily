@@ -168,8 +168,10 @@ public class MomentAdapter extends BaseAdapter {
             @Override
             public Void apply(Transaction transaction) throws FirebaseFirestoreException {
                 ArrayList<Map<String, Object>> existing_moments = (ArrayList<Map<String, Object>>) transaction.get(ref).get("my_collected_moments");
-                existing_moments.add(newMoment);
-                transaction.update(ref, "my_collected_moments", existing_moments);
+                if (!existing_moments.contains(newMoment)) {
+                    existing_moments.add(newMoment);
+                    transaction.update(ref, "my_collected_moments", existing_moments);
+                }
                 return null;
             }
         }).addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -194,8 +196,10 @@ public class MomentAdapter extends BaseAdapter {
             @Override
             public Void apply(Transaction transaction) throws FirebaseFirestoreException {
                 ArrayList<Map<String, Object>> existing_moments = (ArrayList<Map<String, Object>>) transaction.get(ref).get("my_like_moments");
-                existing_moments.add(newMoment);
-                transaction.update(ref, "my_like_moments", existing_moments);
+                if (!existing_moments.contains(newMoment)) {
+                    existing_moments.add(newMoment);
+                    transaction.update(ref, "my_like_moments", existing_moments);
+                }
                 return null;
             }
         }).addOnSuccessListener(new OnSuccessListener<Void>() {
