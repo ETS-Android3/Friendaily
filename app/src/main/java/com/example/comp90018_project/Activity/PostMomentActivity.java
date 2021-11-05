@@ -299,12 +299,6 @@ public class PostMomentActivity extends AppCompatActivity {
     private void addToFireStore() {
         if (content != null || image_bitmap_str != null){
             // begin to add data only when user add a picture or write text
-//            String moment_text = null;
-//            String moment_url = null;
-//            if(content != null) moment_text = content.getText().toString();
-//            if(image_downloaded_uri != null) moment_url = image_downloaded_uri.toString();
-//            Long timestamp = System.currentTimeMillis();
-//            Date date = new Date(timestamp);
 
             // need to get the user_avtar_url and username
             CollectionReference friendRef = mDB.collection("users");
@@ -340,54 +334,12 @@ public class PostMomentActivity extends AppCompatActivity {
                             postMoment(friend_uid, newMonMap, friend_username);
                         }
                         postMoment(USERID, newMonMap, username);
-                        // postMomentToAllFriend(USERID, timestamp, moment_text, moment_url, user_avatar_url, username);
                     }
                 }
             });
 
-//            Moment newMom = new Moment(USERID,timestamp, text, url);
-
-//            mDB.collection("moments").document(USERID).set(newMom.toMap()).addOnSuccessListener(new OnSuccessListener<Void>(){
-//                @Override
-//                public void onSuccess(Void unused) {
-//                    Log.i(TAG, "Post successful!");
-//                    Intent intent = new Intent();
-//                    intent.setClass(PostMomentActivity.this, MainActivity.class);
-//                    finish();
-//                    startActivity(intent);
-//                }
-//            }).addOnFailureListener(new OnFailureListener() {
-//                @Override
-//                public void onFailure(@NonNull Exception e) {
-//                    Log.i(TAG, "Post failed!");
-//                    Toast.makeText(PostMomentActivity.this, "Post failed! There is something wrong with database, please try again later", Toast.LENGTH_LONG).show();
-//                }
-//            });
         }else Toast.makeText(PostMomentActivity.this, "Cannot post a empty moment", Toast.LENGTH_LONG).show();
     }
-
-//    private void postMomentToAllFriend(String userID, Long timestamp, String text, String url, String user_avatar_url, String username) {
-//        Moment newMom = new Moment(USERID,timestamp, text, url, username, user_avatar_url);
-//        CollectionReference friendRef = mDB.collection("users");
-//        Query query = friendRef.whereEqualTo("uid", USERID);
-//        query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-//            @Override
-//            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-//                if (!task.isSuccessful()) {
-//                    Log.e("firebase", "Error getting data", task.getException());
-//                } else {
-//                    User user = new User(task.getResult().getDocuments().get(0).getData());
-//                    ArrayList<Map<String, Object>> friendList = (ArrayList<Map<String,Object>>) user.getaddedFriends();
-//
-//                    for (Map<String, Object> friend : friendList) {
-//                        String friend_username = (String) friend.get("username");
-//                        postMoment(friend_username, newMom);
-//                    }
-//                }
-//            }
-//        });
-//        postMoment(USERID, newMom);
-//    }
 
     private void postMoment(String userID, Map<String, Object> newMoment, String userName) {
         DocumentReference momentsRef = mDB.collection("moments").document(userID);
@@ -413,7 +365,6 @@ public class PostMomentActivity extends AppCompatActivity {
             }
         });
     }
-
 
 
     /**

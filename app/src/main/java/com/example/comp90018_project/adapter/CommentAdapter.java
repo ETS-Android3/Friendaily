@@ -73,8 +73,6 @@ public class CommentAdapter extends BaseAdapter {
         Log.d(TAG, "what avatar_url !!!!!!!!!!!! " + avatar_url + " !!!!!!!!!!!!!!!!!!");
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         try {
-//            Date date = sdf.parse(ts);
-//            long millis = date.getTime() + 39600000;
             String username = (String) map.get("name");
             String comment_content = (String) map.get("content");
             if (avatar_url.equals("")) {

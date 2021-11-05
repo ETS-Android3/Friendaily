@@ -94,10 +94,8 @@ public class MomentAdapter extends BaseAdapter {
         String avatar_url = (String) map.get("avatar");
         String ts = (String) map.get("timestamp");
         Log.d(TAG, "what read from timestamp is !!!!!!!!!!!! " + ts + " !!!!!!!!!!!!!!!!!!");
-//        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
         try {
-//            Date date = sdf.parse(ts);
-//            long millis = date.getTime() + 39600000;
             String username = (String) map.get("name");
             String mom_content = (String) map.get("content");
             String mom_img_url = (String) map.get("image");
@@ -212,7 +210,6 @@ public class MomentAdapter extends BaseAdapter {
             @Override
             public void onFailure(@NonNull Exception e) {
                 Log.i(TAG, username + " Post failed!");
-                // Toast.makeText(PostMomentActivity.this, "Post failed! There is something wrong with database, please try again later", Toast.LENGTH_LONG).show();
             }
         });
     }

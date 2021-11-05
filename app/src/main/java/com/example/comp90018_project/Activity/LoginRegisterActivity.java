@@ -53,18 +53,6 @@ public class LoginRegisterActivity extends AppCompatActivity {
         Log.i(TAG, "onCreate: Go to the Login/Regiester page");
     }
 
-//    @Override
-//    protected void onStart(){
-//        super.onStart();
-//        mAuth = FirebaseAuth.getInstance();
-//        if(mAuth.getCurrentUser() != null){
-//            setPresence();
-//            Intent intent = new Intent(LoginRegisterActivity.this, MainActivity.class);
-//            finish();
-//            startActivity(intent);
-//        }
-//    }
-
     /**
      * Build event listener for presence system
      */
@@ -82,33 +70,6 @@ public class LoginRegisterActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 boolean connected = snapshot.getValue(Boolean.class);
                 if (connected) {
-//                    statusRef.addValueEventListener(new ValueEventListener() {
-//                        @Override
-//                        public void onDataChange(@NonNull DataSnapshot snapshot) {
-//                            final Boolean[] isOffline = {false};
-//                            statusRef.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
-//                                @Override
-//                                public void onComplete(@NonNull Task<DataSnapshot> task) {
-//                                    if (task.isSuccessful()) {
-//                                        if (task.getResult() != null) {
-//                                            Map<String, Object> status = (Map<String, Object>) task.getResult().getValue();
-//                                            DocumentReference userRef = mDB.collection("users").document(uid);
-//                                            userRef.update(status);
-//                                            if (!(Boolean)status.get("status")) isOffline[0] = true;
-//                                            Log.i(TAG, "This user change status in firestore");
-//                                        }
-//                                    }
-//                                }
-//                            });
-//                            if (isOffline[0]) statusRef.removeEventListener(this);
-//                        }
-//
-//                        @Override
-//                        public void onCancelled(@NonNull DatabaseError error) {
-//                            Log.i(TAG,"Since this user has log off, this event listener has been removed");
-//
-//                        }
-//                    });
 
                     //Change user's status in real time database
                     Log.i(TAG, " this user is online in realtime database");

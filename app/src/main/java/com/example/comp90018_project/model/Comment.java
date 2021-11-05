@@ -61,8 +61,7 @@ public class Comment {
 
     public Map<String,Object> toMap(){
         Map<String,Object> comment = new HashMap<>();
-//        Date date = new Date(System.currentTimeMillis());
-//        String DateTime = simpleDateFormat.format(date);
+
         comment.put("uid",userID);
         comment.put("cid",cid);
         comment.put("date",date);

@@ -217,10 +217,7 @@ public class LoginActivity extends AppCompatActivity {
         registerButton = findViewById(R.id.jumpRegister);
     }
 
-    /**
-     * 原来名字是 MainActivity, 然后登录时候会报错，改了之后能正常登录
-     * 不清楚这个有什么用所以先改个名字放着
-     */
+
     public class MainActivity1 extends Activity {
         private ImageView image;
 

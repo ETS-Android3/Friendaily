@@ -45,38 +45,6 @@ public class LoadImageView extends AppCompatImageView {
         }
     };
 
-//    private Bitmap topSquareScale(Bitmap bitmap) {
-//        if (bitmap == null) {
-//            return null;
-//        }
-//
-//        Bitmap finalBitmap;
-//        int widthOrg = bitmap.getWidth();
-//        int heightOrg = bitmap.getHeight();
-//        int length;
-//
-//        if (widthOrg != heightOrg) {
-//            if (widthOrg > heightOrg) {
-//                length = heightOrg;
-//            }
-//            else {
-//                length = widthOrg;
-//            }
-//
-//            int xTopLeft = (widthOrg - length) / 2;
-//            int yTopLeft = (heightOrg - length) / 2;
-//
-//            try{
-//                finalBitmap = Bitmap.createBitmap(bitmap, xTopLeft, yTopLeft, length, length);
-//            }
-//            catch(Exception e){
-//                return bitmap;
-//            }
-//            return finalBitmap;
-//        }
-//        return bitmap;
-//    }
-
     public Bitmap getBitmap() {
         return bitmap;
     }
@@ -97,34 +65,6 @@ public class LoadImageView extends AppCompatImageView {
     // use a new thread to load image from Internet
     public void loadImageFromURL(String path) {
         Bitmap bitmap = BitmapTransfer.convertStringToBitmap(path);
-//        bitmap = topSquareScale(bitmap);
         setImageBitmap(bitmap);
-//        new Thread() {
-//            @Override
-//            public void run() {
-//                try {
-//                    URL url = new URL(path);
-//                    HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-//                    connection.setRequestMethod("GET");
-//                    connection.setConnectTimeout(10000);
-//                    int code = connection.getResponseCode();
-//                    if (code == 200) {
-//                        InputStream inputStream = connection.getInputStream();
-//                        // decode the input stream to be the bitmap
-//                        Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
-//                        Message message = Message.obtain();
-//                        message.obj = bitmap;
-//                        message.what = GET_SUCCESS;
-//                        handler.sendMessage(message);
-//                        inputStream.close();
-//                    } else {
-//                        handler.sendEmptyMessage(SERVER_ERROR);
-//                    }
-//                } catch (IOException e) {
-//                    e.printStackTrace();
-//                    handler.sendEmptyMessage(NETWORK_ERROR);
-//                }
-//            }
-//        }.start();
     }
 }

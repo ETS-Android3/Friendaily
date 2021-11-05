@@ -236,14 +236,12 @@ public class ProfileActivity extends AppCompatActivity {
                     pendingFriends.add(friendMap);
                     transaction.update(userRef, "pendingFriends", pendingFriends);
                     Log.i(TAG, "Friend request succeeded!");
-//                    Toast.makeText(ProfileActivity.this, "Friend request succeeded!", Toast.LENGTH_LONG).show();
                 }
                 else {
-//                    Toast.makeText(ProfileActivity.this, "Already sent friend request!!", Toast.LENGTH_LONG).show();
                     Log.i(TAG, "Already sent friend request!!");
                 }
                 // success
-//                Looper.loop();
+
                 return null;
             }
         }).addOnFailureListener(new OnFailureListener() {

@@ -101,73 +101,7 @@ public class GPSTracker extends Service implements LocationListener {
      * And update location to the database once changed
      */
     @SuppressLint("MissingPermission")
-//    public void getLocation() {
-////        if(ContextCompat.checkSelfPermission(context,PERMISSION) != PackageManager.PERMISSION_GRANTED
-////                && ActivityCompat.checkSelfPermission(context,PERMISSION) != PackageManager.PERMISSION_GRANTED){
-////            Toast.makeText(context, "GPS Permission is Required.", Toast.LENGTH_SHORT).show();
-////            Log.i(TAG, "GPS Permission is Required.");
-////            return;
-////        }
-//        locationManager = (LocationManager) context.getSystemService(LOCATION_SERVICE);
-//        boolean isGPSEnable = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
-//        boolean isNetworkEnable = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
-//        if (!(isGPSEnable || isNetworkEnable)) {
-//            Log.i(TAG, "located fail!");
-//            Toast.makeText(context, "located fail!", Toast.LENGTH_LONG).show();
-//        } else {
-//            connected = true;
-//            if (isNetworkEnable) {
-//                Log.i(TAG, "network is ok");
-//                locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER,
-//                        MIN_MINUTES,
-//                        MIN_DISTANCE,
-//                        new LocationListener() {
-//                            @Override
-//                            public void onLocationChanged(@NonNull Location location) {
-//                                if (location != null) {
-//                                    lat = location.getLatitude();
-//                                    lng = location.getAltitude();
-//                                    updateDatabase();
-//                                }
-//                            }
-//                        });
-////                Location location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
-////                if (location != null) {
-////                    lat = location.getLatitude();
-////                    lng = location.getAltitude();
-////                    updateDatabase();
-////                }
-//            }
-//            if(isGPSEnable){
-//                Log.i(TAG, "GPS is ok");
-//                locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,
-//                        MIN_MINUTES,
-//                        MIN_DISTANCE,
-//                        new LocationListener() {
-//                            @Override
-//                            public void onLocationChanged(@NonNull Location location) {
-//                                if (location != null) {
-//                                    lat = location.getLatitude();
-//                                    lng = location.getAltitude();
-//                                    updateDatabase();
-//                                }
-//                            }
-//                            public void onStatusChanged(String provider,
-//                                                        int status,
-//                                                        Bundle extras){
-//
-//                            }
-//                        });
-////                Location location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-////                if (location != null) {
-////                    lat = location.getLatitude();
-////                    lng = location.getAltitude();
-////                    updateDatabase();
-////                }
-//            }
-//        }
-//
-//    }
+
 
     public void getLocation(){
         LocationRequest locationRequest = LocationRequest.create();

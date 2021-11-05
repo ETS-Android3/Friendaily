@@ -37,8 +37,6 @@ public class Moment {
     }
 
     public String getDate(){
-//        Date date = new Date(timestamp);
-//        return simpleDateFormat.format(date);
         return date;
     }
 
@@ -56,8 +54,6 @@ public class Moment {
 
     public Map<String,Object> toMap(){
         Map<String,Object> moment = new HashMap<>();
-//        Date date = new Date(System.currentTimeMillis());
-//        String DateTime = simpleDateFormat.format(date);
         moment.put("uid",userID);
         moment.put("date",date);
         moment.put("content", content);

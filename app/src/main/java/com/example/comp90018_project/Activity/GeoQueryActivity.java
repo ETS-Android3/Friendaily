@@ -285,39 +285,7 @@ public class GeoQueryActivity extends AppCompatActivity {
 
     }
 
-//    private void checkSetting(){
-//        LocationRequest locationRequest = LocationRequest.create();
-//        locationRequest.setInterval(1000);
-//        locationRequest.setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY);
-//        LocationSettingsRequest.Builder builder = new LocationSettingsRequest.Builder()
-//                .addLocationRequest(locationRequest);
-//        //check the setting
-//        SettingsClient client = LocationServices.getSettingsClient(GeoQueryActivity.this);
-//        Task<LocationSettingsResponse> task = client.checkLocationSettings(builder.build());
-//        task.addOnFailureListener(new OnFailureListener() {
-//            @Override
-//            public void onFailure(@NonNull Exception e) {
-//                if (e instanceof ResolvableApiException) {
-//                    // Location settings are not satisfied, but this can be fixed
-//                    // by showing the user a dialog.
-//                    Log.i(TAG, "Fail to check setting:" + e.toString());
-//                    try {
-//                        // Show the dialog by calling startResolutionForResult(),
-//                        // and check the result in onActivityResult().
-//                        ResolvableApiException resolvable = (ResolvableApiException) e;
-//                        resolvable.startResolutionForResult(GeoQueryActivity.this,
-//                                REQUEST_CHECK_SETTINGS);
-//                    } catch (IntentSender.SendIntentException sendEx) {
-//                        // Ignore the error.
-//                    }
-//                }
-//            }
-//        }).addOnSuccessListener(new OnSuccessListener<LocationSettingsResponse>() {
-//            @Override
-//            public void onSuccess(LocationSettingsResponse locationSettingsResponse) {
-//            }
-//        });
-//    }
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {

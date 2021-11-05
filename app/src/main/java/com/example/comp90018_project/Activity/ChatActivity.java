@@ -118,11 +118,6 @@ public class ChatActivity extends AppCompatActivity {
             content.setText(null);
             backMain = findViewById(R.id.chatBackMain);
 
-//            otherMsgRef = messageRef.document(message).collection(userId);
-//            myMsgRef = messageRef.document(userId).collection(message);
-
-
-
             send.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -162,8 +157,7 @@ public class ChatActivity extends AppCompatActivity {
             Log.i(TAG, "onResume: Set a listener for receiving again");
             setChatListener();
         }
-        // setChatListener();
-        // findChatUser();
+
     }
 
     @Override
@@ -407,11 +401,6 @@ public class ChatActivity extends AppCompatActivity {
         LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         lp.setMargins(0,0,0,10);
 
-//        if (type == 1) {
-//            lp.setMargins(0,0,0,10);
-//        } else {
-//            lp.setMargins(70,0,0,10);
-//        }
 
         textView.setLayoutParams(lp);
 

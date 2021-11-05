@@ -75,9 +75,6 @@ public class RegisterActivity extends AppCompatActivity {
                         boolean isCorrect = checkFormat(usernameStr,emailStr,passwordStr,confirmPasswordStr);
                         if (isCorrect) {
                             User user = new User(emailStr, usernameStr, passwordStr);
-//                            user.setUsername(usernameStr);
-//                            user.setEmail(emailStr);
-//                            user.setPassword(Md5Util.md5(passwordStr));
                             checkUsername(user);
                         }
                     }
@@ -160,9 +157,6 @@ public class RegisterActivity extends AppCompatActivity {
                             // Sign in success, store the information of user in database
                             user.setUid(FirebaseAuth.getInstance().getCurrentUser().getUid());
                             //Store the pair of username and email for login using real-time database
-//                            mDatabase.child("users").child(user.getUid()).setValue(user);
-//                            mDatabase.child("login").child(user.getUsername()).setValue(user.getEmail());
-//                            RegisterActivity.this.finish();
                             addNewUser(user);
                         } else {
                             // If register fails, display a message to the user.

@@ -19,12 +19,10 @@ public class BitmapTransfer {
 
             Bitmap bitmap = null;
             try {
-                // out = new FileOutputStream("/sdcard/aa.jpg");
                 byte[] bitmapArray;
                 bitmapArray = Base64.decode(st, Base64.DEFAULT);
                 bitmap = BitmapFactory.decodeByteArray(bitmapArray, 0,
                 bitmapArray.length);
-                // bitmap.compress(Bitmap.CompressFormat.PNG, 100, out);
                 return bitmap;
             }
             catch (Exception e){

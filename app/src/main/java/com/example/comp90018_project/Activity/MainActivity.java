@@ -78,9 +78,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     // todo:Fragment Object
     private FragmentManager fragmentManager;
-//    private ChannelFragment channelF;
-//    private AnnounceFragment announceF;
-//    private FriendFragment settingF;
 
     // menu bar
     private DrawerLayout drawerLayout;
@@ -194,17 +191,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         channel = (ImageView)findViewById(R.id.channel);
         message = (ImageView) findViewById(R.id.message);
         setting = (ImageView)findViewById(R.id.setting);
-//        ly_content = (FrameLayout) findViewById(R.id.ly_content);
 
         channel.setOnClickListener(this);
         message.setOnClickListener(this);
-//        message.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Intent intent = new Intent(MainActivity.this, PostMomentActivity.class);
-//                startActivity(intent);
-//            }
-//        });
         setting.setOnClickListener(this);
     }
 
@@ -224,7 +213,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         navigationView.setBackgroundColor(Color.parseColor("#3c3c3c"));
         navigationView.setItemTextColor(ColorStateList.valueOf(Color.parseColor("#FFFFFF")));
-//        navigationView.setItemTextColor(ColorStateList.valueOf(Color.parseColor("#F88A99")));
+
 
         new Thread(new Runnable() {
             @Override

@@ -41,7 +41,6 @@ public class MyMomentActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //Log.d(TAG, "!!!!!!!!!!!!!!!!!!!!!!!!!!!! starts!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
 
         mAuth = FirebaseAuth.getInstance();
         mDB = FirebaseFirestore.getInstance();
@@ -66,9 +65,7 @@ public class MyMomentActivity extends AppCompatActivity {
 
     private void momentView() {
         // Get moment query and set adapter
-        //CollectionReference momentRef = mDB.collection("moments");
         DocumentReference docRef = mDB.collection("moments").document(USERID);
-        //Query query = momentRef.whereEqualTo("uid", USERID);
         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {

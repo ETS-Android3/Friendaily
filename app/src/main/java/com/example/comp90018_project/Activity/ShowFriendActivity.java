@@ -159,32 +159,6 @@ public class ShowFriendActivity extends AppCompatActivity {
                             }
                         });
 
-//                        List<Map<String, Object>> userfound_list = new ArrayList<Map<String, Object>>();
-//                        for (int i = 0; i < friendList.size(); i++) {
-//                            Map<String, Object> map = new HashMap<String, Object>();
-//                            String avatar_url = (String) friendList.get(i).get("avatar_url");
-//                            if (avatar_url == null) {
-//                                map.put("avatar", R.drawable.default_user_avatar);
-//                            }
-//                            else {
-//                                map.put("avatar", friendList.get(i).get("avatar_url"));
-//                            }
-//                            map.put("name", friendList.get(i).get("username"));
-//                            userfound_list.add(map);
-//                        }
-//                        FriendAdapter adapter = new FriendAdapter(ShowFriendActivity.this);
-//                        adapter.setFriendList(userfound_list);
-//                        FriendListview.setAdapter(adapter);
-//                        FriendListview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//                            @Override
-//                            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                                String selectUser = (String) friendList.get(position).get("uid");
-//                                Log.d(TAG, "selected:" + selectUser);
-//                                Intent intent = new Intent(ShowFriendActivity.this, ProfileActivity.class);
-//                                intent.putExtra(EXTRA_MESSAGE, selectUser);
-//                                startActivity(intent);
-//                            }
-//                        });
                     }
                 }
             }
