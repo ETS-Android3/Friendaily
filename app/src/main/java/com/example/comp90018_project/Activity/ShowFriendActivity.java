@@ -59,6 +59,7 @@ public class ShowFriendActivity extends AppCompatActivity {
         setContentView(R.layout.activity_friends);
         currentUser = mAuth.getCurrentUser();
         if (currentUser == null){
+            Log.i(TAG, "reload");
             reload();
         }else {
             myChat = messageRef.document(currentUser.getUid()).collection("Chat");
